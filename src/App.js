@@ -1,11 +1,17 @@
 import './App.scss';
+import {
+    BrowserRouter as Router,
+    Route
+} from "react-router-dom";
+import Login from './Pages/Login';
 
 function App() {
     return (
-        <div className="app">
-            <h1>What's Your List?</h1>
-            <h2>Share and compare your favorite movies with friends</h2>
-        </div>
+        <Router>
+            <div className="app">
+                <Route path="/login" component={Login} />
+            </div>
+        </Router>
     );
 }
 
