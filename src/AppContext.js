@@ -15,7 +15,7 @@ export class AppContextProvider extends PureComponent {
     }
 
     setUser = (uid, history) => {
-        this.unsubscribeFromUser = this.props.firebase.firestore
+        this.unsubscribeFromUser = this.props.firebase.firestore // TODO set up security rules
             .collection('users')
             .doc(uid)
             .onSnapshot(snap => {

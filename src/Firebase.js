@@ -40,7 +40,7 @@ class Firebase {
     }
  
     updatePassword = (password) => {
-        return this.auth.currentUser.updatePassword(password);
+        return this.auth.currentUser.updatePassword(password); // TODO deprecate these functions and call auth directly?
     }
 }
  

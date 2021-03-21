@@ -3,9 +3,14 @@ import { useContext, memo } from 'react';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../../AppContext';
 import './Home.scss';
+import { ROUTES } from '../../Constants';
 
-const Home = memo(({ signOut }) => {
+const Home = memo(({ user, signOut }) => {
     const history = useHistory();
+
+    if (!user) {
+        history.push(ROUTES.Login);
+    }
 
     return (
         <div className='home-page'>
@@ -19,8 +24,9 @@ const Home = memo(({ signOut }) => {
 });
 
 export default function ConnectedHome() {
-    const { actions } = useContext(AppContext);
+    const { state, actions } = useContext(AppContext);
+    const { user } = state;
     const { signOut } = actions;
 
-    return <Home signOut={signOut} />;
+    return <Home user={user} signOut={signOut} />;
 }
