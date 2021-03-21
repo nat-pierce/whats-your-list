@@ -1,10 +1,14 @@
-import TextField from '@material-ui/core/TextField';
+import { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import './Login.scss';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../Constants';
+import TextInput from '../../CommonComponents/TextInput';
 
 export default function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
     return (
         <div className="login-page">
             <div className='landing-header'>
@@ -13,8 +17,18 @@ export default function Login() {
             </div>
             <div className='login-section'>
                 <h1>Log In</h1>
-                <TextField className='email-input' label="Email" variant="outlined" />
-                <TextField className='password-input' label="Password" variant="outlined" />
+                <TextInput 
+                    className='email-input' 
+                    label="Email" 
+                    value={email}
+                    onChange={setEmail}
+                />
+                <TextInput 
+                    className='password-input' 
+                    label="Password"
+                    value={password}
+                    onChange={setPassword} 
+                />
                 <Button color="primary">
                     Forgot password?
                 </Button>
