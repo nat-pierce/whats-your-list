@@ -1,13 +1,39 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import Button from '@material-ui/core/Button';
 import './Login.scss';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../Constants';
 import TextInput from '../../CommonComponents/TextInput';
+import { useContext } from 'react';
+import { FirebaseContext } from '../../Firebase';
+import { useEffect } from 'react';
+import AppContext from '../../AppContext';
 
-export default function Login() {
+const Login = memo(({ setUser }) => {
+    const firebase = useContext(FirebaseContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        firebase.auth.onAuthStateChanged(user => {
+            if (user) {
+                setUser(user.uid);
+            }
+        })
+    }, [firebase, setUser]);
+
+    const onSubmit = (e) => {
+        firebase.signInWithEmailAndPassword(email, password)
+            .then(({ user }) => {
+                setUser(user.uid);
+            })
+            .catch((err) => {
+                setError(err.message);
+            });
+
+        e.preventDefault();
+    }
 
     return (
         <div className="login-page">
@@ -32,7 +58,12 @@ export default function Login() {
                 <Button color="primary">
                     Forgot password?
                 </Button>
-                <Button className='login-button' variant="contained" color="primary">
+                {error && <div>{error}</div>}
+                <Button 
+                    className='login-button' 
+                    variant="contained" 
+                    color="primary"
+                    onClick={onSubmit}>
                     Log In
                 </Button>
             </div>
@@ -42,4 +73,11 @@ export default function Login() {
             </div>
         </div>
     );
+})
+
+export default function ConnectedLogin() {
+    const { actions } = useContext(AppContext);
+    const { setUser } = actions;
+
+    return <Login setUser={setUser} />
 }

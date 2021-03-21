@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/firestore';
 import { createContext } from 'react';
 
 const config = {
@@ -18,6 +19,7 @@ class Firebase {
         app.initializeApp(config);
     
         this.auth = app.auth();
+        this.firestore = app.firestore();
     }
  
     // *** Auth API ***

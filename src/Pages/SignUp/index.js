@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import './SignUp.scss';
 import TextInput from '../../CommonComponents/TextInput';
 import Button from '@material-ui/core/Button';
 import { useContext } from 'react';
 import { FirebaseContext } from '../../Firebase';
+import AppContext from '../../AppContext';
 
-export default function SignUp() {
+const SignUp = memo(({ setUser }) => {
     const firebase = useContext(FirebaseContext);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -15,10 +16,21 @@ export default function SignUp() {
 
     const onSubmit = (e) => {
         // TODO input validation
-        
+        // TODO disable button and fields while submitting
+
         firebase.createUserWithEmailAndPassword(email, password)
-            .then(authUser => {
-                // worked
+            .then(async ({ user }) => {
+                const userInfo = {
+                    uid: user.uid,
+                    email,
+                    name
+                };
+
+                await firebase.firestore.collection('users')
+                    .doc(user.uid)
+                    .set(userInfo);
+
+                setUser(user.uid);
             })
             .catch(err => {
                 setError(err.message);
@@ -56,4 +68,11 @@ export default function SignUp() {
             </Button>
         </div>
     )
+});
+
+export default function ConnectedSignUp() {
+    const { actions } = useContext(AppContext);
+    const { setUser } = actions;
+
+    return <SignUp setUser={setUser} />;
 }
