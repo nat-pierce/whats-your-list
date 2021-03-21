@@ -1,7 +1,7 @@
 import { useState, memo } from 'react';
 import Button from '@material-ui/core/Button';
 import './Login.scss';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ROUTES } from '../../Constants';
 import TextInput from '../../CommonComponents/TextInput';
 import { useContext } from 'react';
@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import AppContext from '../../AppContext';
 
 const Login = memo(({ setUser }) => {
+    const history = useHistory();
     const firebase = useContext(FirebaseContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,15 +19,15 @@ const Login = memo(({ setUser }) => {
     useEffect(() => {
         firebase.auth.onAuthStateChanged(user => {
             if (user) {
-                setUser(user.uid);
+                setUser(user.uid, history);
             }
         })
-    }, [firebase, setUser]);
+    }, [firebase, setUser, history]);
 
     const onSubmit = (e) => {
         firebase.signInWithEmailAndPassword(email, password)
             .then(({ user }) => {
-                setUser(user.uid);
+                setUser(user.uid, history);
             })
             .catch((err) => {
                 setError(err.message);

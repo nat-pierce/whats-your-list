@@ -1,5 +1,4 @@
-import { createContext, PureComponent, useContext } from 'react';
-import { FirebaseContext } from './Firebase';
+import { createContext, PureComponent } from 'react';
 import { ROUTES } from './Constants';
 
 const AppContext = createContext({});
@@ -15,7 +14,7 @@ export class AppContextProvider extends PureComponent {
         this.state = defaultState;
     }
 
-    setUser = (uid) => {
+    setUser = (uid, history) => {
         this.unsubscribeFromUser = this.props.firebase.firestore
             .collection('users')
             .doc(uid)
@@ -23,14 +22,14 @@ export class AppContextProvider extends PureComponent {
                 snap && this.setState({ user: snap.data() });
             });
 
-        this.props.history.push(ROUTES.Home);
+        history.push(ROUTES.Home);
     }
 
-    signOut = (navigation) => {
+    signOut = (navigation, history) => {
         this.unsubscribeFromUser();
 
         this.props.firebase.signOut().then(() => {
-            this.props.history.push(ROUTES.Login);
+            history.push(ROUTES.Login);
         });
     }
 

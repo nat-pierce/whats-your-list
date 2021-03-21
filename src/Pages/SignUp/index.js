@@ -5,8 +5,10 @@ import Button from '@material-ui/core/Button';
 import { useContext } from 'react';
 import { FirebaseContext } from '../../Firebase';
 import AppContext from '../../AppContext';
+import { useHistory } from 'react-router-dom';
 
 const SignUp = memo(({ setUser }) => {
+    const history = useHistory();
     const firebase = useContext(FirebaseContext);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -30,7 +32,7 @@ const SignUp = memo(({ setUser }) => {
                     .doc(user.uid)
                     .set(userInfo);
 
-                setUser(user.uid);
+                setUser(user.uid, history);
             })
             .catch(err => {
                 setError(err.message);
