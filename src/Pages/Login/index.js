@@ -30,7 +30,7 @@ const Login = memo(({ setUser }) => {
                 setUser(user.uid, history);
             })
             .catch((err) => {
-                setError(err.message);
+                setError(err.message); // TODO use better error messages
             });
 
         e.preventDefault();

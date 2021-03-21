@@ -25,8 +25,8 @@ export class AppContextProvider extends PureComponent {
         history.push(ROUTES.Home);
     }
 
-    signOut = (navigation, history) => {
-        this.unsubscribeFromUser();
+    signOut = (history) => {
+        this.unsubscribeFromUser && this.unsubscribeFromUser();
 
         this.props.firebase.signOut().then(() => {
             history.push(ROUTES.Login);
@@ -37,7 +37,8 @@ export class AppContextProvider extends PureComponent {
         const contextValue = {
             state: this.state,
             actions: {
-                setUser: this.setUser
+                setUser: this.setUser,
+                signOut: this.signOut
             }
         };
 
