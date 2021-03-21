@@ -13,8 +13,17 @@ export default function Login() {
                 <h1>Log In</h1>
                 <TextField className='email-input' label="Email" variant="outlined" />
                 <TextField className='password-input' label="Password" variant="outlined" />
-                <Button variant="contained" color="primary">
+                <Button color="primary">
+                    Forgot password?
+                </Button>
+                <Button className='login-button' variant="contained" color="primary">
                     Log In
+                </Button>
+            </div>
+            <div className='signup-section'>
+                <div>Are you new here?</div>
+                <Button color="primary">
+                    Sign Up
                 </Button>
             </div>
         </div>

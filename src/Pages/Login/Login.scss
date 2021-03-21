@@ -29,5 +29,16 @@
         .email-input, .password-input {
             margin-bottom: 0.5rem;
         }
+
+        .login-button {
+            margin-top: 1rem;
+            width: 100%;
+        }
+    }
+
+    .signup-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
