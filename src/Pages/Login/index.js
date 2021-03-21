@@ -16,7 +16,12 @@ export default function Login() {
         signInSuccessUrl: ROUTES.Home,
         signInOptions: [{
             requireDisplayName: true,
-            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
+            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
+            forceSameDevice: false,
+            emailLinkSignIn: () => ({
+                url: ROUTES.Profile // TODO use env variables for development with separate firebase project
+            })
         }],
     };
 

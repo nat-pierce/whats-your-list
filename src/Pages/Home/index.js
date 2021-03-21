@@ -1,25 +1,19 @@
 import Button from '@material-ui/core/Button';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Home.scss';
 import { ROUTES } from '../../Constants';
 import { FirebaseContext } from '../../Firebase';
+import HomeHeader from './HomeHeader';
 
 export default function Home() {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
     const auth = firebase.auth();
 
-    console.log('a', auth);
-
-    // TODO
     // useEffect(() => {
     //     if (!auth.currentUser.emailVerified) {
-    //         auth.currentUser.sendEmailVerification()
-    //             .then(() => {
-                    
-    //             })
-    //             .catch((err) => console.error(err));
+    //         auth.currentUser.sendEmailVerification();
     //     }
     // }, [auth]);
 
@@ -31,7 +25,7 @@ export default function Home() {
 
     return (
         <div className='home-page'>
-            Home
+            <HomeHeader />
 
             <Button color="primary" onClick={onSignOut}>
                 Sign Out
