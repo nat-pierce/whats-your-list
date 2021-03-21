@@ -13,37 +13,9 @@ const config = {
     appId: process.env.REACT_APP_APP_ID,
     measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
- 
-class Firebase {
-    constructor() {
-        app.initializeApp(config);
-    
-        this.auth = app.auth();
-        this.firestore = app.firestore();
-    }
- 
-    // *** Auth API ***
-    createUserWithEmailAndPassword = (email, password) => {
-        return this.auth.createUserWithEmailAndPassword(email, password);
-    }
 
-    signInWithEmailAndPassword = (email, password) => {
-        return this.auth.signInWithEmailAndPassword(email, password);
-    }
-
-    signOut = () => {
-        return this.auth.signOut();
-    }
+app.initializeApp(config);
  
-    resetPassword = (email) => {
-        return this.auth.sendPasswordResetEmail(email);
-    }
- 
-    updatePassword = (password) => {
-        return this.auth.currentUser.updatePassword(password); // TODO deprecate these functions and call auth directly?
-    }
-}
- 
-export default Firebase;
+export default app;
 
 export const FirebaseContext = createContext(null);

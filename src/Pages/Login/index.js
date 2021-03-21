@@ -1,40 +1,32 @@
-import { useState, memo } from 'react';
-import Button from '@material-ui/core/Button';
+import { useEffect } from 'react';
 import './Login.scss';
-import { Link, useHistory } from 'react-router-dom';
 import { ROUTES } from '../../Constants';
-import TextInput from '../../CommonComponents/TextInput';
 import { useContext } from 'react';
 import { FirebaseContext } from '../../Firebase';
-import { useEffect } from 'react';
-import AppContext from '../../AppContext';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { useHistory } from 'react-router-dom';
 
-const Login = memo(({ setUser }) => {
+export default function Login() {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+
+    // Configure FirebaseUI.
+    const uiConfig = {
+        signInFlow: 'popup',
+        signInSuccessUrl: ROUTES.Home,
+        signInOptions: [{
+            requireDisplayName: true,
+            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
+        }],
+    };
 
     useEffect(() => {
-        firebase.auth.onAuthStateChanged(user => {
+        firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                setUser(user.uid, history);
+                history.push(ROUTES.Home)
             }
         })
-    }, [firebase, setUser, history]);
-
-    const onSubmit = (e) => {
-        firebase.signInWithEmailAndPassword(email, password)
-            .then(({ user }) => {
-                setUser(user.uid, history);
-            })
-            .catch((err) => {
-                setError(err.message); // TODO use better error messages
-            });
-
-        e.preventDefault();
-    }
+    }, [firebase, history]);
 
     return (
         <div className="login-page">
@@ -42,43 +34,7 @@ const Login = memo(({ setUser }) => {
                 <h1>What's Your List?</h1>
                 <h2>Share and compare your favorite movies with friends</h2>
             </div>
-            <div className='login-section'>
-                <h1>Log In</h1>
-                <TextInput 
-                    className='email-input' 
-                    label="Email" 
-                    value={email}
-                    onChange={setEmail}
-                />
-                <TextInput 
-                    className='password-input' 
-                    label="Password"
-                    value={password}
-                    onChange={setPassword} 
-                />
-                <Button color="primary">
-                    Forgot password?
-                </Button>
-                {error && <div>{error}</div>}
-                <Button 
-                    className='login-button' 
-                    variant="contained" 
-                    color="primary"
-                    onClick={onSubmit}>
-                    Log In
-                </Button>
-            </div>
-            <div className='signup-section'>
-                <div>Are you new here?</div>
-                <Link to={ROUTES.SignUp}>Sign Up</Link>
-            </div>
+            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
         </div>
     );
-})
-
-export default function ConnectedLogin() {
-    const { actions } = useContext(AppContext);
-    const { setUser } = actions;
-
-    return <Login setUser={setUser} />
-}
+};

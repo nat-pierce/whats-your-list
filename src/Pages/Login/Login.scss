@@ -9,36 +9,6 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    }
-
-    .login-section {
-        margin-top: 1rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border: solid 1px gray;
-        border-radius: 10px;
-        box-sizing: border-box;
-        padding: 1rem;
-
-        h1 {
-            margin-bottom: 1rem;
-        }
-
-        .email-input, .password-input {
-            margin-bottom: 0.5rem;
-        }
-
-        .login-button {
-            margin-top: 1rem;
-            width: 100%;
-        }
-    }
-
-    .signup-section {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        margin-bottom: 1rem;
     }
 }
