@@ -4,7 +4,7 @@ import { ROUTES } from './Constants';
 const AppContext = createContext({});
 
 const defaultState = {
-    isSignedIn: false
+    user: null
 };
 
 export class AppContextProvider extends PureComponent {
@@ -14,15 +14,26 @@ export class AppContextProvider extends PureComponent {
         this.state = defaultState;
     }
 
+    setUser = (user, history) => {
+        this.setState({ user }, () => {
+            history && history.push(ROUTES.Home);
+        });
+    }
+
+    // TODO move this to header?
     signOut = (history) => {
-        this.props.firebase.auth().signOut().then(() => {
+        this.props.firebase.signOut().then(() => {
             history.push(ROUTES.Login);
         });
     }
 
     render() {
         const contextValue = {
-            state: this.state
+            state: this.state,
+            actions: {
+                setUser: this.setUser,
+                signOut: this.signOut
+            }
         };
 
         return (

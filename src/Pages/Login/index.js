@@ -1,37 +1,31 @@
-import { useEffect } from 'react';
+import { useEffect, useContext, memo } from 'react';
 import './Login.scss';
 import { ROUTES } from '../../Constants';
-import { useContext } from 'react';
 import { FirebaseContext } from '../../Firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { useHistory } from 'react-router-dom';
+import AppContext from '../../AppContext';
 
-export default function Login() {
+const Login = memo(({ setUser }) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
 
     // Configure FirebaseUI.
     const uiConfig = {
-        signInFlow: 'popup',
-        signInSuccessUrl: ROUTES.Home,
+        signInSuccessUrl: ROUTES.Login,
         signInOptions: [{
             requireDisplayName: true,
-            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
-            forceSameDevice: false,
-            emailLinkSignIn: () => ({
-                url: ROUTES.Profile // TODO use env variables for development with separate firebase project
-            })
+            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
         }],
     };
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                history.push(ROUTES.Home)
+                setUser(user, history);
             }
         })
-    }, [firebase, history]);
+    }, [firebase, history, setUser]);
 
     return (
         <div className="login-page">
@@ -42,4 +36,11 @@ export default function Login() {
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
         </div>
     );
-};
+});
+
+export default function ConnectedLogin() {
+    const { actions } = useContext(AppContext);
+    const { setUser } = actions;
+
+    return <Login setUser={setUser} />
+}
