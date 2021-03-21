@@ -1,6 +1,8 @@
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './Login.scss';
+import { Link } from 'react-router-dom';
+import { ROUTES } from '../../Constants';
 
 export default function Login() {
     return (
@@ -22,9 +24,7 @@ export default function Login() {
             </div>
             <div className='signup-section'>
                 <div>Are you new here?</div>
-                <Button color="primary">
-                    Sign Up
-                </Button>
+                <Link to={ROUTES.SignUp}>Sign Up</Link>
             </div>
         </div>
     );
