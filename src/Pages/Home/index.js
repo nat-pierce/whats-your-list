@@ -31,18 +31,19 @@ const Home = memo(({ user, setUser }) => {
         return null; // TODO spinner
     }
 
-    if (!user.emailVerified) {
-        auth.currentUser.sendEmailVerification({
-            url: ROUTES.Login
-        })
-        .catch((err) => console.error(err));
+    // TODO uncomment tomorrow
+    // if (!user.emailVerified) {
+    //     auth.currentUser.sendEmailVerification({
+    //         url: ROUTES.Login
+    //     })
+    //     .catch((err) => console.error(err));
 
-        return (
-            <div className='email-verification-message'>
-                Email verification sent!
-            </div>
-        );
-    }
+    //     return (
+    //         <div className='email-verification-message'>
+    //             Email verification sent!
+    //         </div>
+    //     );
+    // }
 
     return (
         <div className='home-page'>

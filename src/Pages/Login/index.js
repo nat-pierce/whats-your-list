@@ -12,7 +12,7 @@ const Login = memo(({ setUser }) => {
 
     // Configure FirebaseUI.
     const uiConfig = {
-        signInSuccessUrl: ROUTES.Login,
+        signInSuccessUrl: ROUTES.Home,
         signInOptions: [{
             requireDisplayName: true,
             provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
