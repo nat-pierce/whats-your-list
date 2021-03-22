@@ -20,16 +20,9 @@ export class AppContextProvider extends PureComponent {
             if (authUser) {
                 this.setState({ user: authUser, isAppMounted: true });
             } else {
-                this.setState({ user: null, isAppMounted: true });
+                this.setState(defaultState);
             }
         })
-    }
-
-    // TODO move this to header?
-    signOut = (history) => {
-        this.props.firebase.signOut().then(() => {
-            history.push(ROUTES.Login);
-        });
     }
 
     render() {
