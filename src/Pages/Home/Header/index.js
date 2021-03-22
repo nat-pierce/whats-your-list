@@ -1,14 +1,15 @@
 import './Header.scss';
 import Button from '@material-ui/core/Button';
-import { useContext } from 'react';
-import { FirebaseContext } from '../../../Firebase';
+import { useContext, memo } from 'react';
+import AppContext from '../../../AppContext';
+import { useHistory } from 'react-router-dom';
 
-export default function Header() {
-    const firebase = useContext(FirebaseContext);
-    
+const Header = memo(({ signOut }) => {
+    const history = useHistory();
+
     const onSignOut = () => {
-        firebase.auth().signOut();
-    }
+        signOut(history);
+    };
 
     return (
         <div className='header'>
@@ -18,4 +19,11 @@ export default function Header() {
             </Button>
         </div>
     );
+});
+
+export default function ConnectedHeader() {
+    const { actions } = useContext(AppContext);
+    const { signOut } = actions;
+
+    return <Header signOut={signOut} />;
 }

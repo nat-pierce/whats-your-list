@@ -1,4 +1,4 @@
-import { useContext, memo, useEffect } from 'react';
+import { useContext, memo, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Home.scss';
 import { ROUTES } from '../../Constants';
@@ -6,18 +6,21 @@ import AppContext from '../../AppContext';
 import Header from './Header';
 import Profile from './Profile';
 
-const Home = memo(({ user, isAppMounted }) => {
+const Home = memo(({ user }) => {
     const history = useHistory();
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        if (isAppMounted && !user) {
+        if (!user) {
             history.push(ROUTES.Login);
+        } else {
+            setIsMounted(true);
         }
-    }, [user, isAppMounted, history]);
+    }, [user, history, setIsMounted]);
 
-    if (!user) {
-        return <div>Loading</div>; // Spinner
-    }
+    // if (!user) {
+    //     return <div>Loading</div>; // Spinner
+    // }
 
     // TODO uncomment tomorrow
     // if (!user.emailVerified) {
@@ -33,6 +36,12 @@ const Home = memo(({ user, isAppMounted }) => {
     //     );
     // }
 
+    console.log('u', user);
+
+    if (!isMounted) {
+        return <div>Loading</div> // TODO spinner
+    }
+
     // put header, profile pic, and display name on this page with list
     return (
         <div className='home-page'>
@@ -44,7 +53,7 @@ const Home = memo(({ user, isAppMounted }) => {
 
 export default function ConnectedHome() {
     const { state } = useContext(AppContext);
-    const { user, isAppMounted } = state;
+    const { user } = state;
 
-    return <Home user={user} isAppMounted={isAppMounted} />
+    return <Home user={user} />
 }

@@ -4,8 +4,7 @@ import { ROUTES } from './Constants';
 const AppContext = createContext({});
 
 const defaultState = {
-    user: null,
-    isAppMounted: false
+    user: null
 };
 
 export class AppContextProvider extends PureComponent {
@@ -15,19 +14,29 @@ export class AppContextProvider extends PureComponent {
         this.state = defaultState;
     }
 
-    componentDidMount() {
-        this.props.firebase.auth().onAuthStateChanged(authUser => {
-            if (authUser) {
-                this.setState({ user: authUser, isAppMounted: true });
-            } else {
-                this.setState(defaultState);
-            }
-        })
+    setUser = (uid) => {
+        this.unsubscribeFromUser = this.props.firebase.firestore().collection('users').doc(uid).onSnapshot(snap => {
+            snap && this.setState({ user: snap.data() });
+        });
+    }
+
+    signOut = (history) => {
+        this.unsubscribeFromUser && this.unsubscribeFromUser();
+
+        this.props.firebase.auth().signOut().then(() => {
+            this.setState(defaultState, () => {
+                history.push(ROUTES.Login);
+            });
+        });
     }
 
     render() {
         const contextValue = {
-            state: this.state
+            state: this.state,
+            actions: {
+                setUser: this.setUser,
+                signOut: this.signOut
+            }
         };
 
         return (
