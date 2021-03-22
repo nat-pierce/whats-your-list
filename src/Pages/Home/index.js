@@ -4,6 +4,7 @@ import './Home.scss';
 import { ROUTES } from '../../Constants';
 import AppContext from '../../AppContext';
 import Header from './Header';
+import Profile from './Profile';
 
 const Home = memo(({ user, isAppMounted }) => {
     const history = useHistory();
@@ -36,6 +37,7 @@ const Home = memo(({ user, isAppMounted }) => {
     return (
         <div className='home-page'>
             <Header />
+            <Profile />
         </div>
     )
 });

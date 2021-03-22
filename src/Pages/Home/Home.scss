@@ -1,5 +1,8 @@
+@import '../../ConstantsAndMixins.scss';
+
 .home-page {
     display: flex;
     height: 100%;
     width: 100%;
+    padding-top: $header-height;
 }
