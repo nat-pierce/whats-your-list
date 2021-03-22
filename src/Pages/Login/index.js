@@ -2,15 +2,20 @@ import { useEffect, useContext, memo } from 'react';
 import './Login.scss';
 import { ROUTES } from '../../Constants';
 import { FirebaseContext } from '../../Firebase';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'; // TODO switch to regular and style it
 import { useHistory } from 'react-router-dom';
 import AppContext from '../../AppContext';
 
-const Login = memo(({ setUser }) => {
+const Login = memo(({ user }) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
 
-    // Configure FirebaseUI.
+    useEffect(() => {
+        if (user) {
+            history.push(ROUTES.Home);
+        }
+    }, [user, history]);
+
     const uiConfig = {
         signInSuccessUrl: ROUTES.Home,
         signInOptions: [{
@@ -18,14 +23,6 @@ const Login = memo(({ setUser }) => {
             provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
         }],
     };
-
-    useEffect(() => {
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                setUser(user, history);
-            }
-        })
-    }, [firebase, history, setUser]);
 
     return (
         <div className="login-page">
@@ -39,8 +36,8 @@ const Login = memo(({ setUser }) => {
 });
 
 export default function ConnectedLogin() {
-    const { actions } = useContext(AppContext);
-    const { setUser } = actions;
+    const { state } = useContext(AppContext);
+    const { user } = state;
 
-    return <Login setUser={setUser} />
+    return <Login user={user} />
 }

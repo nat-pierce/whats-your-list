@@ -6,7 +6,7 @@ import { ROUTES } from '../../Constants';
 import { FirebaseContext } from '../../Firebase';
 import AppContext from '../../AppContext';
 
-const Home = memo(({ user, setUser }) => {
+const Home = memo(({ user, isAppMounted }) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
     const auth = firebase.auth();
@@ -18,17 +18,13 @@ const Home = memo(({ user, setUser }) => {
     }
 
     useEffect(() => {
-        firebase.auth().onAuthStateChanged(userAuth => {
-            if (userAuth) {
-                setUser(userAuth);
-            }
-        })
-    }, [firebase, setUser]);
-
-    console.log('u', user);
+        if (isAppMounted && !user) {
+            history.push(ROUTES.Login);
+        }
+    }, [user, isAppMounted, history]);
 
     if (!user) {
-        return null; // TODO spinner
+        return <div>Loading</div>; // Spinner
     }
 
     // TODO uncomment tomorrow
@@ -45,9 +41,10 @@ const Home = memo(({ user, setUser }) => {
     //     );
     // }
 
+    // put header, profile pic, and display name on this page with list
     return (
         <div className='home-page'>
-
+            
             <Button color="primary" onClick={onSignOut}>
                 Sign Out
             </Button>
@@ -56,9 +53,8 @@ const Home = memo(({ user, setUser }) => {
 });
 
 export default function ConnectedHome() {
-    const { state, actions } = useContext(AppContext);
-    const { user } = state;
-    const { setUser } = actions;
+    const { state } = useContext(AppContext);
+    const { user, isAppMounted } = state;
 
-    return <Home user={user} setUser={setUser} />
+    return <Home user={user} isAppMounted={isAppMounted} />
 }

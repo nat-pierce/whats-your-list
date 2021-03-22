@@ -4,7 +4,8 @@ import { ROUTES } from './Constants';
 const AppContext = createContext({});
 
 const defaultState = {
-    user: null
+    user: null,
+    isAppMounted: false
 };
 
 export class AppContextProvider extends PureComponent {
@@ -14,10 +15,14 @@ export class AppContextProvider extends PureComponent {
         this.state = defaultState;
     }
 
-    setUser = (user, history) => {
-        this.setState({ user }, () => {
-            history && history.push(ROUTES.Home);
-        });
+    componentDidMount() {
+        this.props.firebase.auth().onAuthStateChanged(authUser => {
+            if (authUser) {
+                this.setState({ user: authUser, isAppMounted: true });
+            } else {
+                this.setState({ user: null, isAppMounted: true });
+            }
+        })
     }
 
     // TODO move this to header?
@@ -29,11 +34,7 @@ export class AppContextProvider extends PureComponent {
 
     render() {
         const contextValue = {
-            state: this.state,
-            actions: {
-                setUser: this.setUser,
-                signOut: this.signOut
-            }
+            state: this.state
         };
 
         return (
