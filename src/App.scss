@@ -1,11 +1,17 @@
+@font-face {
+    font-family: 'Marquee';
+    src: local('Marquee'), url(./Resources/Fonts/Marquee.ttf) format('truetype');
+}
+
 .app {
-    background-color: white;
+    background-color: black;
     height: 100%;
     width: 100%;
 }
 
 body {
     margin: 0;
+    height: 100%;
 }
 
 h1, h2 {
