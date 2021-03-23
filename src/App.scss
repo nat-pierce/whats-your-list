@@ -3,6 +3,16 @@
     src: local('Marquee'), url(./Resources/Fonts/Marquee/Marquee.ttf) format('truetype');
 }
 
+@font-face {
+    font-family: 'Nunito';
+    src: local('Nunito'), url(./Resources/Fonts/Nunito/Nunito-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'NunitoBlack';
+    src: local('Nunito'), url(./Resources/Fonts/Nunito/Nunito-Black.ttf) format('truetype');
+}
+
 .app {
     background-color: black;
     height: 100%;
