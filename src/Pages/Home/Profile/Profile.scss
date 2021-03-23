@@ -1,7 +1,20 @@
 @import '../../../ConstantsAndMixins.scss';
 
 .profile {
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: solid 1px $gray;
+    margin: 1rem 0;
+    padding: 1rem;
+    box-sizing: border-box;
 
-    @include tileStyles;
+    .profile-pic-wrapper {
+        cursor: pointer;
+
+        .profile-pic {
+            height: 200px;
+            width: 200px;
+        }
+    }
 }

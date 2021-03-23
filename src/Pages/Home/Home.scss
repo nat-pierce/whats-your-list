@@ -5,11 +5,13 @@
     height: 100%;
     width: 100%;
     padding-top: $header-height;
+    box-sizing: border-box;
 
     .main-content {
         height: 100%;
         width: 100%;
-        background-color: $light-gray;
+        background-color: white;
+        display: flex;
 
         .profile {
             flex: 1;
