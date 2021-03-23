@@ -1,9 +1,0 @@
-@import '../../ConstantsAndMixins.scss';
-
-.logo {
-    font-family: 'Marquee';
-    font-size: 20px;
-    color: $red;
-
-    @include softTextGlow($yellow);
-}

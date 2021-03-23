@@ -13,6 +13,11 @@
     src: local('Nunito'), url(./Resources/Fonts/Nunito/Nunito-Black.ttf) format('truetype');
 }
 
+@font-face {
+    font-family: 'BebasNeue-Regular';
+    src: local('Bebas-Neue'), url(./Resources/Fonts/Bebas-Neue/BebasNeue-Regular.ttf) format('truetype');
+}
+
 .app {
     background-color: black;
     height: 100%;
