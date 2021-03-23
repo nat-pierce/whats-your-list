@@ -6,6 +6,7 @@ import AppContext from '../../AppContext';
 import Header from './Header';
 import Profile from './Profile';
 import { FirebaseContext } from '../../Firebase';
+import FavoriteList from './FavoriteList';
 
 const Home = memo(({ user }) => {
     const history = useHistory();
@@ -45,7 +46,10 @@ const Home = memo(({ user }) => {
     return (
         <div className='home-page'>
             <Header />
-            <Profile />
+            <div className='main-content'>
+                <Profile />
+                <FavoriteList />
+            </div>
         </div>
     )
 });

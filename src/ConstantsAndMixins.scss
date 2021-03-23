@@ -1,10 +1,21 @@
 $header-height: 50px;
+$standard-shadow: 10px 5px 5px red;
 
 // Colors
-$red: rgb(194, 3, 3);
-$yellow: rgb(252, 209, 36);
+$light-gray: #f3f3f3; 
+$gray: #c7c7c7;
 
 // Mixins
+@mixin tileStyles() {
+    background-color: white;
+    padding: 1rem;
+    box-sizing: border-box;
+    margin: 1rem;
+    border: solid $gray 1px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 $gray;
+}
+
 @mixin softTextGlow($color) {
     text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px $color, 0 0 35px $color, 0 0 40px $color, 0 0 50px $color, 0 0 75px $color;
 }

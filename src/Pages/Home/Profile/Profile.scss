@@ -1,5 +1,7 @@
+@import '../../../ConstantsAndMixins.scss';
+
 .profile {
-    width: 100%;
-    background-color: aquamarine;
-    height: 100px;
+    display: inline-flex;
+
+    @include tileStyles;
 }
