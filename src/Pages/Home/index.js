@@ -1,14 +1,18 @@
-import { useContext, memo, useEffect, useState } from 'react';
+import { useContext, memo, useEffect, useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Home.scss';
 import { ROUTES } from '../../Constants';
 import AppContext from '../../AppContext';
 import Header from './Header';
 import Profile from './Profile';
+import { FirebaseContext } from '../../Firebase';
 
 const Home = memo(({ user }) => {
     const history = useHistory();
     const [isMounted, setIsMounted] = useState(false);
+    const firebase = useContext(FirebaseContext);
+    const sentEmailVerificationRef = useRef(false);
+    const authUser = !sentEmailVerificationRef.current && firebase.auth().currentUser;
 
     useEffect(() => {
         if (!user) {
@@ -18,28 +22,23 @@ const Home = memo(({ user }) => {
         }
     }, [user, history, setIsMounted]);
 
-    // if (!user) {
-    //     return <div>Loading</div>; // Spinner
-    // }
+    if (!isMounted || !user) {
+        return <div>Loading</div>; // Spinner
+    }
 
-    // TODO uncomment tomorrow
-    // if (!user.emailVerified) {
-    //     auth.currentUser.sendEmailVerification({
-    //         url: ROUTES.Login
-    //     })
-    //     .catch((err) => console.error(err));
+    if (authUser && !authUser.emailVerified) {
+        sentEmailVerificationRef.current = true;
 
-    //     return (
-    //         <div className='email-verification-message'>
-    //             Email verification sent!
-    //         </div>
-    //     );
-    // }
+        firebase.auth().currentUser.sendEmailVerification({
+            url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
+        })
+        .catch((err) => console.error(err));
 
-    console.log('u', user);
-
-    if (!isMounted) {
-        return <div>Loading</div> // TODO spinner
+        return (
+            <div className='email-verification-message'>
+                Email verification sent!
+            </div>
+        );
     }
 
     // put header, profile pic, and display name on this page with list

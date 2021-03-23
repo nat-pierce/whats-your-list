@@ -272,192 +272,192 @@ export default class Logo extends PureComponent {
                         <feColorMatrix values="0 0 0 0 1   0 0 0 0 0.974536002   0 0 0 0 0.472581327  0 0 0 1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
                     </filter>
                 </defs>
-                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                     <g id="Marquee" transform="translate(9.000000, 9.000000)">
                         <rect id="Rectangle" fill="#C60000" x="0" y="0" width="560" height="152" rx="33"></rect>
-                        <rect id="Rectangle" stroke="#9B0404" stroke-width="4" fill="#FFFFFF" x="26" y="25" width="508" height="102" rx="9"></rect>
+                        <rect id="Rectangle" stroke="#9B0404" strokeWidth="4" fill="#FFFFFF" x="26" y="25" width="508" height="102" rx="9"></rect>
                         <g id="BottomRightLights" transform="translate(411.000000, 108.000000) scale(-1, 1) translate(-411.000000, -108.000000) translate(271.000000, 71.000000)">
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlinkHref="#path-1"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-1"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-2)" xlinkHref="#path-1"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-1"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="31" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlinkHref="#path-3"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-3"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-4)" xlinkHref="#path-3"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-3"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="69" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlinkHref="#path-5"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-5"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-6)" xlinkHref="#path-5"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-5"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="107" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-8)" xlinkHref="#path-7"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-7"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-8)" xlinkHref="#path-7"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-7"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="145" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-10)" xlinkHref="#path-9"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-9"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-10)" xlinkHref="#path-9"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-9"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="183" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-12)" xlinkHref="#path-11"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-11"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-12)" xlinkHref="#path-11"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-11"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="221" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-14)" xlinkHref="#path-13"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-13"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-14)" xlinkHref="#path-13"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-13"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="257" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-16)" xlinkHref="#path-15"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-15"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-16)" xlinkHref="#path-15"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-15"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="6" cy="43" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-18)" xlinkHref="#path-17"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-17"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-18)" xlinkHref="#path-17"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-17"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="6" cy="4" r="6"></circle>
                         </g>
                         <g id="BottomLeftLights" transform="translate(6.000000, 71.000000)">
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-20)" xlinkHref="#path-19"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-19"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-20)" xlinkHref="#path-19"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-19"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="31" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-22)" xlinkHref="#path-21"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-21"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-22)" xlinkHref="#path-21"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-21"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="69" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-24)" xlinkHref="#path-23"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-23"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-24)" xlinkHref="#path-23"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-23"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="107" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-26)" xlinkHref="#path-25"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-25"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-26)" xlinkHref="#path-25"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-25"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="145" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-28)" xlinkHref="#path-27"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-27"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-28)" xlinkHref="#path-27"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-27"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="183" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-30)" xlinkHref="#path-29"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-29"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-30)" xlinkHref="#path-29"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-29"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="221" cy="68" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-32)" xlinkHref="#path-31"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-31"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-32)" xlinkHref="#path-31"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-31"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="255" cy="68" r="6"></circle>
                             <circle id="Oval" fill={color1} cx="6" cy="43" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-34)" xlinkHref="#path-33"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-33"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-34)" xlinkHref="#path-33"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-33"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="6" cy="4" r="6"></circle>
                         </g>
                         <g id="TopRightLights" transform="translate(411.000000, 34.000000) scale(-1, -1) translate(-411.000000, -34.000000) translate(271.000000, 6.000000)">
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-36)" xlinkHref="#path-35"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-35"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-36)" xlinkHref="#path-35"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-35"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="31" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-38)" xlinkHref="#path-37"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-37"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-38)" xlinkHref="#path-37"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-37"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="69" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-40)" xlinkHref="#path-39"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-39"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-40)" xlinkHref="#path-39"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-39"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="107" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-42)" xlinkHref="#path-41"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-41"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-42)" xlinkHref="#path-41"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-41"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="145" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-44)" xlinkHref="#path-43"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-43"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-44)" xlinkHref="#path-43"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-43"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="183" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-46)" xlinkHref="#path-45"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-45"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-46)" xlinkHref="#path-45"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-45"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="221" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-48)" xlinkHref="#path-47"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-47"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-48)" xlinkHref="#path-47"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-47"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="257" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-50)" xlinkHref="#path-49"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-49"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-50)" xlinkHref="#path-49"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-49"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="6" cy="25" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-52)" xlinkHref="#path-51"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-51"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-52)" xlinkHref="#path-51"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-51"></use>
                             </g>
                         </g>
                         <g id="TopLeftLights" transform="translate(136.500000, 34.000000) scale(1, -1) translate(-136.500000, -34.000000) translate(6.000000, 6.000000)">
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-54)" xlinkHref="#path-53"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-53"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-54)" xlinkHref="#path-53"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-53"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="31" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-56)" xlinkHref="#path-55"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-55"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-56)" xlinkHref="#path-55"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-55"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="69" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-58)" xlinkHref="#path-57"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-57"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-58)" xlinkHref="#path-57"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-57"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="107" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-60)" xlinkHref="#path-59"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-59"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-60)" xlinkHref="#path-59"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-59"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="145" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-62)" xlinkHref="#path-61"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-61"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-62)" xlinkHref="#path-61"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-61"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="183" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-64)" xlinkHref="#path-63"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-63"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-64)" xlinkHref="#path-63"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-63"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="221" cy="50" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-66)" xlinkHref="#path-65"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-65"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-66)" xlinkHref="#path-65"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-65"></use>
                             </g>
                             <circle id="Oval" fill={color1} cx="255" cy="50" r="6"></circle>
                             <circle id="Oval" fill={color1} cx="6" cy="25" r="6"></circle>
                             <g id="Oval">
-                                <use fill="black" fill-opacity="1" filter="url(#filter-68)" xlinkHref="#path-67"></use>
-                                <use fill={color2} fill-rule="evenodd" xlinkHref="#path-67"></use>
+                                <use fill="black" fillOpacity="1" filter="url(#filter-68)" xlinkHref="#path-67"></use>
+                                <use fill={color2} fillRule="evenodd" xlinkHref="#path-67"></use>
                             </g>
                         </g>
-                        <path d="M28.5,44 L532.5,44" id="Line" stroke="#5C5C5C" stroke-linecap="square"></path>
-                        <path d="M28.5,76 L532.5,76" id="Line" stroke="#5C5C5C" stroke-linecap="square"></path>
-                        <path d="M28.5,109 L532.5,109" id="Line" stroke="#5C5C5C" stroke-linecap="square"></path>
-                        <text id="What’s-Your-List?" font-family="BebasNeue-Regular, Bebas Neue" font-size="82" font-weight="normal" fill="#000000">
+                        <path d="M28.5,44 L532.5,44" id="Line" stroke="#5C5C5C" strokeLinecap="square"></path>
+                        <path d="M28.5,76 L532.5,76" id="Line" stroke="#5C5C5C" strokeLinecap="square"></path>
+                        <path d="M28.5,109 L532.5,109" id="Line" stroke="#5C5C5C" strokeLinecap="square"></path>
+                        <text id="What’s-Your-List?" fontFamily="BebasNeue-Regular, Bebas Neue" fontSize="82" fontWeight="normal" fill="#000000">
                             <tspan x="44" y="105">What’s Your List?</tspan>
                         </text>
                     </g>

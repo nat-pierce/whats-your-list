@@ -5,6 +5,8 @@
     justify-content: space-around;
     align-items: center;
     margin: auto;
+    height: 100%;
+    background: radial-gradient(darkred, black);
 
     .landing-header {
         display: flex;
