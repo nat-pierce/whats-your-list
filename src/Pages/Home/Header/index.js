@@ -15,7 +15,7 @@ const Header = memo(({ signOut }) => {
     // TODO make Theme.js for Material
     return (
         <div className='header'>
-            <Logo />
+            <Logo sizeScale={0.25} shouldAnimate={false} />
             <Button color="primary" onClick={onSignOut}>
                 Sign Out
             </Button>

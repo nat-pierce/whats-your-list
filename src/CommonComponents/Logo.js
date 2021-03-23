@@ -13,20 +13,25 @@ export default class Logo extends PureComponent {
     }
 
     componentDidMount() {
-        this.intervalId = setInterval(() => {
-            this.setState({ color1: this.state.color2, color2: this.state.color1 });
-        }, 1000);
+        if (this.props.shouldAnimate) {
+            this.intervalId = setInterval(() => {
+                this.setState({ color1: this.state.color2, color2: this.state.color1 });
+            }, 1000);
+        }
     }
 
     componentWillUnmount() {
-        clearInterval(this.intervalId);
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
     }
 
     render() {
+        const { sizeScale = 1 } = this.props;
         const { color1, color2 } = this.state;
 
         return ( 
-            <svg width="575px" height="169px" viewBox="0 0 575 169" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+            <svg width={575*sizeScale} height={169*sizeScale} viewBox="0 0 575 169" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
                 <defs>
                     <circle id="path-1" cx="12" cy="62" r="6"></circle>
                     <filter x="-187.5%" y="-187.5%" width="475.0%" height="475.0%" filterUnits="objectBoundingBox" id="filter-2">

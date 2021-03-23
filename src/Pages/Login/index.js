@@ -59,7 +59,7 @@ const Login = memo(({ user, setUser }) => {
     return (
         <div className="login-page">
             <div className='landing-header'>
-                <Logo />
+                <Logo shouldAnimate={true} />
                 <h2>Share and compare your favorite movies with friends</h2>
             </div>
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
