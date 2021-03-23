@@ -6,6 +6,9 @@ import Home from './Pages/Home';
 import { AppContextProvider } from './AppContext';
 import { ROUTES } from './Constants';
 import { FirebaseContext } from './Firebase';
+import { ThemeProvider } from '@material-ui/core/styles';
+import theme from './Theme';
+
 
 function App() {
     const firebase = useContext(FirebaseContext);
@@ -29,14 +32,16 @@ function App() {
     }, []);
 
     return (
-        <AppContextProvider firebase={firebase} history={history}>
-            <Router>
-                <div className="app" ref={appRef}>
-                    <Route path={ROUTES.Login} component={Login} />
-                    <Route path={ROUTES.Home} component={Home} />
-                </div>
-            </Router>
-        </AppContextProvider>
+        <ThemeProvider theme={theme}>
+            <AppContextProvider firebase={firebase} history={history}>
+                <Router>
+                    <div className="app" ref={appRef}>
+                        <Route path={ROUTES.Login} component={Login} />
+                        <Route path={ROUTES.Home} component={Home} />
+                    </div>
+                </Router>
+            </AppContextProvider>
+        </ThemeProvider>
     );
 }
 

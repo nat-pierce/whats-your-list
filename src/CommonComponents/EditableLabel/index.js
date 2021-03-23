@@ -30,11 +30,12 @@ export default function EditableLabel({ className = '', initialValue, onConfirm 
     return isEditing
         ? <div className={'edit-mode editable-label ' + className}>
             <TextField
+                color="secondary"
                 variant="outlined" 
                 value={value}
                 onChange={onChange} />
             <IconButton 
-                color="primary" 
+                color="secondary" 
                 disabled={!hasValue}
                 onClick={onClickCheck}>
                 <CheckCircleIcon />
