@@ -8,7 +8,20 @@ export default class Logo extends PureComponent {
             color1: '#DFDFDD',
             color2: '#FFF88B'
         }
+
+        this.intervalId = null;
     }
+
+    componentDidMount() {
+        this.intervalId = setInterval(() => {
+            this.setState({ color1: this.state.color2, color2: this.state.color1 });
+        }, 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalId);
+    }
+
     render() {
         const { color1, color2 } = this.state;
 
