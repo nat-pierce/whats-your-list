@@ -3,8 +3,9 @@ import { useContext, memo, useRef } from 'react';
 import AppContext from '../../../AppContext';
 import Avatar from '@material-ui/core/Avatar';
 import { FirebaseContext } from '../../../Firebase';
+import EditableLabel from '../../../CommonComponents/EditableLabel';
 
-const Profile = memo(({ uid, profilePicUrl }) => {
+const Profile = memo(({ uid, name, profilePicUrl }) => {
     const profilePicInputRef = useRef(null);
     const firebase = useContext(FirebaseContext);
 
@@ -32,6 +33,13 @@ const Profile = memo(({ uid, profilePicUrl }) => {
         }
     }
 
+    const onConfirmName = (name) => {
+        firebase.firestore().collection('users').doc(uid).update({ name });
+        firebase.auth().currentUser.updateProfile({
+            displayName: name
+        });
+    }
+
     return (
         <div className='profile'>
             <div className='profile-pic-wrapper' onClick={onClickProfilePic}>
@@ -45,6 +53,11 @@ const Profile = memo(({ uid, profilePicUrl }) => {
                     style={{ display: 'none' }}
                 />
             </div>
+            <EditableLabel 
+                className='name'
+                initialValue={name}
+                onConfirm={onConfirmName}
+            />
         </div>
     )
 });
@@ -52,7 +65,7 @@ const Profile = memo(({ uid, profilePicUrl }) => {
 export default function ConnectedProfile() {
     const { state } = useContext(AppContext);
     const { user } = state;
-    const { uid, profilePicUrl } = user;
+    const { uid, name, profilePicUrl } = user;
 
-    return <Profile uid={uid} profilePicUrl={profilePicUrl} />
+    return <Profile uid={uid} name={name} profilePicUrl={profilePicUrl} />
 }

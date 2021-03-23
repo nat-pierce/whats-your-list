@@ -8,6 +8,7 @@
     margin: 1rem 0;
     padding: 1rem;
     box-sizing: border-box;
+    min-width: 380px;
 
     .profile-pic-wrapper {
         cursor: pointer;
@@ -16,5 +17,10 @@
             height: 200px;
             width: 200px;
         }
+    }
+
+    .name {
+        text-align: center;
+        margin-top: 0.5rem;
     }
 }

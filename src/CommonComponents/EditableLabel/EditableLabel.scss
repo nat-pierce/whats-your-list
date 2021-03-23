@@ -1,0 +1,18 @@
+@import '../../ConstantsAndMixins.scss';
+
+.editable-label {
+    .edit-mode {
+        display: flex;
+    }
+
+    &.display-mode {
+        cursor: pointer;
+        font-size: 18px;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+
+        &:hover {
+            background-color: $light-gray;
+        }
+    }
+}
