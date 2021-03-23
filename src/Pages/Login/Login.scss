@@ -11,15 +11,9 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin-bottom: 1rem;
 
-        h1 {
-            font-family: 'Marquee';
+        .logo {
             font-size: 70px;
-            margin-bottom: 3rem;
-            padding: 5rem;
-
-            @include brightTextGlow(gold);
         }
 
         h2 {

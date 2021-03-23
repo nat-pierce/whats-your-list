@@ -2,15 +2,13 @@ $header-height: 50px;
 
 // Colors
 $red: rgb(194, 3, 3);
-$yellow: yellow;
+$yellow: rgb(255, 233, 107);
 
 // Mixins
 @mixin softTextGlow($color) {
-    color: rgb(194, 3, 3);
     text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px $color, 0 0 35px $color, 0 0 40px $color, 0 0 50px $color, 0 0 75px $color;
 }
 
 @mixin brightTextGlow($color) {
-    color: rgb(194, 3, 3);
     text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px $color, 0 0 70px $color, 0 0 80px $color, 0 0 100px $color, 0 0 150px $color;
 }

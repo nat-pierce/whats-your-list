@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import { useContext, memo } from 'react';
 import AppContext from '../../../AppContext';
 import { useHistory } from 'react-router-dom';
+import Logo from '../../../CommonComponents/Logo';
 
 const Header = memo(({ signOut }) => {
     const history = useHistory();
@@ -11,9 +12,10 @@ const Header = memo(({ signOut }) => {
         signOut(history);
     };
 
+    // TODO make Theme.js for Material
     return (
         <div className='header'>
-            <div>What's Your List?</div>
+            <Logo />
             <Button color="primary" onClick={onSignOut}>
                 Sign Out
             </Button>

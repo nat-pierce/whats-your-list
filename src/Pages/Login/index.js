@@ -5,6 +5,7 @@ import { FirebaseContext } from '../../Firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'; // TODO switch to regular and style it
 import { useHistory } from 'react-router-dom';
 import AppContext from '../../AppContext';
+import Logo from '../../CommonComponents/Logo';
 
 const Login = memo(({ user, setUser }) => {
     const history = useHistory();
@@ -58,7 +59,7 @@ const Login = memo(({ user, setUser }) => {
     return (
         <div className="login-page">
             <div className='landing-header'>
-                <h1>What's Your List?</h1>
+                <Logo />
                 <h2>Share and compare your favorite movies with friends</h2>
             </div>
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />

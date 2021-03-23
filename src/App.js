@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useRef, useEffect } from 'react';
 import './App.scss';
 import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 import Login from './Pages/Login';
@@ -10,11 +10,28 @@ import { FirebaseContext } from './Firebase';
 function App() {
     const firebase = useContext(FirebaseContext);
     const history = useHistory();
+    const appRef = useRef(null);
+
+    const updateWindowDimensions = () => {
+        const height = window.innerHeight;
+
+        appRef.current.style.height = `${height}px`;
+    }
+
+    useEffect(() => {
+        updateWindowDimensions();
+
+        window.addEventListener('resize', updateWindowDimensions);
+
+        return () => {
+            window.removeEventListener('resize', updateWindowDimensions);
+        }
+    }, []);
 
     return (
         <AppContextProvider firebase={firebase} history={history}>
             <Router>
-                <div className="app">
+                <div className="app" ref={appRef}>
                     <Route path={ROUTES.Login} component={Login} />
                     <Route path={ROUTES.Home} component={Home} />
                 </div>
