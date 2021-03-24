@@ -1,5 +1,7 @@
 @import '../../../ConstantsAndMixins.scss';
 
 .favorite-list {
-    @include tileStyles;
+    .tile {
+        @include tileStyles;
+    }
 }
