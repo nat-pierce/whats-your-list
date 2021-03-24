@@ -9,14 +9,13 @@ export default function FavoriteList() {
     ]);
 
     const onDragEnd = (result) => {
-        if (!result.destination) return;
+        if (!result.destination) {
+            return;
+        }
 
         const items = [...favorites];
         const [reorderedItem] = items.splice(result.source.index, 1);
-        console.log(reorderedItem);
         items.splice(result.destination.index, 0, reorderedItem);
-
-        console.log(items);
 
         setFavorites(items);
     }

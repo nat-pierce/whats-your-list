@@ -1,6 +1,8 @@
 @import '../../../ConstantsAndMixins.scss';
 
 .favorite-list {
+    padding: 1rem;
+    
     .tile {
         @include tileStyles;
     }
