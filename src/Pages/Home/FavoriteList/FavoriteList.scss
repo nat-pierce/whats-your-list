@@ -1,10 +1,16 @@
 @import '../../../ConstantsAndMixins.scss';
 
-.favorite-list {
+.favorite-list-wrapper {
     padding: 1rem;
     max-width: 380px;
 
-    .tile {
-        @include tileStyles;
+    .search {
+        margin-bottom: 1rem;
+    }
+    
+    .favorite-list {
+        .tile {
+            @include tileStyles;
+        }
     }
 }
