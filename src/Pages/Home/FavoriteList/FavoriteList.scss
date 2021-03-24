@@ -2,7 +2,8 @@
 
 .favorite-list {
     padding: 1rem;
-    
+    max-width: 380px;
+
     .tile {
         @include tileStyles;
     }
