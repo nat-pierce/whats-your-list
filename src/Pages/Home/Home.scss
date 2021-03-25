@@ -23,6 +23,22 @@
             padding: 1rem 0;
             box-sizing: border-box;
             margin-bottom: 1rem;
+
+            .profile, .search {
+                width: 50%;
+            }
+
+            @include smallScreen {
+                flex-direction: column;
+
+                .profile, .search {
+                    width: 100%;
+                }
+
+                .search {
+                    margin-top: 1rem;
+                }
+            }
         }
     }
 }

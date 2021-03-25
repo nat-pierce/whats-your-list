@@ -3,9 +3,12 @@
 .profile {
     display: flex;
     align-items: center;
+    height: 100%;
 
     .profile-pic-wrapper {
         cursor: pointer;
+
+        margin-right: 1rem;
 
         .profile-pic {
             height: 100px;
@@ -13,8 +16,15 @@
         }
     }
 
-    .name {
-        text-align: center;
-        margin-top: 0.5rem;
+    .profile-info {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        .name {
+            text-align: center;
+            font-weight: bold;
+        }
     }
 }

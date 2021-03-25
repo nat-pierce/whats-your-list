@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from 'react';
 import TextField from '@material-ui/core/TextField';
 import debounce from 'lodash.debounce';
 import { getSearchOptionsAsync } from './SearchUtilities';
-import './Search.scss';
 
 export default function SearchBar() {
     const [inputValue, setInputValue] = useState('');

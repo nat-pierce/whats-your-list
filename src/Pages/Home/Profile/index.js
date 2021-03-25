@@ -4,6 +4,7 @@ import AppContext from '../../../AppContext';
 import Avatar from '@material-ui/core/Avatar';
 import { FirebaseContext } from '../../../Firebase';
 import EditableLabel from '../../../CommonComponents/EditableLabel';
+import FriendsButton from './FriendsButton';
 
 const Profile = memo(({ uid, name, profilePicUrl }) => {
     const profilePicInputRef = useRef(null);
@@ -53,11 +54,14 @@ const Profile = memo(({ uid, name, profilePicUrl }) => {
                     style={{ display: 'none' }}
                 />
             </div>
-            <EditableLabel 
-                className='name'
-                initialValue={name}
-                onConfirm={onConfirmName}
-            />
+            <div className='profile-info'>
+                <EditableLabel 
+                    className='name'
+                    initialValue={name}
+                    onConfirm={onConfirmName}
+                />
+                <FriendsButton />
+            </div>
         </div>
     )
 });

@@ -1,6 +1,6 @@
 import { useContext, useRef, useEffect } from 'react';
 import './App.scss';
-import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route, useHistory } from "react-router-dom";
 import Login from './Pages/Login';
 import Home from './Pages/Home';
 import { AppContextProvider } from './AppContext';
@@ -36,6 +36,9 @@ function App() {
             <AppContextProvider firebase={firebase} history={history}>
                 <Router>
                     <div className="app" ref={appRef}>
+                        <Route exact path="/">
+                            <Redirect to={ROUTES.Home} />
+                        </Route>
                         <Route path={ROUTES.Login} component={Login} />
                         <Route path={ROUTES.Home} component={Home} />
                     </div>
