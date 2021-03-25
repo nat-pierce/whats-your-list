@@ -16,7 +16,7 @@ const Header = memo(({ signOut }) => {
     return (
         <div className='header'>
             <Logo sizeScale={0.25} shouldAnimate={false} />
-            <Button color="primary" onClick={onSignOut}>
+            <Button color="primary" variant="contained" onClick={onSignOut}>
                 Sign Out
             </Button>
         </div>

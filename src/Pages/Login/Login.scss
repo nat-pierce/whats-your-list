@@ -1,6 +1,6 @@
 @import '../../ConstantsAndMixins.scss';
 
-@mixin login-page($logo-width, $font-size) {
+@mixin loginPage($logo-width, $font-size) {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -22,7 +22,8 @@
 
         h2 {
             font-size: $font-size;
-            margin-top: 1rem;
+            text-align: center;
+            margin: 1rem 0;
             color: white;
             font-family: 'NunitoBlack';
         }
@@ -30,25 +31,25 @@
 }
 
 .login-page {
-    @include large-screen {
+    @include largeScreen {
         $logo-width: 575px;
         $font-size: 30px;
 
-        @include login-page($logo-width, $font-size);
+        @include loginPage($logo-width, $font-size);
     }
 
-    @include medium-screen {
+    @include mediumScreen {
         $logo-width: 300px;
         $font-size: 20px;
 
-        @include login-page($logo-width, $font-size);
+        @include loginPage($logo-width, $font-size);
     }
 
-    @include small-screen {
+    @include smallScreen {
         $logo-width: 300px;
         $font-size: 20px;
 
-        @include login-page($logo-width, $font-size);
+        @include loginPage($logo-width, $font-size);
 
         flex-direction: column;
         justify-content: flex-start;

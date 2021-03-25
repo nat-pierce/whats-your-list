@@ -4,12 +4,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-right: solid 1px $gray;
     margin: 1rem 0;
     padding: 1rem;
     box-sizing: border-box;
-    min-width: 380px;
-    max-width: 380px;
+    border-right: solid 1px $gray;
+
+    @include smallScreen {
+        border-right: 0;
+        border-bottom: solid 1px $gray;
+        margin: 0 1rem;
+    }
+    
+    @include homePanel;
 
     .profile-pic-wrapper {
         cursor: pointer;

@@ -13,12 +13,8 @@
         background-color: white;
         display: flex;
 
-        .profile {
-            flex: 1;
-        }
-
-        .favorite-list {
-            flex: 3;
+        @include smallScreen {
+            flex-direction: column;
         }
     }
 }

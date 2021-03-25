@@ -2,7 +2,9 @@
 
 .favorite-list-wrapper {
     padding: 1rem;
-    max-width: 380px;
+    box-sizing: border-box;
+    
+    @include homePanel;
 
     .search {
         margin-bottom: 1rem;
