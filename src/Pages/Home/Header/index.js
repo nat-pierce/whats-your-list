@@ -1,24 +1,25 @@
 import './Header.scss';
-import Button from '@material-ui/core/Button';
 import { useContext, memo } from 'react';
 import AppContext from '../../../AppContext';
-import { useHistory } from 'react-router-dom';
 import Logo from '../../../CommonComponents/Logo';
+import { useHistory } from 'react-router';
+import IconButton from '@material-ui/core/IconButton';
+import SettingsIcon from '@material-ui/icons/Settings';
+import { ROUTES } from '../../../Constants';
 
-const Header = memo(({ signOut }) => {
+const Header = memo(() => {
     const history = useHistory();
 
-    const onSignOut = () => {
-        signOut(history);
-    };
+    const onClickSettingsIcon = () => {
+        history.push(ROUTES.Settings);
+    }
 
-    // TODO make Theme.js for Material
     return (
         <div className='header'>
             <Logo sizeScale={0.25} shouldAnimate={false} />
-            <Button color="primary" variant="contained" onClick={onSignOut}>
-                Sign Out
-            </Button>
+            <IconButton className="settings-icon" onClick={onClickSettingsIcon}>
+                <SettingsIcon />
+            </IconButton>
         </div>
     );
 });

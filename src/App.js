@@ -3,6 +3,7 @@ import './App.scss';
 import { BrowserRouter as Router, Redirect, Route, useHistory } from "react-router-dom";
 import Login from './Pages/Login';
 import Home from './Pages/Home';
+import Settings from './Pages/Settings';
 import { AppContextProvider } from './AppContext';
 import { ROUTES } from './Constants';
 import { FirebaseContext } from './Firebase';
@@ -41,6 +42,7 @@ function App() {
                         </Route>
                         <Route path={ROUTES.Login} component={Login} />
                         <Route path={ROUTES.Home} component={Home} />
+                        <Route path={ROUTES.Settings} component={Settings} />
                     </div>
                 </Router>
             </AppContextProvider>
