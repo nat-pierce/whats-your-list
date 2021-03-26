@@ -28,15 +28,20 @@
                 width: 50%;
             }
 
+            .search {
+                margin-left: 1rem;
+            }
+
             @include smallScreen {
                 flex-direction: column;
 
                 .profile, .search {
                     width: 100%;
                 }
-                
+
                 .search {
                     margin-top: 1rem;
+                    margin-left: 0;
                 }
             }
         }

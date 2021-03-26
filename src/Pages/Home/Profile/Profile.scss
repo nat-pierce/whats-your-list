@@ -1,5 +1,8 @@
 @import '../../../ConstantsAndMixins.scss';
 
+$profile-pic-width: 100px;
+$profile-pic-margin: 1rem;
+
 .profile {
     display: flex;
     align-items: center;
@@ -12,19 +15,24 @@
     .profile-pic-wrapper {
         cursor: pointer;
 
-        margin-right: 1rem;
+        margin-right: $profile-pic-margin;
 
         .profile-pic {
-            height: 100px;
-            width: 100px;
+            height: $profile-pic-width;
+            width: $profile-pic-width;
         }
     }
 
     .profile-info {
         height: 100%;
+        width: calc(100% - #{$profile-pic-width} - #{$profile-pic-margin});
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+
+        @include smallScreen {
+            width: auto;
+        }
 
         .name {
             text-align: center;
