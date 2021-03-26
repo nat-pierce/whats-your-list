@@ -5,6 +5,10 @@
     align-items: center;
     height: 100%;
 
+    @include smallScreen {
+        justify-content: center;
+    }
+
     .profile-pic-wrapper {
         cursor: pointer;
 
@@ -25,6 +29,16 @@
         .name {
             text-align: center;
             font-weight: bold;
+        }
+
+        .friends-button {
+            width: 125px;
+            width: fit-content;
+            padding: 0.5rem 1rem;
+
+            .MuiButton-label {
+                width: auto;
+            }
         }
     }
 }
