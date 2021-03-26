@@ -1,11 +1,14 @@
 /* eslint-disable */
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, memo } from 'react';
 import TextField from '@material-ui/core/TextField';
 import debounce from 'lodash.debounce';
-import { searchMovieApi } from '../../ApiUtilities';
+import { searchMovieApi } from '../../../ApiUtilities';
+import { useContext } from 'react';
+import AppContext from '../../../AppContext';
+import './SearchBar.scss';
 
-export default function SearchBar() {
+const SearchBar = memo(({ addMovieToList }) => {
     const [inputValue, setInputValue] = useState('');
     const [options, setOptions] = useState([]);
     const [reactKey, setReactKey] = useState(0);
@@ -13,7 +16,7 @@ export default function SearchBar() {
     console.log('o', options);
 
     const onChooseMovie = (e, value) => {
-        console.log(e, value);
+        addMovieToList(value);
         setReactKey(reactKey+1);
         setInputValue('');
         setOptions([]);
@@ -42,6 +45,17 @@ export default function SearchBar() {
         });
     }, [inputValue, getOptionsDelayed]);
 
+    const renderOption = ({ Title, Year, Poster }) => {
+        console.log('Poster', Poster);
+
+        return (
+            <div className='search-option'>
+                {(Poster !== "N/A") && <img className='poster' src={Poster} />}
+                <div>{`${Title} (${Year})`}</div>
+            </div>
+        )
+    };
+
     return (
         <Autocomplete 
             key={reactKey}
@@ -55,8 +69,17 @@ export default function SearchBar() {
             getOptionSelected={getOptionSelected}
             // disable filtering on client side
             filterOptions={(option) => option}
-            getOptionLabel={(option) => option.Title}
+            getOptionLabel={({ Title, Year }) => `${Title} (${Year})`}
+            renderOption={renderOption}
             renderInput={(params) => <TextField {...params} label="Search" color="secondary" variant="outlined" />}
         />
     );
+});
+
+export default function ConnectedSearchBar() {
+    const { actions } = useContext(AppContext);
+    // const { addMovieToList } = actions;
+    const addMovieToList = console.log;
+
+    return <SearchBar addMovieToList={addMovieToList} />;
 }
