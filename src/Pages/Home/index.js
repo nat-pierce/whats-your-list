@@ -9,6 +9,7 @@ import { FirebaseContext } from '../../Firebase';
 import FavoriteList from './FavoriteList';
 import SearchBar from './SearchBar';
 import Charts from './Charts';
+import Settings from './Settings';
 
 const Home = memo(({ user }) => {
     const history = useHistory();
@@ -44,7 +45,6 @@ const Home = memo(({ user }) => {
         );
     }
 
-    // put header, profile pic, and display name on this page with list
     return (
         <div className='home-page'>
             <Header />
@@ -58,6 +58,7 @@ const Home = memo(({ user }) => {
                     <Charts />
                 </div>
             </div>
+            <Settings />
         </div>
     )
 });

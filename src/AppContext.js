@@ -6,7 +6,8 @@ const AppContext = createContext({});
 
 const defaultState = {
     user: null,
-    favoriteMovies: []
+    favoriteMovies: [],
+    isSettingsModalOpen: false
 };
 
 export class AppContextProvider extends PureComponent {
@@ -102,6 +103,10 @@ export class AppContextProvider extends PureComponent {
         this.updateOrderIds(newListWithUpdatedOrderIds);
     }
 
+    setIsSettingsModalOpen = (isOpen) => {
+        this.setState({ isSettingsModalOpen: isOpen });
+    }
+
     render() {
         const contextValue = {
             state: this.state,
@@ -110,7 +115,8 @@ export class AppContextProvider extends PureComponent {
                 signOut: this.signOut,
                 addMovieToList: this.addMovieToList,
                 reorderMovieList: this.reorderMovieList,
-                removeMovieFromList: this.removeMovieFromList
+                removeMovieFromList: this.removeMovieFromList,
+                setIsSettingsModalOpen: this.setIsSettingsModalOpen
             }
         };
 

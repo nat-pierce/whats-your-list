@@ -2,16 +2,12 @@ import './Header.scss';
 import { useContext, memo } from 'react';
 import AppContext from '../../../AppContext';
 import Logo from '../../../CommonComponents/Logo';
-import { useHistory } from 'react-router';
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
-import { ROUTES } from '../../../Constants';
 
-const Header = memo(() => {
-    const history = useHistory();
-
+const Header = memo(({ setIsSettingsModalOpen }) => {
     const onClickSettingsIcon = () => {
-        history.push(ROUTES.Settings);
+        setIsSettingsModalOpen(true);
     }
 
     return (
@@ -26,7 +22,7 @@ const Header = memo(() => {
 
 export default function ConnectedHeader() {
     const { actions } = useContext(AppContext);
-    const { signOut } = actions;
+    const { setIsSettingsModalOpen } = actions;
 
-    return <Header signOut={signOut} />;
+    return <Header setIsSettingsModalOpen={setIsSettingsModalOpen} />;
 }
