@@ -17,6 +17,8 @@
         box-sizing: border-box;
 
         .upper {
+            width: 100%;
+            background-color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -24,6 +26,7 @@
             padding: 1rem 0;
             box-sizing: border-box;
             height: $home-upper-height;
+            background-color: white;
 
             .profile, .search {
                 width: 50%;
@@ -36,6 +39,12 @@
             @include smallScreen {
                 flex-direction: column;
                 height: auto;
+                position: fixed;
+                top: $header-height;
+                left: 0;
+                padding-left: 2rem;
+                padding-right: 2rem;
+                z-index: 1;
 
                 .profile, .search {
                     width: 100%;
@@ -65,6 +74,7 @@
             @include smallScreen {
                 flex-direction: column;
                 height: auto;
+                padding-top: calc(#{$home-upper-height} + #{$header-height} + 2rem);
 
                 .favorite-list, .charts {
                     width: 100%;
