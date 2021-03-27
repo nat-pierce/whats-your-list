@@ -8,6 +8,7 @@ import Profile from './Profile';
 import { FirebaseContext } from '../../Firebase';
 import FavoriteList from './FavoriteList';
 import SearchBar from './SearchBar';
+import Charts from './Charts';
 
 const Home = memo(({ user }) => {
     const history = useHistory();
@@ -54,6 +55,7 @@ const Home = memo(({ user }) => {
                 </div>
                 <div className='lower'>
                     <FavoriteList />
+                    <Charts />
                 </div>
             </div>
         </div>
