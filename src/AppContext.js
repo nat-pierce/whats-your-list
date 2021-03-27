@@ -4,7 +4,8 @@ import { ROUTES } from './Constants';
 const AppContext = createContext({});
 
 const defaultState = {
-    user: null
+    user: null,
+    favoriteMovies: []
 };
 
 export class AppContextProvider extends PureComponent {
@@ -30,12 +31,31 @@ export class AppContextProvider extends PureComponent {
         });
     }
 
+    reorderMovieList = (newList) => {
+        this.setState({ favoriteMovies: newList });
+    }
+
+    addMovieToList = ({ imdbID, Title, Year, Poster }) => {
+        this.setState({ favoriteMovies: [
+            ...this.state.favoriteMovies,
+            { imdbID, Title, Year, Poster }
+        ]});
+
+        /* TODO grab genre from API?
+        maybe store these 4 fields in state, and have the chart(s) load async data with spinner
+        by listening for updates to list in firestore. (Spinner starts moving when this function is called)
+        And then can store all 4 of these in firestore async.
+        */
+    }
+
     render() {
         const contextValue = {
             state: this.state,
             actions: {
                 setUser: this.setUser,
-                signOut: this.signOut
+                signOut: this.signOut,
+                addMovieToList: this.addMovieToList,
+                reorderMovieList: this.reorderMovieList
             }
         };
 

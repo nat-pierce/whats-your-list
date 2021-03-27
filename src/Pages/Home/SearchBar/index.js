@@ -12,18 +12,12 @@ const SearchBar = memo(({ addMovieToList }) => {
     const [inputValue, setInputValue] = useState('');
     const [options, setOptions] = useState([]);
     const [reactKey, setReactKey] = useState(0);
-    
-    console.log('o', options);
 
     const onChooseMovie = (e, value) => {
         addMovieToList(value);
         setReactKey(reactKey+1);
         setInputValue('');
         setOptions([]);
-    };
-
-    const getOptionSelected = (option, value) => {
-        // return option.imdbID === value.imdbID
     };
 
     const onInputChange = (e, value) => {
@@ -46,8 +40,6 @@ const SearchBar = memo(({ addMovieToList }) => {
     }, [inputValue, getOptionsDelayed]);
 
     const renderOption = ({ Title, Year, Poster }) => {
-        console.log('Poster', Poster);
-
         return (
             <div className='search-option'>
                 {(Poster !== "N/A") && <img className='poster' src={Poster} />}
@@ -66,7 +58,6 @@ const SearchBar = memo(({ addMovieToList }) => {
             onInputChange={onInputChange}
             loading={(options.length === 0) && (inputValue !== '')}
             noOptionsText={'Search for your favorite movies by title'}
-            getOptionSelected={getOptionSelected}
             // disable filtering on client side
             filterOptions={(option) => option}
             getOptionLabel={({ Title, Year }) => `${Title} (${Year})`}
@@ -78,8 +69,7 @@ const SearchBar = memo(({ addMovieToList }) => {
 
 export default function ConnectedSearchBar() {
     const { actions } = useContext(AppContext);
-    // const { addMovieToList } = actions;
-    const addMovieToList = console.log;
+    const { addMovieToList } = actions;
 
     return <SearchBar addMovieToList={addMovieToList} />;
 }

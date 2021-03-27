@@ -3,5 +3,20 @@
 .favorite-list {
     .tile {
         @include tileStyles;
+
+        display: flex;
+        align-items: center;
+        height: 125px;
+
+        .rank {
+            font-family: 'NunitoBlack';
+        }
+
+        .poster {
+            max-height: 100%;
+            max-width: 100%;
+            margin: 0 1rem;
+            border-radius: 8px;
+        }
     }
 }

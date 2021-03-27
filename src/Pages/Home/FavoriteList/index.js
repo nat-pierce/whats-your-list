@@ -1,23 +1,22 @@
-import { useState } from 'react';
+import { memo } from 'react';
 import './FavoriteList.scss';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { useContext } from 'react';
+import AppContext from '../../../AppContext';
 
-export default function FavoriteList() {
-    const [favorites, setFavorites] = useState([
-        { id: 17, name: 'Avengers: Endgame', year: 2019 },
-        { id: 20, name: 'Minority Report', year: 2003 }
-    ]);
-
+const FavoriteList = memo(({ favoriteMovies, reorderMovieList }) => {
     const onDragEnd = (result) => {
         if (!result.destination) {
             return;
         }
 
-        const items = [...favorites];
+        const items = [...favoriteMovies];
         const [reorderedItem] = items.splice(result.source.index, 1);
+
+        console.log(reorderedItem);
         items.splice(result.destination.index, 0, reorderedItem);
 
-        setFavorites(items);
+        reorderMovieList(items);
     }
 
     return (
@@ -28,16 +27,22 @@ export default function FavoriteList() {
                         className='favorite-list'
                         ref={provided.innerRef}
                         {...provided.droppableProps}>
-                        {favorites.map((movie, i) => (
-                            <Draggable key={movie.id} draggableId={`draggable-${movie.id}`} index={i}>
+                        {favoriteMovies.map((movie, i) => (
+                            <Draggable key={movie.imdbID} draggableId={`draggable-${movie.imdbID}`} index={i}>
                                 {(provided, snapshot) => (
                                     <div
                                         className='tile'
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}>
-                                        <div>Rank: {i+1}</div>
-                                        <div>{movie.name} ({movie.year})</div>
+                                        <div className='rank'>{i+1}</div>
+                                        {movie.Poster !== 'N/A' && 
+                                            <img 
+                                                className='poster' 
+                                                src={movie.Poster} 
+                                                alt='Movie poster' />
+                                        }
+                                        <div>{movie.Title} ({movie.Year})</div>
                                     </div>
                                 )}
                             </Draggable>
@@ -47,5 +52,17 @@ export default function FavoriteList() {
                 )}
             </Droppable>
         </DragDropContext>
+    );
+});
+
+export default function ConnectedFavoriteList() {
+    const { state, actions } = useContext(AppContext);
+    const { favoriteMovies } = state;
+    const { reorderMovieList } = actions;
+
+    return (
+        <FavoriteList 
+            favoriteMovies={favoriteMovies} 
+            reorderMovieList={reorderMovieList} />
     );
 }
