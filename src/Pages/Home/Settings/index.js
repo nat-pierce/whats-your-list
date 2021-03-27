@@ -29,7 +29,11 @@ const Settings = memo(({ email, signOut, isSettingsModalOpen, setIsSettingsModal
         setIsChangingEmail(false);
         setIsChangingPassword(false);
         setHasError(false);
-        setSuccessMessage(null);
+
+        if (successMessage) {
+            setSuccessMessage(null);
+            onSignOut();
+        }
     }
 
     const reauthenticate = (currentPassword) => {

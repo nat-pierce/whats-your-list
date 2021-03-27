@@ -10,13 +10,14 @@ import FavoriteList from './FavoriteList';
 import SearchBar from './SearchBar';
 import Charts from './Charts';
 import Settings from './Settings';
+import Button from '@material-ui/core/Button';
 
 const Home = memo(({ user }) => {
     const history = useHistory();
     const [isMounted, setIsMounted] = useState(false);
     const firebase = useContext(FirebaseContext);
     const sentEmailVerificationRef = useRef(false);
-    const authUser = !sentEmailVerificationRef.current && firebase.auth().currentUser;
+    const authUser = firebase.auth().currentUser;
 
     useEffect(() => {
         if (!user) {
@@ -30,17 +31,28 @@ const Home = memo(({ user }) => {
         return <div>Loading</div>; // Spinner
     }
 
-    if (authUser && !authUser.emailVerified) {
-        sentEmailVerificationRef.current = true;
-
+    const sendConfirmationEmail = () => {
         firebase.auth().currentUser.sendEmailVerification({
             url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
         })
         .catch((err) => console.error(err));
+    }
+
+    if (authUser && !authUser.emailVerified) {
+        sentEmailVerificationRef.current = true;
+
+        if (!sentEmailVerificationRef.current) {
+            sendConfirmationEmail();
+        }
 
         return (
-            <div className='email-verification-message'>
-                Email verification sent!
+            <div className='email-verification-page'>
+                <Header />
+                <div className='message'>Email verification sent!</div>
+                <Button color="primary" variant="contained" onClick={sendConfirmationEmail}>
+                    Send again
+                </Button>
+                <Settings />
             </div>
         );
     }
