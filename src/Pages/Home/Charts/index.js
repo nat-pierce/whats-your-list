@@ -36,14 +36,23 @@ const Charts = memo(({ favoriteMovies }) => {
 
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
-          return (
-            <div className="custom-tooltip">
-                <div>{payload[0].payload.name}</div>
-                {payload[0].payload.titles.map(title =>
-                    <div>{title}</div>
-                )}
-            </div>
-          );
+            const displayTitles = payload[0].payload.titles.slice(0, 5);
+            const numAdditionalTitles = payload[0].payload.titles.length - 5;
+
+            return (
+                <div className="custom-tooltip">
+                    <div className='genre-name'>{payload[0].payload.name}</div>
+                    {displayTitles.map(title =>
+                        <div>{title}</div>
+                    )}
+                    {numAdditionalTitles === 1 &&
+                        <div>And {numAdditionalTitles} additional movie</div>
+                    }
+                    {numAdditionalTitles > 1 &&
+                        <div>And {numAdditionalTitles} additional movies</div>
+                    }
+                </div>
+            );
         }
       
         return null;
@@ -51,7 +60,7 @@ const Charts = memo(({ favoriteMovies }) => {
 
     return (
         <div className='charts'>
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height="50%">
                 <BarChart data={data}>
                     <XAxis dataKey="name" angle={-45} textAnchor='end' interval={0} />
                     <Tooltip content={<CustomTooltip />} />
