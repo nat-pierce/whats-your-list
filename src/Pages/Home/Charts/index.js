@@ -31,7 +31,7 @@ const Charts = memo(({ favoriteMovies }) => {
             name: genre,
             score: genresDict[genre].score,
             titles: genresDict[genre].titles
-        }));
+        })).sort((a, b) => b.score - a.score);
     }, [favoriteMovies]);
 
     const CustomTooltip = ({ active, payload, label }) => {
