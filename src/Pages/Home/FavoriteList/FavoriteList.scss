@@ -1,5 +1,5 @@
 @import '../../../ConstantsAndMixins.scss';
-    
+  
 .favorite-list {
     overflow: auto;
     padding-right: 1rem;
@@ -45,16 +45,5 @@
         .remove-icon {
             display: none;
         }
-    }
-}
-
-.remove-modal {
-    .button-section {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        padding: 1rem;
-        box-sizing: border-box;
     }
 }

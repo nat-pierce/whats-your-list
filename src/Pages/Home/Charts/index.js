@@ -71,8 +71,8 @@ const Charts = memo(({ favoriteMovies }) => {
             return (
                 <div className="custom-tooltip">
                     <div className='genre-name'>{payload[0].payload.name}</div>
-                    {displayTitles.map(title =>
-                        <div>{title}</div>
+                    {displayTitles.map((title, i) =>
+                        <div key={`${title}_${i}`}>{title}</div>
                     )}
                     {numAdditionalTitles === 1 &&
                         <div>And {numAdditionalTitles} additional movie</div>

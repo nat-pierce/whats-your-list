@@ -1,12 +1,16 @@
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import './FavoriteList.scss';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useContext } from 'react';
 import AppContext from '../../../AppContext';
 import IconButton from '@material-ui/core/IconButton';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import { usePrevious } from '../../../Hooks';
 
 const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromList }) => {
+    const containerRef = useRef(null);
+    const previousNumMovies = usePrevious(favoriteMovies.length);
+
     const onDragEnd = (result) => {
         if (!result.destination) {
             return;
@@ -21,42 +25,53 @@ const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromLi
         reorderMovieList(itemsWithUpdatedOrderIds);
     }
 
+    useEffect(() => {
+        if (favoriteMovies.length > previousNumMovies) {
+            if (window.innerWidth > 600) {
+                containerRef.current.scrollTo(0, containerRef.current.scrollHeight);
+            } else {
+                containerRef.current.scrollIntoView(false);
+            }
+        }
+    }, [favoriteMovies, previousNumMovies, containerRef])
+
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="droppable-1">
-                {(provided, snapshot) => (
-                    <div
-                        className='favorite-list'
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}>
-                        {favoriteMovies.map((movie, i) => (
-                            <Draggable key={movie.imdbID} draggableId={`draggable-${movie.imdbID}`} index={i}>
-                                {(provided, snapshot) => (
-                                    <div
-                                        className='tile'
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}>
-                                        <div className='rank'>{i+1}</div>
-                                        {movie.Poster !== 'N/A' && 
-                                            <img 
-                                                className='poster' 
-                                                src={movie.Poster} 
-                                                alt='Movie poster' />
-                                        }
-                                        <div>{movie.Title} ({movie.Year})</div>
-                                        <IconButton className='remove-icon' onClick={() => removeMovieFromList(movie.imdbID, i)}>
-                                            <RemoveCircleIcon />
-                                        </IconButton>
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
-        </DragDropContext>                             
+        <div className='favorite-list' ref={containerRef}>
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="droppable-1">
+                    {(provided, snapshot) => (
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}>
+                            {favoriteMovies.map((movie, i) => (
+                                <Draggable key={movie.imdbID} draggableId={`draggable-${movie.imdbID}`} index={i}>
+                                    {(provided, snapshot) => (
+                                        <div
+                                            className='tile'
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}>
+                                            <div className='rank'>{i+1}</div>
+                                            {movie.Poster !== 'N/A' && 
+                                                <img 
+                                                    className='poster' 
+                                                    src={movie.Poster} 
+                                                    alt='Movie poster' />
+                                            }
+                                            <div>{movie.Title} ({movie.Year})</div>
+                                            <IconButton className='remove-icon' onClick={() => removeMovieFromList(movie.imdbID, i)}>
+                                                <RemoveCircleIcon />
+                                            </IconButton>
+                                        </div>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>      
+        </div>         
     );
 });
 
