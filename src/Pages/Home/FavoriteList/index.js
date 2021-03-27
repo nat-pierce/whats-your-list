@@ -13,10 +13,10 @@ const FavoriteList = memo(({ favoriteMovies, reorderMovieList }) => {
         const items = [...favoriteMovies];
         const [reorderedItem] = items.splice(result.source.index, 1);
 
-        console.log(reorderedItem);
         items.splice(result.destination.index, 0, reorderedItem);
+        const itemsWithUpdatedOrderIds = items.map((item, i) => ({ ...item, OrderId: i }));
 
-        reorderMovieList(items);
+        reorderMovieList(itemsWithUpdatedOrderIds);
     }
 
     return (

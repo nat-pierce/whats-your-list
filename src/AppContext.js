@@ -1,3 +1,4 @@
+import { ThreeSixtySharp } from '@material-ui/icons';
 import { createContext, PureComponent } from 'react';
 import { ROUTES } from './Constants';
 
@@ -33,19 +34,35 @@ export class AppContextProvider extends PureComponent {
 
     reorderMovieList = (newList) => {
         this.setState({ favoriteMovies: newList });
+
+        const db = this.props.firebase.firestore();
+        const batch = db.batch();
+        const collection = db.collection('users')
+            .doc(this.state.user.uid)
+            .collection('favoriteMovies');
+
+        newList.forEach(movie => {
+            const docRef = collection.doc(movie.imdbID);
+            batch.update(docRef, { OrderId: movie.OrderId });
+        });
+
+        batch.commit();
     }
 
     addMovieToList = ({ imdbID, Title, Year, Poster }) => {
+        const OrderId = this.state.favoriteMovies.length;
+
         this.setState({ favoriteMovies: [
             ...this.state.favoriteMovies,
-            { imdbID, Title, Year, Poster }
+            { imdbID, Title, Year, Poster, OrderId }
         ]});
 
-        /* TODO grab genre from API?
-        maybe store these 4 fields in state, and have the chart(s) load async data with spinner
-        by listening for updates to list in firestore. (Spinner starts moving when this function is called)
-        And then can store all 4 of these in firestore async.
-        */
+        this.props.firebase.firestore()
+            .collection('users')
+            .doc(this.state.user.uid)
+            .collection('favoriteMovies')
+            .doc(imdbID)
+            .set({ Title, Year, Poster, OrderId });
     }
 
     render() {
