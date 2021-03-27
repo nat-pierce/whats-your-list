@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     height: 100px;
+    width: 100%;
 
     .poster {
         max-height:100%; 
@@ -9,4 +10,23 @@
         margin-right: 1rem;
         border-radius: 8px;
     }
+
+    .title {
+        margin-right: 1rem;
+    }
+
+    .current-rank {
+        background-color: red;
+        color: white;
+        border-radius: 25px;
+        padding: 0.25rem 0.5rem;
+        align-content: flex-end;
+        white-space: nowrap;
+        margin-left: auto;
+    }
+}
+
+.MuiAutocomplete-paper {
+    border: solid 2px black;
+    border-top: 0;
 }

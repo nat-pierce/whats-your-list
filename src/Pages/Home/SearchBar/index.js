@@ -8,10 +8,11 @@ import { useContext } from 'react';
 import AppContext from '../../../AppContext';
 import './SearchBar.scss';
 
-const SearchBar = memo(({ addMovieToList }) => {
+const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
     const [inputValue, setInputValue] = useState('');
     const [options, setOptions] = useState([]);
     const [reactKey, setReactKey] = useState(0);
+    const existingIds = favoriteMovies.map(m => m.imdbID);
 
     const onChooseMovie = (e, value) => {
         addMovieToList(value);
@@ -39,11 +40,16 @@ const SearchBar = memo(({ addMovieToList }) => {
         });
     }, [inputValue, getOptionsDelayed]);
 
-    const renderOption = ({ Title, Year, Poster }) => {
+    const renderOption = ({ Title, Year, Poster, imdbID }) => {
+        const existingRank = existingIds.findIndex(id => id === imdbID) + 1;
+
         return (
             <div className='search-option'>
                 {(Poster !== "N/A") && <img className='poster' src={Poster} />}
-                <div>{`${Title} (${Year})`}</div>
+                <div className='title'>{`${Title} (${Year})`}</div>
+                {existingRank > 0 && 
+                    <div className='current-rank'>Current rank: {existingRank}</div>
+                }
             </div>
         )
     };
@@ -61,6 +67,7 @@ const SearchBar = memo(({ addMovieToList }) => {
             // disable filtering on client side
             filterOptions={(option) => option}
             getOptionLabel={({ Title, Year }) => `${Title} (${Year})`}
+            getOptionDisabled={({ imdbID }) => existingIds.findIndex(id => id === imdbID) > -1}
             renderOption={renderOption}
             renderInput={(params) => <TextField {...params} label="Search" color="secondary" variant="outlined" />}
         />
@@ -68,8 +75,14 @@ const SearchBar = memo(({ addMovieToList }) => {
 });
 
 export default function ConnectedSearchBar() {
-    const { actions } = useContext(AppContext);
+    const { state, actions } = useContext(AppContext);
+    const { favoriteMovies } = state;
     const { addMovieToList } = actions;
 
-    return <SearchBar addMovieToList={addMovieToList} />;
+    return (
+        <SearchBar 
+            favoriteMovies={favoriteMovies} 
+            addMovieToList={addMovieToList} 
+        />
+    );
 }
