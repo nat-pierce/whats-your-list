@@ -35,6 +35,7 @@ export default function EditableLabel({ className = '', initialValue, onConfirm 
                 value={value}
                 onChange={onChange} />
             <IconButton 
+                className='confirm-edit-button'
                 color="secondary" 
                 disabled={!hasValue}
                 onClick={onClickCheck}>

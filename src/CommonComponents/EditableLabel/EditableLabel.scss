@@ -1,8 +1,15 @@
 @import '../../ConstantsAndMixins.scss';
 
 .editable-label {
-    .edit-mode {
+    margin-bottom: 1rem;
+
+    &.edit-mode {
         display: flex;
+        align-items: center;
+
+        .confirm-edit-button {
+            margin-left: 0.5rem;
+        }
     }
 
     &.display-mode {
