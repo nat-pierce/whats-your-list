@@ -12,11 +12,10 @@ import Charts from './Charts';
 import Settings from './Settings';
 import Button from '@material-ui/core/Button';
 
-const Home = memo(({ user }) => {
+const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification }) => {
     const history = useHistory();
     const [isMounted, setIsMounted] = useState(false);
     const firebase = useContext(FirebaseContext);
-    const sentEmailVerificationRef = useRef(false);
     const authUser = firebase.auth().currentUser;
 
     useEffect(() => {
@@ -39,10 +38,9 @@ const Home = memo(({ user }) => {
     }
 
     if (authUser && !authUser.emailVerified) {
-        sentEmailVerificationRef.current = true;
-
-        if (!sentEmailVerificationRef.current) {
+        if (!hasSentEmailVerification) {
             sendConfirmationEmail();
+            setHasSentEmailVerification(true);
         }
 
         return (
@@ -76,8 +74,12 @@ const Home = memo(({ user }) => {
 });
 
 export default function ConnectedHome() {
-    const { state } = useContext(AppContext);
-    const { user } = state;
+    const { state, actions } = useContext(AppContext);
+    const { user, hasSentEmailVerification } = state;
+    const { setHasSentEmailVerification } = actions;
 
-    return <Home user={user} />
+    return <Home 
+        user={user} 
+        hasSentEmailVerification={hasSentEmailVerification}
+        setHasSentEmailVerification={setHasSentEmailVerification} />
 }

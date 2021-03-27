@@ -7,7 +7,8 @@ const AppContext = createContext({});
 const defaultState = {
     user: null,
     favoriteMovies: [],
-    isSettingsModalOpen: false
+    isSettingsModalOpen: false,
+    hasSentEmailVerification: false
 };
 
 export class AppContextProvider extends PureComponent {
@@ -44,6 +45,10 @@ export class AppContextProvider extends PureComponent {
                 history.push(ROUTES.Login);
             });
         });
+    }
+
+    setHasSentEmailVerification = (hasSentEmailVerification) => {
+        this.setState({ hasSentEmailVerification });
     }
 
     updateOrderIds = (newListWithUpdatedOrderIds) => {
@@ -116,7 +121,8 @@ export class AppContextProvider extends PureComponent {
                 addMovieToList: this.addMovieToList,
                 reorderMovieList: this.reorderMovieList,
                 removeMovieFromList: this.removeMovieFromList,
-                setIsSettingsModalOpen: this.setIsSettingsModalOpen
+                setIsSettingsModalOpen: this.setIsSettingsModalOpen,
+                setHasSentEmailVerification: this.setHasSentEmailVerification
             }
         };
 
