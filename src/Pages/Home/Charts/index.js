@@ -1,62 +1,61 @@
-import { memo } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { memo, useMemo } from 'react';
+import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import './Charts.scss';
+import { useContext } from 'react';
+import AppContext from '../../../AppContext';
 
-const Charts = memo(() => {
-    const data = [
-        {
-          name: 'Page A',
-          uv: 4000,
-          pv: 2400,
-          amt: 2400,
-        },
-        {
-          name: 'Page B',
-          uv: 3000,
-          pv: 1398,
-          amt: 2210,
-        },
-        {
-          name: 'Page C',
-          uv: 2000,
-          pv: 9800,
-          amt: 2290,
-        },
-        {
-          name: 'Page D',
-          uv: 2780,
-          pv: 3908,
-          amt: 2000,
-        },
-        {
-          name: 'Page E',
-          uv: 1890,
-          pv: 4800,
-          amt: 2181,
-        },
-        {
-          name: 'Page F',
-          uv: 2390,
-          pv: 3800,
-          amt: 2500,
-        },
-        {
-          name: 'Page G',
-          uv: 3490,
-          pv: 4300,
-          amt: 2100,
-        },
-    ];
+const Charts = memo(({ favoriteMovies }) => {
+    const data = useMemo(() => {
+        const genresDict = {};
+
+        favoriteMovies.forEach((movie, i) => {
+            const { Genres, Title } = movie;
+            const scoreToAdd = 100 - i;
+
+            Genres.forEach(genre => {
+                if (!genresDict[genre]) {
+                    genresDict[genre] = {
+                        score: 0,
+                        titles: []
+                    };
+                }
+
+                const barInfo = genresDict[genre];
+
+                barInfo.score += scoreToAdd;
+                barInfo.titles.push(`#${i+1} ${Title}`);
+            });
+        });
+
+        return Object.keys(genresDict).map(genre => ({
+            name: genre,
+            score: genresDict[genre].score,
+            titles: genresDict[genre].titles
+        }));
+    }, [favoriteMovies]);
+
+    const CustomTooltip = ({ active, payload, label }) => {
+        if (active && payload && payload.length) {
+          return (
+            <div className="custom-tooltip">
+                <div>{payload[0].payload.name}</div>
+                {payload[0].payload.titles.map(title =>
+                    <div>{title}</div>
+                )}
+            </div>
+          );
+        }
+      
+        return null;
+    };
 
     return (
         <div className='charts'>
             <ResponsiveContainer width="100%" height={400}>
                 <BarChart data={data}>
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="pv" fill="#8884d8" />
-                    <Bar dataKey="uv" fill="#82ca9d" />
+                    <XAxis dataKey="name" angle={-45} textAnchor='end' interval={0} />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Bar dataKey="score" fill="#9B0404" />
                 </BarChart>
             </ResponsiveContainer>
         </div>
@@ -64,5 +63,8 @@ const Charts = memo(() => {
 });
 
 export default function ConnectedCharts() {
-    return <Charts />;
+    const { state } = useContext(AppContext);
+    const { favoriteMovies } = state;
+
+    return <Charts favoriteMovies={favoriteMovies} />;
 }

@@ -59,7 +59,7 @@
             }
 
             .charts {
-                padding-left: 1rem;
+                padding-left: 2rem;
             }
 
             @include smallScreen {
@@ -72,8 +72,7 @@
 
                 .charts {
                     margin-top: 1rem;
-                    padding-top: 1rem;
-                    padding-left: 0;
+                    padding: 1rem;
                     border-top: solid 1px $gray;
                 }
             }
