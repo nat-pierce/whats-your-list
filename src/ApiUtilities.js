@@ -23,3 +23,23 @@ export const searchMovieApi = (title, callback) => {
         console.error(err);
     });
 }
+
+export const getMovieMetadataApi = (imdbID) => {
+    if (!imdbID) {
+        return null;
+    }
+
+    const url = `https://movie-database-imdb-alternative.p.rapidapi.com/?i=${imdbID}&r=json&type=movie`;
+    
+    return fetch(url, {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-key": process.env.REACT_APP_MOVIE_API_KEY,
+            "x-rapidapi-host": process.env.REACT_APP_MOVIE_API_HOST
+        }
+    })
+    .then(response => response.json())
+    .catch(err => {
+        console.error(err);
+    });
+}

@@ -1,4 +1,5 @@
 import { createContext, PureComponent } from 'react';
+import { getMovieMetadataApi } from './ApiUtilities';
 import { ROUTES } from './Constants';
 
 const AppContext = createContext({});
@@ -65,12 +66,14 @@ export class AppContextProvider extends PureComponent {
         this.updateOrderIds(newListWithUpdatedOrderIds);
     }
 
-    addMovieToList = ({ imdbID, Title, Year, Poster }) => {
+    addMovieToList = async ({ imdbID, Title, Year, Poster }) => {
         const OrderId = this.state.favoriteMovies.length;
-
+        const Metadata = await getMovieMetadataApi(imdbID);
+        const Genres = Metadata.Genre.split(", ");
+        
         this.setState({ favoriteMovies: [
             ...this.state.favoriteMovies,
-            { imdbID, Title, Year, Poster, OrderId }
+            { imdbID, Title, Year, Poster, OrderId, Genres }
         ]});
 
         this.props.firebase.firestore()
@@ -78,7 +81,7 @@ export class AppContextProvider extends PureComponent {
             .doc(this.state.user.uid)
             .collection('favoriteMovies')
             .doc(imdbID)
-            .set({ imdbID, Title, Year, Poster, OrderId });
+            .set({ imdbID, Title, Year, Poster, OrderId, Genres });
     }
 
     removeMovieFromList = async (imdbID, indexToRemove) => {
