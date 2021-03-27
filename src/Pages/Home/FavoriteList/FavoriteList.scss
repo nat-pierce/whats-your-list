@@ -7,9 +7,19 @@
         display: flex;
         align-items: center;
         height: 125px;
+        position: relative;
 
         @include smallScreen {
             font-size: 14px;
+        }
+
+        &:hover {
+            .remove-icon {
+                display: block;
+                position: absolute;
+                top: 5px;
+                right: 5px;
+            }
         }
 
         .rank {
@@ -23,5 +33,20 @@
             margin-right: 1rem;
             border-radius: 8px;
         }
+
+        .remove-icon {
+            display: none;
+        }
+    }
+}
+
+.remove-modal {
+    .button-section {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 1rem;
+        box-sizing: border-box;
     }
 }

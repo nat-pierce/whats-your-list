@@ -44,21 +44,25 @@ export class AppContextProvider extends PureComponent {
         });
     }
 
-    reorderMovieList = (newList) => {
-        this.setState({ favoriteMovies: newList });
-
+    updateOrderIds = (newListWithUpdatedOrderIds) => {
         const db = this.props.firebase.firestore();
         const batch = db.batch();
         const collection = db.collection('users')
             .doc(this.state.user.uid)
             .collection('favoriteMovies');
 
-        newList.forEach(movie => {
+        newListWithUpdatedOrderIds.forEach(movie => {
             const docRef = collection.doc(movie.imdbID);
             batch.update(docRef, { OrderId: movie.OrderId });
         });
 
         batch.commit();
+    }
+
+    reorderMovieList = (newListWithUpdatedOrderIds) => {
+        this.setState({ favoriteMovies: newListWithUpdatedOrderIds });
+
+        this.updateOrderIds(newListWithUpdatedOrderIds);
     }
 
     addMovieToList = ({ imdbID, Title, Year, Poster }) => {
@@ -77,6 +81,24 @@ export class AppContextProvider extends PureComponent {
             .set({ imdbID, Title, Year, Poster, OrderId });
     }
 
+    removeMovieFromList = async (imdbID, indexToRemove) => {
+        const newList = [...this.state.favoriteMovies];
+        newList.splice(indexToRemove, 1);
+
+        const newListWithUpdatedOrderIds = newList.map((item, i) => ({ ...item, OrderId: i }));
+
+        this.setState({ favoriteMovies: newListWithUpdatedOrderIds });
+
+        await this.props.firebase.firestore()
+            .collection('users')
+            .doc(this.state.user.uid)
+            .collection('favoriteMovies')
+            .doc(imdbID)
+            .delete();
+
+        this.updateOrderIds(newListWithUpdatedOrderIds);
+    }
+
     render() {
         const contextValue = {
             state: this.state,
@@ -84,7 +106,8 @@ export class AppContextProvider extends PureComponent {
                 setUser: this.setUser,
                 signOut: this.signOut,
                 addMovieToList: this.addMovieToList,
-                reorderMovieList: this.reorderMovieList
+                reorderMovieList: this.reorderMovieList,
+                removeMovieFromList: this.removeMovieFromList
             }
         };
 

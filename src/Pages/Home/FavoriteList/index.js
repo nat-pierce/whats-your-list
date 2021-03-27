@@ -3,8 +3,10 @@ import './FavoriteList.scss';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useContext } from 'react';
 import AppContext from '../../../AppContext';
+import IconButton from '@material-ui/core/IconButton';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 
-const FavoriteList = memo(({ favoriteMovies, reorderMovieList }) => {
+const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromList }) => {
     const onDragEnd = (result) => {
         if (!result.destination) {
             return;
@@ -43,6 +45,9 @@ const FavoriteList = memo(({ favoriteMovies, reorderMovieList }) => {
                                                 alt='Movie poster' />
                                         }
                                         <div>{movie.Title} ({movie.Year})</div>
+                                        <IconButton className='remove-icon' onClick={() => removeMovieFromList(movie.imdbID, i)}>
+                                            <RemoveCircleIcon />
+                                        </IconButton>
                                     </div>
                                 )}
                             </Draggable>
@@ -51,18 +56,19 @@ const FavoriteList = memo(({ favoriteMovies, reorderMovieList }) => {
                     </div>
                 )}
             </Droppable>
-        </DragDropContext>
+        </DragDropContext>                             
     );
 });
 
 export default function ConnectedFavoriteList() {
     const { state, actions } = useContext(AppContext);
     const { favoriteMovies } = state;
-    const { reorderMovieList } = actions;
+    const { reorderMovieList, removeMovieFromList } = actions;
 
     return (
         <FavoriteList 
             favoriteMovies={favoriteMovies} 
-            reorderMovieList={reorderMovieList} />
+            reorderMovieList={reorderMovieList}
+            removeMovieFromList={removeMovieFromList} />
     );
 }
