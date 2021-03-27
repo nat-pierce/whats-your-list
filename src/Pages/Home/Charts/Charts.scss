@@ -1,7 +1,10 @@
 .charts {
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 
-    .recharts-surface {
+    .recharts-responsive-container, .recharts-wrapper, .recharts-surface {
         overflow: unset;
         padding-bottom: 2rem;
     }
