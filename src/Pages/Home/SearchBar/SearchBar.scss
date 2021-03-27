@@ -1,8 +1,15 @@
+@import '../../../ConstantsAndMixins.scss';
+
 .search-option {
     display: flex;
     align-items: center;
     height: 100px;
     width: 100%;
+    font-family: 'Nunito';
+
+    @include smallScreen {
+        font-size: 12px;
+    }
 
     .poster {
         max-height:100%; 
@@ -16,7 +23,7 @@
     }
 
     .current-rank {
-        background-color: red;
+        background-color: $red;
         color: white;
         border-radius: 25px;
         padding: 0.25rem 0.5rem;

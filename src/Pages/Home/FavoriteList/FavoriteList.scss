@@ -8,6 +8,10 @@
         align-items: center;
         height: 125px;
 
+        @include smallScreen {
+            font-size: 14px;
+        }
+
         .rank {
             font-family: 'NunitoBlack';
         }

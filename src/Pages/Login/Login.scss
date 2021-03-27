@@ -6,7 +6,7 @@
     align-items: center;
     margin: auto;
     height: 100%;
-    background: radial-gradient(darkred, black);
+    background: radial-gradient($dark-red, black);
 
     .landing-header {
         display: flex;
