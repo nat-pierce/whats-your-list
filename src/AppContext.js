@@ -1,4 +1,3 @@
-import { ThreeSixtySharp } from '@material-ui/icons';
 import { createContext, PureComponent } from 'react';
 import { ROUTES } from './Constants';
 
@@ -16,10 +15,23 @@ export class AppContextProvider extends PureComponent {
         this.state = defaultState;
     }
 
-    setUser = (uid) => {
-        this.unsubscribeFromUser = this.props.firebase.firestore().collection('users').doc(uid).onSnapshot(snap => {
+    setUser = async (uid) => {
+        const db = this.props.firebase.firestore();
+
+        // subscribe to user updates
+        this.unsubscribeFromUser = db.collection('users').doc(uid).onSnapshot(snap => {
             snap && this.setState({ user: snap.data() });
         });
+
+        // retrieve movie list
+        const snapshot = await db.collection('users').doc(uid)
+            .collection('favoriteMovies')
+            .orderBy('OrderId')
+            .get();
+
+        const favoriteMovies = snapshot.docs.map(doc => doc.data());
+
+        this.setState({ favoriteMovies });
     }
 
     signOut = (history) => {
@@ -62,7 +74,7 @@ export class AppContextProvider extends PureComponent {
             .doc(this.state.user.uid)
             .collection('favoriteMovies')
             .doc(imdbID)
-            .set({ Title, Year, Poster, OrderId });
+            .set({ imdbID, Title, Year, Poster, OrderId });
     }
 
     render() {
