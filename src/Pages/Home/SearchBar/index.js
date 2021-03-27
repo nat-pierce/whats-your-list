@@ -12,6 +12,7 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
     const [inputValue, setInputValue] = useState('');
     const [options, setOptions] = useState([]);
     const [reactKey, setReactKey] = useState(0);
+    const [error, setError] = useState(null);
     const existingIds = favoriteMovies.map(m => m.imdbID);
 
     const maxNum = 100;
@@ -39,7 +40,13 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
 
     useEffect(() => {
         getOptionsDelayed(inputValue, (results) => {
-            setOptions(results);
+            if (results) {
+                setError(null);
+                setOptions(results);
+            } else {
+                setError('Unable to find results');
+                setOptions([]);
+            }
         });
     }, [inputValue, getOptionsDelayed]);
 
@@ -66,8 +73,8 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
             options={options}
             onChange={onChooseMovie}
             onInputChange={onInputChange}
-            loading={(options.length === 0) && (inputValue !== '')}
-            noOptionsText={'Search for your favorite movies by title'}
+            loading={(options.length === 0) && (inputValue !== '') && !error}
+            noOptionsText={error || 'Search for your favorite movies by title'}
             // disable filtering on client side
             filterOptions={(option) => option}
             getOptionLabel={({ Title, Year }) => `${Title} (${Year})`}

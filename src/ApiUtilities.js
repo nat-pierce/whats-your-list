@@ -19,6 +19,8 @@ export const searchMovieApi = (title, callback) => {
             callback(data.Search)
         } else if (data.Error === 'Too many results.') {
             getMovieByTitle(title, callback);
+        } else {
+            callback(null);
         }
     })
     .catch(err => {
@@ -45,6 +47,8 @@ const getMovieByTitle = (title, callback) => {
     .then(data => {
         if (data && !data.Error) {
             callback([data])
+        } else {
+            callback(null);
         }
     })
     .catch(err => {
