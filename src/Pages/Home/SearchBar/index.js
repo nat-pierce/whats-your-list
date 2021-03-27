@@ -14,6 +14,9 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
     const [reactKey, setReactKey] = useState(0);
     const existingIds = favoriteMovies.map(m => m.imdbID);
 
+    const maxNum = 100;
+    const isDisabled = favoriteMovies.length >= maxNum;
+
     const onChooseMovie = (e, value) => {
         addMovieToList(value);
         setReactKey(reactKey+1);
@@ -58,6 +61,7 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
         <Autocomplete 
             key={reactKey}
             className='search'
+            disabled={isDisabled}
             multiple={false}
             options={options}
             onChange={onChooseMovie}
@@ -69,7 +73,12 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
             getOptionLabel={({ Title, Year }) => `${Title} (${Year})`}
             getOptionDisabled={({ imdbID }) => existingIds.findIndex(id => id === imdbID) > -1}
             renderOption={renderOption}
-            renderInput={(params) => <TextField {...params} label="Search" color="secondary" variant="outlined" />}
+            renderInput={(params) => <TextField 
+                {...params} 
+                label={isDisabled ? `Max number of movies added (${maxNum})` : "Search"} 
+                color="secondary" 
+                variant="outlined" />
+            }
         />
     );
 });
