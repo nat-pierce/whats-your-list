@@ -27,7 +27,7 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
     }, [user, history, setIsMounted]);
 
     if (!isMounted || !user) {
-        return <div>Loading</div>; // Spinner
+        return <div>Loading</div>; // TODO Spinner
     }
 
     const sendConfirmationEmail = () => {

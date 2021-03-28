@@ -40,12 +40,8 @@
             @include smallScreen {
                 flex-direction: column;
                 height: auto;
-                position: fixed;
-                top: $header-height;
-                left: 0;
                 padding-left: 2rem;
                 padding-right: 2rem;
-                z-index: 1;
 
                 .profile, .search {
                     width: 100%;
@@ -60,7 +56,7 @@
 
         .lower {
             display: flex;
-            padding: 1rem 0;
+            padding-top: 1rem;
             box-sizing: border-box;
             height: calc(100% - #{$home-upper-height});
 
@@ -74,8 +70,7 @@
 
             @include smallScreen {
                 flex-direction: column;
-                height: auto;
-                padding-top: calc(#{$home-upper-height} + #{$header-height} + 2rem);
+                overflow: auto;
 
                 .favorite-list, .charts {
                     width: 100%;
