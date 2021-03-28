@@ -1,14 +1,15 @@
 import Header from '../Home/Header';
 import ViewListProfile from './ViewListProfile';
 import './ViewList.scss';
-import { useEffect } from 'react';
-import { useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { FirebaseContext } from '../../Firebase';
 
 export default function ViewList() {
     const urlParams = new URLSearchParams(window.location.search);
     const viewId = urlParams.get('id');
     const firebase = useContext(FirebaseContext);
+    const [profilePicUrl, setProfilePicUrl] = useState(null);
+    const [name, setName] = useState(null);
 
     useEffect(() => {
         if (viewId) {
@@ -18,7 +19,10 @@ export default function ViewList() {
                 .get()
                 .then((doc) => {
                     if (doc.exists) {
-                        console.log(doc.data());
+                        const publicUserInfo = doc.data();
+
+                        setProfilePicUrl(publicUserInfo.profilePicUrl);
+                        setName(publicUserInfo.name);
                     }
                 })
         }
@@ -29,7 +33,7 @@ export default function ViewList() {
             <Header />
             <div className='main-content'>
                 <div className='upper'>
-                    <ViewListProfile />
+                    <ViewListProfile profilePicUrl={profilePicUrl} name={name} />
                 </div>
                 <div className='lower'>
                     
