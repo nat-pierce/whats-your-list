@@ -73,8 +73,9 @@ const Profile = memo(({ uid, name, profilePicUrl }) => {
 export default function ConnectedProfile() {
     const { state } = useContext(AppContext);
     const { user, publicUserInfo } = state;
-    const { uid } = user;
-    const { name, profilePicUrl } = publicUserInfo;
+    const uid = user && user.uid;
+    const name = publicUserInfo && publicUserInfo.name;
+    const profilePicUrl = publicUserInfo && publicUserInfo.profilePicUrl;
 
     return <Profile uid={uid} name={name} profilePicUrl={profilePicUrl} />
 }

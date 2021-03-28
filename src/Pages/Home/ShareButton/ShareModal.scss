@@ -1,0 +1,18 @@
+.share-modal {
+    .modal-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .copy-button {
+            margin-right: 1rem;
+        }
+    }
+
+    .copy-message {
+        width: 100%;
+        text-align: center;
+        margin-top: 0.5rem;
+        font-family: 'NunitoBlack';
+    }
+}
