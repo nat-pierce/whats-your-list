@@ -2,13 +2,22 @@
     padding: 1rem;
     font-family: "Nunito";
 
-    .MuiDialogTitle-root {
-        padding: 0;
+    .modal-header {
         margin-bottom: 1rem;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-        h2 {
-            font-family: "NunitoBlack";
+        .MuiDialogTitle-root {
+            padding: 0;
+
+            h2 {
+                font-family: "NunitoBlack";
+            }
+        }
+
+        .close-icon {
+            margin: -12px;
         }
     }
 }
