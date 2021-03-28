@@ -6,6 +6,7 @@ const AppContext = createContext({});
 
 const defaultState = {
     user: null,
+    publicUserInfo: null,
     favoriteMovies: [],
     isSettingsModalOpen: false,
     hasSentEmailVerification: false
@@ -25,9 +26,12 @@ export class AppContextProvider extends PureComponent {
         this.unsubscribeFromUser = db.collection('users').doc(uid).onSnapshot(snap => {
             snap && this.setState({ user: snap.data() });
         });
+        this.unsubscribeFromPublicUserInfo = db.collection('publicUserInfo').doc(uid).onSnapshot(snap => {
+            snap && this.setState({ publicUserInfo: snap.data() });
+        });
 
         // retrieve movie list
-        const snapshot = await db.collection('users').doc(uid)
+        const snapshot = await db.collection('publicUserInfo').doc(uid)
             .collection('favoriteMovies')
             .orderBy('OrderId')
             .get();
@@ -54,7 +58,7 @@ export class AppContextProvider extends PureComponent {
     updateOrderIds = (newListWithUpdatedOrderIds) => {
         const db = this.props.firebase.firestore();
         const batch = db.batch();
-        const collection = db.collection('users')
+        const collection = db.collection('publicUserInfo')
             .doc(this.state.user.uid)
             .collection('favoriteMovies');
 
@@ -83,7 +87,7 @@ export class AppContextProvider extends PureComponent {
         ]});
 
         this.props.firebase.firestore()
-            .collection('users')
+            .collection('publicUserInfo')
             .doc(this.state.user.uid)
             .collection('favoriteMovies')
             .doc(imdbID)
@@ -99,7 +103,7 @@ export class AppContextProvider extends PureComponent {
         this.setState({ favoriteMovies: newListWithUpdatedOrderIds });
 
         await this.props.firebase.firestore()
-            .collection('users')
+            .collection('publicUserInfo')
             .doc(this.state.user.uid)
             .collection('favoriteMovies')
             .doc(imdbID)

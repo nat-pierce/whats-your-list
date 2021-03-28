@@ -87,6 +87,10 @@ const Charts = memo(({ favoriteMovies }) => {
         return null;
     };
 
+    if (!favoriteMovies.length) {
+        return null;
+    }
+
     return (
         <div className='charts'>
             <ResponsiveContainer width="100%" height={150}>

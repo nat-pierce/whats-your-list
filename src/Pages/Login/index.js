@@ -38,13 +38,19 @@ const Login = memo(({ user, setUser }) => {
                 if (authResult.additionalUserInfo.isNewUser) {
                     const userInfo = {
                         uid: authResult.user.uid,
-                        email: authResult.user.email,
-                        name: authResult.user.displayName
+                        email: authResult.user.email
                     };
     
                     await firebase.firestore().collection('users')
                         .doc(authResult.user.uid)
                         .set(userInfo);
+
+                    await firebase.firestore().collection('publicUserInfo')
+                        .doc(authResult.user.uid)
+                        .set({ 
+                            name: authResult.user.displayName,
+                            profilePicUrl: null 
+                        });
 
                     setUser(authResult.user.uid);
                 }

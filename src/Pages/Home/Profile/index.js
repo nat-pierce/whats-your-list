@@ -24,7 +24,7 @@ const Profile = memo(({ uid, name, profilePicUrl }) => {
             imageRef.put(file)
                 .then((snapshot) => {
                     snapshot.ref.getDownloadURL().then(url => {
-                        firebase.firestore().collection('users').doc(uid).update({
+                        firebase.firestore().collection('publicUserInfo').doc(uid).update({
                             profilePicUrl: url
                         });
                     });
@@ -36,7 +36,7 @@ const Profile = memo(({ uid, name, profilePicUrl }) => {
     }
 
     const onConfirmName = (name) => {
-        firebase.firestore().collection('users').doc(uid).update({ name });
+        firebase.firestore().collection('publicUserInfo').doc(uid).update({ name });
         firebase.auth().currentUser.updateProfile({
             displayName: name
         });
