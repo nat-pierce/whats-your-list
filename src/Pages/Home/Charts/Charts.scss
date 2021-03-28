@@ -1,3 +1,5 @@
+@import '../../../ConstantsAndMixins.scss';
+
 .charts {
     height: 100%;
     display: flex;
@@ -16,6 +18,10 @@
     border-radius: 5px;
     font-size: 12px;
     padding: 5px;
+
+    @include smallScreen {
+        font-size: 10px;
+    }
 
     .genre-name {
         font-family: "NunitoBlack";

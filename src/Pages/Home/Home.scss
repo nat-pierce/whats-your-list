@@ -10,11 +10,10 @@
     .main-content {
         height: 100%;
         width: 100%;
-        min-height: 625px;
+        min-height: 600px;
         background-color: white;
         display: flex;
         flex-direction: column;
-        padding: 0 2rem;
         box-sizing: border-box;
 
         .upper {
@@ -24,7 +23,7 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: solid 1px $gray;
-            padding: 1rem 0;
+            padding: 1rem;
             box-sizing: border-box;
             height: $home-upper-height;
             background-color: white;
@@ -40,8 +39,6 @@
             @include smallScreen {
                 flex-direction: column;
                 height: auto;
-                padding-left: 2rem;
-                padding-right: 2rem;
 
                 .profile, .search {
                     width: 100%;
@@ -59,6 +56,7 @@
             padding-top: 1rem;
             box-sizing: border-box;
             height: calc(100% - #{$home-upper-height});
+            margin: 0 1rem;
 
             .favorite-list, .charts {
                 width: 50%;
@@ -66,6 +64,7 @@
 
             .charts {
                 padding-left: 2rem;
+                box-sizing: border-box;
             }
 
             @include smallScreen {
@@ -79,6 +78,7 @@
                 .charts {
                     margin-top: 1rem;
                     padding: 1rem;
+                    box-sizing: border-box;
                     border-top: solid 1px $gray;
                 }
             }

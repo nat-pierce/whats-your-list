@@ -31,7 +31,7 @@ const Charts = memo(({ favoriteMovies }) => {
             name: genre,
             score: genresDict[genre].score,
             titles: genresDict[genre].titles
-        })).sort((a, b) => b.score - a.score);
+        })).sort((a, b) => b.score - a.score).slice(0, 10);
     }, [favoriteMovies]);
 
     const decadeData = useMemo(() => {
@@ -89,14 +89,14 @@ const Charts = memo(({ favoriteMovies }) => {
 
     return (
         <div className='charts'>
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={150}>
                 <BarChart data={genreData}>
                     <XAxis dataKey="name" angle={-45} textAnchor='end' interval={0} />
                     <Tooltip content={<CustomTooltip />} />
                     <Bar dataKey="score" fill="#9B0404" />
                 </BarChart>
             </ResponsiveContainer>
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={150}>
                 <BarChart data={decadeData}>
                     <XAxis dataKey="name" angle={-45} textAnchor='end' interval={0} />
                     <Tooltip content={<CustomTooltip />} />
