@@ -1,10 +1,13 @@
 import IconButton from '@material-ui/core/IconButton';
 import ShareIcon from '@material-ui/icons/Share';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { useContext } from 'react';
+import AppContext from '../../../AppContext';
+import { downloadToFile } from './ShareUtilities';
 
-export default function ShareButton() {
+const ShareButton = memo(({ favoriteMovies }) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -14,6 +17,16 @@ export default function ShareButton() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const onSaveText = () => {
+        let listText = '';
+
+        favoriteMovies.forEach((movie, i) => {
+            listText += `${i+1}. ${movie.Title}\n`
+        })
+
+        downloadToFile(listText, 'WhatsYourList.txt', 'text/plain');
+    }
 
     return (
         <>
@@ -27,9 +40,16 @@ export default function ShareButton() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Save list as image</MenuItem>
-                <MenuItem onClick={handleClose}>Save list as text</MenuItem>
+                <MenuItem onClick={onSaveText}>Save list as image</MenuItem>
+                <MenuItem onClick={onSaveText}>Save list as text</MenuItem>
             </Menu>
         </>
     );
+});
+
+export default function ConnectedShareButton() {
+    const { state } = useContext(AppContext);
+    const { favoriteMovies } = state;
+
+    return <ShareButton favoriteMovies={favoriteMovies} />;
 }
