@@ -43,6 +43,7 @@ export class AppContextProvider extends PureComponent {
 
     signOut = (history) => {
         this.unsubscribeFromUser && this.unsubscribeFromUser();
+        this.unsubscribeFromPublicUserInfo && this.unsubscribeFromPublicUserInfo();
 
         this.props.firebase.auth().signOut().then(() => {
             this.setState(defaultState, () => {

@@ -1,4 +1,4 @@
-import { useContext, memo, useEffect, useState, useRef } from 'react';
+import { useContext, memo, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Home.scss';
 import { ROUTES } from '../../Constants';

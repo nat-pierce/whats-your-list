@@ -1,0 +1,26 @@
+.view-list-profile {
+    display: flex;
+    align-items: center;
+
+    .profile-pic {
+        height: 100px;
+        width: 100px;
+    }
+
+    .profile-info {
+        display: flex;
+        flex-direction: column;
+        margin-left: 1rem;
+
+        .profile-name {
+            font-family: 'NunitoBlack';
+            font-size: 20px;
+            padding: 0 1rem;
+        }
+
+        .send-request-button {
+            margin-top: 1rem;
+            padding: 0 1rem;
+        }
+    }
+}

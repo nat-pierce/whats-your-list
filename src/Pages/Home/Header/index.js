@@ -26,7 +26,7 @@ const Header = memo(({ isSignedIn, setIsSettingsModalOpen }) => {
                 )
                 : (
                     <Button color="primary" variant="contained" onClick={onClickLogin}>
-                        Login
+                        Create my list
                     </Button>
                 )
             }

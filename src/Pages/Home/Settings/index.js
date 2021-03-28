@@ -7,7 +7,7 @@ import AppContext from "../../../AppContext";
 import Modal from '../../../CommonComponents/Modal';
 import TextField from "@material-ui/core/TextField";
 
-const Settings = memo(({ email, signOut, isSettingsModalOpen, setIsSettingsModalOpen }) => {
+const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen }) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
     const [currentPassword, setCurrentPassword] = useState('');
@@ -53,8 +53,6 @@ const Settings = memo(({ email, signOut, isSettingsModalOpen, setIsSettingsModal
     };
 
     const onChangePassword = () => {
-        console.log(currentPassword)
-        console.log(newPassword)
         reauthenticate(currentPassword).then(() => {
             const user = firebase.auth().currentUser;
             user.updatePassword(newPassword).then(() => {
@@ -142,13 +140,11 @@ const Settings = memo(({ email, signOut, isSettingsModalOpen, setIsSettingsModal
 
 export default function ConnectedSettings() {
     const { state, actions } = useContext(AppContext);
-    const { user, isSettingsModalOpen } = state;
-    const { email } = user;
+    const { isSettingsModalOpen } = state;
     const { signOut, setIsSettingsModalOpen } = actions;
 
     return (
         <Settings 
-            email={email} 
             signOut={signOut} 
             isSettingsModalOpen={isSettingsModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen} />
