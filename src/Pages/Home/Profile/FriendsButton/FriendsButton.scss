@@ -3,6 +3,8 @@
 .friends-modal {
     min-width: 80%;
     max-width: 80%;
+    min-height: 80%;
+    max-height: 80%;
 
     .tab-panel {
         padding: 1rem;
@@ -37,9 +39,9 @@
 
             .search-results {
                 margin-top: 1rem;
+                height: 100%;
                 width: 100%;
                 overflow: auto;
-                max-height: 50%;
 
                 .result {
                     display: flex;

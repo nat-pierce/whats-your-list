@@ -117,6 +117,18 @@ export class AppContextProvider extends PureComponent {
         this.setState({ isSettingsModalOpen: isOpen });
     }
 
+    addFriend = (id) => {
+        this.props.firebase.firestore()
+            .collection('friendRequests')
+            .doc(id)
+            .collection('users')
+            .doc(this.state.user.uid)
+            .set({ 
+                name: this.state.publicUserInfo.name,
+                profilePicUrl: this.state.publicUserInfo.profilePicUrl
+            });
+    }
+
     render() {
         const contextValue = {
             state: this.state,
@@ -127,7 +139,8 @@ export class AppContextProvider extends PureComponent {
                 reorderMovieList: this.reorderMovieList,
                 removeMovieFromList: this.removeMovieFromList,
                 setIsSettingsModalOpen: this.setIsSettingsModalOpen,
-                setHasSentEmailVerification: this.setHasSentEmailVerification
+                setHasSentEmailVerification: this.setHasSentEmailVerification,
+                addFriend: this.addFriend
             }
         };
 

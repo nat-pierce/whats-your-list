@@ -39,6 +39,7 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
 
     if (authUser && !authUser.emailVerified) {
         if (!hasSentEmailVerification) {
+            console.log('here');
             sendConfirmationEmail();
             setHasSentEmailVerification(true);
         }

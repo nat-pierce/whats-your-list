@@ -8,6 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 const FindFriends = memo(({ uid, addFriend }) => {
     const [searchValue, setSearchValue] = useState('');
     const [searchResults, setSearchResults] = useState(null);
+    const [sentRequests, setSentRequests] = useState([]);
     const firebase = useContext(FirebaseContext);
 
     const onChangeSearch = (e) => {
@@ -21,8 +22,6 @@ const FindFriends = memo(({ uid, addFriend }) => {
         });
         uppercasedName = uppercasedName.join(" ");
 
-        console.log(uppercasedName);
-
         firebase.firestore()
             .collection('publicUserInfo')
             .where('name', 'in', [searchValue, uppercasedName])
@@ -31,7 +30,7 @@ const FindFriends = memo(({ uid, addFriend }) => {
                 const newSearchResults = [];
 
                 querySnapshot.forEach((doc) => {
-                    // if (doc.id === uid) { return } // TODO uncomment
+                    if (doc.id === uid) { return } // TODO uncomment
 
                     const { name, profilePicUrl } = doc.data();
 
@@ -42,12 +41,16 @@ const FindFriends = memo(({ uid, addFriend }) => {
                     });
                 });
 
-                console.log(newSearchResults);
                 setSearchResults(newSearchResults);
             })
             .catch((error) => {
                 console.log("Error getting documents: ", error);
             });
+    }
+
+    const onClickAddFriend = (id) => {
+        setSentRequests([...sentRequests, id]);
+        addFriend(id);
     }
 
     return (
@@ -78,9 +81,14 @@ const FindFriends = memo(({ uid, addFriend }) => {
                             <Avatar className='profile-pic' src={user.profilePicUrl} alt='Profile pic' />
                             <div className='name'>{user.name}</div>
                         </div>
-                        <Button className='add-button' onClick={() => addFriend(user.uid)}>
-                            Add friend
-                        </Button>
+                        {sentRequests.includes(user.uid)
+                            ? <div>Sent request</div>
+                            : (
+                                <Button className='add-button' onClick={() => onClickAddFriend(user.uid)}>
+                                    Add friend
+                                </Button>
+                            )
+                        }
                     </div>
                 ))}
             </div>
