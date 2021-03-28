@@ -19,17 +19,7 @@ const ShareButton = memo(({ favoriteMovies }) => {
     };
 
     const onSaveText = () => {
-        let listText = '';
-
-        favoriteMovies.forEach((movie, i) => {
-            listText += `${i+1}. ${movie.Title}\n`
-        })
-
-        downloadToFile(listText, 'WhatsYourList.txt', 'text/plain');
-    }
-
-    const onSaveImage = () => {
-        let listText = '';
+        let listText = 'WhatsYourList.com\n\n';
 
         favoriteMovies.forEach((movie, i) => {
             listText += `${i+1}. ${movie.Title}\n`
@@ -50,7 +40,6 @@ const ShareButton = memo(({ favoriteMovies }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={onSaveImage}>Save list as image</MenuItem>
                 <MenuItem onClick={onSaveText}>Save list as text</MenuItem>
             </Menu>
         </>

@@ -36,7 +36,7 @@ const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromLi
     }, [favoriteMovies, previousNumMovies, containerRef])
 
     return (
-        <div className='favorite-list' ref={containerRef}>
+        <div className='favorite-list' id='favorite-list' ref={containerRef}>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="droppable-1">
                     {(provided, snapshot) => (
