@@ -8,6 +8,9 @@ const theme = createMuiTheme({
         secondary: {
             main: '#000000'
         }
+    },
+    typography: {
+        fontFamily: 'Nunito'
     }
 });
 
