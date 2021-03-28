@@ -42,6 +42,10 @@ const Profile = memo(({ uid, name, profilePicUrl }) => {
         });
     }
 
+    if (!uid || !name) {
+        return null; // need to make sure EditableLabel doesn't get an initial null value
+    }
+
     return (
         <div className='profile'>
             <div className='profile-pic-wrapper' onClick={onClickProfilePic}>
