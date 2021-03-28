@@ -30,9 +30,15 @@ $profile-pic-margin: 1rem;
         flex-direction: column;
         justify-content: space-around;
 
-        .name.display-mode {
-            text-align: center;
-            font-weight: bold;
+        .info-upper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .name.display-mode {
+                text-align: center;
+                font-weight: bold;
+            }
         }
 
         .friends-button {
