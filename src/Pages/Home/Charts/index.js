@@ -111,9 +111,12 @@ const Charts = memo(({ favoriteMovies }) => {
     );
 });
 
-export default function ConnectedCharts() {
+export default function ConnectedCharts({ viewListMovies }) {
     const { state } = useContext(AppContext);
     const { favoriteMovies } = state;
 
-    return <Charts favoriteMovies={favoriteMovies} />;
+    // If passed movies from current viewList, use those
+    const movies = viewListMovies || favoriteMovies;
+
+    return <Charts favoriteMovies={movies} />;
 }

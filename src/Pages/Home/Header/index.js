@@ -5,15 +5,19 @@ import Logo from '../../../CommonComponents/Logo';
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router';
+import { ROUTES } from '../../../Constants';
 
 const Header = memo(({ isSignedIn, setIsSettingsModalOpen }) => {
+    const history = useHistory();
+
     const onClickSettingsIcon = () => {
         setIsSettingsModalOpen(true);
-    }
+    };
 
     const onClickLogin = () => {
-        // TODO redirect to login page
-    }
+        history.push(ROUTES.Login);
+    };
 
     return (
         <div className='header'>
