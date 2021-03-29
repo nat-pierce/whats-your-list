@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Make sure the uid of the requesting user matches name of the user
+    // document. The wildcard expression {userId} makes the userId variable
+    // available in rules.
+    match /users/{userId} {
+      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null;
+    }
+    // Friend lists should be readable and writable by any user
+    match /users/{userId}/friends/{friendId} {
+      allow read: if request.auth.uid != null;
+      allow write: if request.auth.uid != null;
+    }
+    // Allow friendRequests to be writeable by other users and the user themself,
+    // but only readable for the user themself.
+    match /users/{userId}/friendRequests/{friendId} {
+      allow read : if request.auth.uid != null && request.auth.uid == userId;
+      allow write: if request.auth.uid != null && (request.auth.uid == friendId || request.auth.uid == userId);
+    }
+    // Allow publicUserInfo to be readable by anyone,
+    // but only writeable for the user themself.
+    match /publicUserInfo/{userId} {
+      allow read : if true;
+      allow write: if request.auth.uid != null && request.auth.uid == userId;
+    }
+    match /publicUserInfo/{userId}/favoriteMovies/{imdbId} {
+      allow read : if true;
+      allow write: if request.auth.uid != null && request.auth.uid == userId;
+    }
+  }
+}
