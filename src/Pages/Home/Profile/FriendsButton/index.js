@@ -9,10 +9,9 @@ import FriendRequests from './FriendRequests';
 import AppContext from '../../../../AppContext';
 import Badge from '@material-ui/core/Badge';
 
-const FriendsButton = memo(({ numRequests }) => {
+const FriendsButton = memo(({ numRequests, numFriends }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentTab, setCurrentTab] = useState(0);
-    const numFriends = 0;
 
     let buttonText;
     if (numFriends === 0) {
@@ -78,7 +77,7 @@ const FriendsButton = memo(({ numRequests }) => {
 
 export default function ConnectedFriendsButton() {
     const { state } = useContext(AppContext);
-    const { friendRequests } = state;
+    const { friendRequests, friends } = state;
 
-    return <FriendsButton numRequests={friendRequests.length} />;
+    return <FriendsButton numRequests={friendRequests.length} numFriends={friends.length} />;
 }

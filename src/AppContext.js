@@ -7,6 +7,7 @@ const AppContext = createContext({});
 const defaultState = {
     user: null,
     publicUserInfo: null,
+    friends: [],
     friendRequests: [],
     favoriteMovies: [],
     isSettingsModalOpen: false,
@@ -29,6 +30,23 @@ export class AppContextProvider extends PureComponent {
         });
         this.unsubscribeFromPublicUserInfo = db.collection('publicUserInfo').doc(uid).onSnapshot(snap => {
             snap && this.setState({ publicUserInfo: snap.data() });
+        });
+        this.unsubscribeFromCurrentFriends = db.collection('users').doc(uid).collection('friends').onSnapshot(querySnapshot => {
+            querySnapshot.docChanges().forEach(async change => {
+                if (change.type === 'added') {
+                    db.collection('publicUserInfo').doc(change.doc.id).get().then(info => {
+                        const { name, profilePicUrl } = info.data();
+
+                        const friend = {
+                            uid: change.doc.id,
+                            name,
+                            profilePicUrl
+                        };
+
+                        this.setState({ friends: [...this.state.friends, friend] });
+                    });
+                }
+            });
         });
         this.unsubscribeFromFriendRequests = db.collection('friendRequests').doc(uid).collection('users').onSnapshot(querySnapshot => {
             const newRequests = [];
@@ -64,6 +82,7 @@ export class AppContextProvider extends PureComponent {
         this.unsubscribeFromUser && this.unsubscribeFromUser();
         this.unsubscribeFromPublicUserInfo && this.unsubscribeFromPublicUserInfo();
         this.unsubscribeFromFriendRequests && this.unsubscribeFromFriendRequests();
+        this.unsubscribeFromCurrentFriends && this.unsubscribeFromCurrentFriends();
 
         this.props.firebase.auth().signOut().then(() => {
             this.setState(defaultState, () => {
