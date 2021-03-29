@@ -1,9 +1,10 @@
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { useState, useContext, memo } from 'react';
-import { FirebaseContext } from "../../../../Firebase";
-import AppContext from '../../../../AppContext';
+import { FirebaseContext } from "../../../../../Firebase";
+import AppContext from '../../../../../AppContext';
 import Avatar from '@material-ui/core/Avatar';
+import './FindFriends.scss';
 
 const FindFriends = memo(({ uid, addFriend }) => {
     const [searchValue, setSearchValue] = useState('');
@@ -82,10 +83,10 @@ const FindFriends = memo(({ uid, addFriend }) => {
                             <div className='name'>{user.name}</div>
                         </div>
                         {sentRequests.includes(user.uid)
-                            ? <div>Sent request</div>
+                            ? <div>Sent!</div>
                             : (
                                 <Button className='add-button' onClick={() => onClickAddFriend(user.uid)}>
-                                    Add friend
+                                    Send friend request
                                 </Button>
                             )
                         }

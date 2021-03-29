@@ -149,6 +149,26 @@ export class AppContextProvider extends PureComponent {
             });
     }
 
+    acceptFriendRequest = (id) => {
+        this.deleteFriendRequest(id);
+    }
+
+    deleteFriendRequest = (id) => {
+        this.props.firebase.firestore()
+            .collection('friendRequests')
+            .doc(this.state.user.uid)
+            .collection('users')
+            .doc(id)
+            .delete().then(() => {
+                const indexInState = this.state.friendRequests.findIndex(r => r.uid === id);
+                const newList = [...this.state.friendRequests];
+
+                newList.splice(indexInState, 1);
+
+                this.setState({ friendRequests: newList });
+            });
+    }
+
     render() {
         const contextValue = {
             state: this.state,
@@ -160,7 +180,9 @@ export class AppContextProvider extends PureComponent {
                 removeMovieFromList: this.removeMovieFromList,
                 setIsSettingsModalOpen: this.setIsSettingsModalOpen,
                 setHasSentEmailVerification: this.setHasSentEmailVerification,
-                addFriend: this.addFriend
+                addFriend: this.addFriend,
+                acceptFriendRequest: this.acceptFriendRequest,
+                deleteFriendRequest: this.deleteFriendRequest
             }
         };
 

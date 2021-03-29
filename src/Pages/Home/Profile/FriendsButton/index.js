@@ -44,7 +44,7 @@ const FriendsButton = memo(({ numRequests }) => {
             <Button className='friends-button' onClick={() => setIsModalOpen(true)}>
                 <Badge badgeContent={numRequests} color="primary">
                     {buttonText}
-                    </Badge>
+                </Badge>
             </Button>
             <Modal 
                 className='friends-modal' 
