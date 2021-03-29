@@ -48,7 +48,7 @@ export class AppContextProvider extends PureComponent {
                 }
             });
         });
-        this.unsubscribeFromFriendRequests = db.collection('friendRequests').doc(uid).collection('users').onSnapshot(querySnapshot => {
+        this.unsubscribeFromFriendRequests = db.collection('users').doc(uid).collection('friendRequests').onSnapshot(querySnapshot => {
             const newRequests = [];
 
             querySnapshot.docChanges().forEach(change => {
@@ -158,9 +158,9 @@ export class AppContextProvider extends PureComponent {
 
     addFriend = (id) => {
         this.props.firebase.firestore()
-            .collection('friendRequests')
-            .doc(id)
             .collection('users')
+            .doc(id)
+            .collection('friendRequests')
             .doc(this.state.user.uid)
             .set({ 
                 name: this.state.publicUserInfo.name,
@@ -188,9 +188,9 @@ export class AppContextProvider extends PureComponent {
 
     deleteFriendRequest = (id) => {
         this.props.firebase.firestore()
-            .collection('friendRequests')
-            .doc(this.state.user.uid)
             .collection('users')
+            .doc(this.state.user.uid)
+            .collection('friendRequests')
             .doc(id)
             .delete().then(() => {
                 const indexInState = this.state.friendRequests.findIndex(r => r.uid === id);
