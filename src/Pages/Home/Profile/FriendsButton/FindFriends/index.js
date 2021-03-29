@@ -6,11 +6,12 @@ import AppContext from '../../../../../AppContext';
 import Avatar from '@material-ui/core/Avatar';
 import './FindFriends.scss';
 
-const FindFriends = memo(({ uid, addFriend }) => {
+const FindFriends = memo(({ uid, addFriend, friends }) => {
     const [searchValue, setSearchValue] = useState('');
     const [searchResults, setSearchResults] = useState(null);
     const [sentRequests, setSentRequests] = useState([]);
     const firebase = useContext(FirebaseContext);
+    const friendIds = friends.map(f => f.uid);
 
     const onChangeSearch = (e) => {
         setSearchValue(e.target.value);
@@ -31,7 +32,7 @@ const FindFriends = memo(({ uid, addFriend }) => {
                 const newSearchResults = [];
 
                 querySnapshot.forEach((doc) => {
-                    if (doc.id === uid) { return } // TODO uncomment
+                    if (doc.id === uid || friendIds.includes(doc.id)) { return } // TODO uncomment
 
                     const { name, profilePicUrl } = doc.data();
 
@@ -99,11 +100,11 @@ const FindFriends = memo(({ uid, addFriend }) => {
 
 export default function ConnectedFindFriends() {
     const { state, actions } = useContext(AppContext);
-    const { user } = state;
+    const { user, friends } = state;
     const { uid } = user;
     const { addFriend } = actions;
 
     return (
-        <FindFriends uid={uid} addFriend={addFriend} />
+        <FindFriends uid={uid} addFriend={addFriend} friends={friends} />
     );
 }
