@@ -31,6 +31,7 @@ export class AppContextProvider extends PureComponent {
         this.unsubscribeFromPublicUserInfo = db.collection('publicUserInfo').doc(uid).onSnapshot(snap => {
             snap && this.setState({ publicUserInfo: snap.data() });
         });
+        // TODO call firestore.getAll function
         this.unsubscribeFromCurrentFriends = db.collection('users').doc(uid).collection('friends').onSnapshot(querySnapshot => {
             querySnapshot.docChanges().forEach(change => {
                 if (change.type === 'added') {
