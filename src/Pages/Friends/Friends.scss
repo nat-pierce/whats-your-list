@@ -1,15 +1,23 @@
 @import '../../ConstantsAndMixins.scss';
 
+$tab-bar-height: 60px;
+
 .friends-page {
     height: 100%;
     width: 100%;
     padding-top: $header-height;
     box-sizing: border-box;
 
+    .MuiTabs-root {
+        height: $tab-bar-height;
+    }
+
     .tab-panel {
         padding: 1rem;
         box-sizing: border-box;
         width: 100%;
+        height: calc(100% - #{$tab-bar-height});
+        overflow: auto;
 
         .friend-requests, .current-friends {
             width: 100%;

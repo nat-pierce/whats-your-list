@@ -34,7 +34,9 @@ export class AppContextProvider extends PureComponent {
         // TODO call firestore.getAll function
         this.unsubscribeFromCurrentFriends = db.collection('users').doc(uid).collection('friends').onSnapshot(querySnapshot => {
             querySnapshot.docChanges().forEach(change => {
-                if (change.type === 'added') {
+                const friendAlreadyAdded = this.state.friends.findIndex(f => f.uid !== change.doc.id) > -1;
+                
+                if (change.type === 'added' && !friendAlreadyAdded) {
                     db.collection('publicUserInfo').doc(change.doc.id).get().then(info => {
                         const { name, profilePicUrl } = info.data();
 
