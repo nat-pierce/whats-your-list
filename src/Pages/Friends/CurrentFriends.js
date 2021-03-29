@@ -2,8 +2,16 @@ import { useContext, memo } from 'react';
 import AppContext from '../../AppContext';
 import Avatar from '@material-ui/core/Avatar';
 import Button from "@material-ui/core/Button";
+import { useHistory } from 'react-router';
+import { ROUTES } from '../../Constants';
 
 const CurrentFriends = memo(({ uid, friends }) => {
+    const history = useHistory();
+
+    const onClickViewList = (id) => {
+        history.push(`${ROUTES.ViewList}?id=${id}`);
+    };
+
     return (
         <div className='current-friends'>
             {friends.map(friend => (
@@ -13,10 +21,7 @@ const CurrentFriends = memo(({ uid, friends }) => {
                         <div className='name'>{friend.name}</div>
                     </div>
                     <div className='button-section'>
-                        <Button>
-                            Remove friend
-                        </Button>
-                        <Button className="view-button" variant="contained" color="secondary">
+                        <Button className="view-button" variant="contained" color="secondary" onClick={() => onClickViewList(friend.uid)}>
                             View list
                         </Button>
                     </div>
