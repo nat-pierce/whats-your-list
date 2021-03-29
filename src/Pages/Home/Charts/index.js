@@ -93,14 +93,14 @@ const Charts = memo(({ favoriteMovies }) => {
 
     return (
         <div className='charts'>
-            <ResponsiveContainer width="100%" height={150}>
+            <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={genreData}>
                     <XAxis dataKey="name" angle={-45} textAnchor='end' interval={0} />
                     <Tooltip content={<CustomTooltip />} />
                     <Bar dataKey="score" fill="#9B0404" />
                 </BarChart>
             </ResponsiveContainer>
-            <ResponsiveContainer width="100%" height={150}>
+            <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={decadeData}>
                     <XAxis dataKey="name" angle={-45} textAnchor='end' interval={0} />
                     <Tooltip content={<CustomTooltip />} />

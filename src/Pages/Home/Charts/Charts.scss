@@ -1,14 +1,18 @@
 @import '../../../ConstantsAndMixins.scss';
 
+$chart-height: 200px;
+
 .charts {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    min-height: calc(2 * #{$chart-height} + 2rem);
 
     .recharts-responsive-container, .recharts-wrapper, .recharts-surface {
         overflow: unset;
         padding-bottom: 2rem;
+        box-sizing: border-box;
     }
 }
 
