@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react';
-import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, YAxis, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import './Charts.scss';
 import { useContext } from 'react';
 import AppContext from '../../../AppContext';
@@ -93,16 +93,18 @@ const Charts = memo(({ favoriteMovies }) => {
 
     return (
         <div className='charts'>
-            <ResponsiveContainer width="100%" height={200}>
-                <BarChart data={genreData}>
-                    <XAxis dataKey="name" angle={-45} textAnchor='end' interval={0} />
+            <ResponsiveContainer width="100%" height="50%">
+                <BarChart data={genreData} layout='vertical'>
+                    <YAxis dataKey="name" type="category" interval={0} />
+                    <XAxis type="number" />
                     <Tooltip content={<CustomTooltip />} />
                     <Bar dataKey="score" fill="#9B0404" />
                 </BarChart>
             </ResponsiveContainer>
-            <ResponsiveContainer width="100%" height={200}>
-                <BarChart data={decadeData}>
-                    <XAxis dataKey="name" angle={-45} textAnchor='end' interval={0} />
+            <ResponsiveContainer width="100%" height="50%">
+                <BarChart data={decadeData} layout='vertical'>
+                    <YAxis dataKey="name" type="category" />
+                    <XAxis type="number" />
                     <Tooltip content={<CustomTooltip />} />
                     <Bar dataKey="score" fill="#9B0404" />
                 </BarChart>

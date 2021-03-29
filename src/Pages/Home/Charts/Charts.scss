@@ -9,10 +9,8 @@ $chart-height: 200px;
     justify-content: space-around;
     min-height: calc(2 * #{$chart-height} + 2rem);
 
-    .recharts-responsive-container, .recharts-wrapper, .recharts-surface {
+    .recharts-surface {
         overflow: unset;
-        padding-bottom: 2rem;
-        box-sizing: border-box;
     }
 }
 
