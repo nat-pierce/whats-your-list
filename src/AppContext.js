@@ -149,7 +149,21 @@ export class AppContextProvider extends PureComponent {
             });
     }
 
-    acceptFriendRequest = (id) => {
+    acceptFriendRequest = async (id) => {
+        await this.props.firebase.firestore()
+            .collection('users')
+            .doc(this.state.user.uid)
+            .collection('friends')
+            .doc(id)
+            .set({});
+
+        await this.props.firebase.firestore()
+            .collection('users')
+            .doc(id)
+            .collection('friends')
+            .doc(this.state.user.uid)
+            .set({});
+
         this.deleteFriendRequest(id);
     }
 
