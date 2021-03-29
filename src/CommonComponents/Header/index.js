@@ -1,15 +1,19 @@
 import './Header.scss';
 import { useContext, memo } from 'react';
-import AppContext from '../../../AppContext';
-import Logo from '../../../CommonComponents/Logo';
+import AppContext from '../../AppContext';
+import Logo from '../Logo';
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router';
-import { ROUTES } from '../../../Constants';
+import { ROUTES } from '../../Constants';
 
 const Header = memo(({ isSignedIn, setIsSettingsModalOpen }) => {
     const history = useHistory();
+
+    const onClickLogo = () => {
+        history.push(ROUTES.Home);
+    };
 
     const onClickSettingsIcon = () => {
         setIsSettingsModalOpen(true);
@@ -21,7 +25,9 @@ const Header = memo(({ isSignedIn, setIsSettingsModalOpen }) => {
 
     return (
         <div className='header'>
-            <Logo sizeScale={0.25} shouldAnimate={false} />
+            <div className='logo-wrapper' onClick={onClickLogo}>
+                <Logo sizeScale={0.25} shouldAnimate={false} />
+            </div>
             {isSignedIn
                 ? (
                     <IconButton className="settings-icon" onClick={onClickSettingsIcon}>

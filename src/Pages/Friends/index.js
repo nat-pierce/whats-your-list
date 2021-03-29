@@ -6,7 +6,7 @@ import CurrentFriends from './CurrentFriends';
 import AppContext from '../../AppContext';
 import { useState, useContext, memo, useEffect } from 'react';
 import './Friends.scss';
-import Header from '../Home/Header';
+import Header from '../../CommonComponents/Header';
 import { useHistory } from 'react-router';
 import { ROUTES } from '../../Constants';
 

@@ -1,4 +1,4 @@
-@import '../../../ConstantsAndMixins.scss';
+@import '../../ConstantsAndMixins.scss';
 
 .header {
     width: 100%;
@@ -12,6 +12,13 @@
     padding: 0 1rem;
     box-sizing: border-box;
     background-color: black;
+
+    .logo-wrapper {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     .settings-icon {
         color: white;

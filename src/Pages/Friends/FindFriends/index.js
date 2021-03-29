@@ -74,7 +74,7 @@ const FindFriends = memo(({ uid, addFriend, friends }) => {
                 <div className='num-results'>1 result found</div>
             }
             {searchResults && searchResults.length !== 1 &&
-                <div className='num-results'>{searchResults.length} result found</div>
+                <div className='num-results'>{searchResults.length} results found</div>
             }
             <div className='search-results'>
                 {searchResults && searchResults.map(user => (

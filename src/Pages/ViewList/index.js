@@ -1,4 +1,4 @@
-import Header from '../Home/Header';
+import Header from '../../CommonComponents/Header';
 import ViewListProfile from './ViewListProfile';
 import { useEffect, useContext, useState, memo } from 'react';
 import { FirebaseContext } from '../../Firebase';

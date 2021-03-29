@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import './Home.scss';
 import { ROUTES } from '../../Constants';
 import AppContext from '../../AppContext';
-import Header from './Header';
+import Header from '../../CommonComponents/Header';
 import Profile from './Profile';
 import { FirebaseContext } from '../../Firebase';
 import FavoriteList from './FavoriteList';
