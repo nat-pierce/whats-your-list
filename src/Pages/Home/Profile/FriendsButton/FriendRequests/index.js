@@ -1,7 +1,6 @@
 import { useContext, memo } from 'react';
 import AppContext from '../../../../../AppContext';
 import Avatar from '@material-ui/core/Avatar';
-import './FriendRequests.scss';
 import Button from "@material-ui/core/Button";
 
 const FriendRequests = memo(({ uid, friendRequests, deleteFriendRequest, acceptFriendRequest }) => {

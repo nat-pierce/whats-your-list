@@ -8,6 +8,7 @@ import FindFriends from './FindFriends';
 import FriendRequests from './FriendRequests';
 import AppContext from '../../../../AppContext';
 import Badge from '@material-ui/core/Badge';
+import CurrentFriends from './CurrentFriends';
 
 const FriendsButton = memo(({ numRequests, numFriends }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,7 +66,7 @@ const FriendsButton = memo(({ numRequests, numFriends }) => {
                     <FindFriends />
                 </TabPanel>
                 <TabPanel index={1}>
-                    Tab 1
+                    <CurrentFriends />
                 </TabPanel>
                 <TabPanel index={2}>
                     <FriendRequests />

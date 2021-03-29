@@ -1,23 +1,22 @@
 import { useContext, memo } from 'react';
 import AppContext from '../../../../../AppContext';
 import Avatar from '@material-ui/core/Avatar';
-import './FriendRequests.scss';
 import Button from "@material-ui/core/Button";
 
-const FriendRequests = memo(({ uid, currentFriends }) => {
+const CurrentFriends = memo(({ uid, friends }) => {
     return (
-        <div className='friend-requests'>
-            {currentFriends.map(friend => (
+        <div className='current-friends'>
+            {friends.map(friend => (
                 <div className='request' key={friend.uid}>
                     <div className='profile-info'>
-                        <Avatar className='profile-pic' src={request.profilePicUrl} alt='Profile pic' />
-                        <div className='name'>{request.name}</div>
+                        <Avatar className='profile-pic' src={friend.profilePicUrl} alt='Profile pic' />
+                        <div className='name'>{friend.name}</div>
                     </div>
                     <div className='button-section'>
-                        <Button onClick={() => deleteFriendRequest(request.uid)}>
+                        <Button>
                             Remove friend
                         </Button>
-                        <Button onClick={() => acceptFriendRequest(request.uid)} className="accept-button" variant="contained" color="secondary">
+                        <Button className="view-button" variant="contained" color="secondary">
                             View list
                         </Button>
                     </div>
@@ -27,17 +26,14 @@ const FriendRequests = memo(({ uid, currentFriends }) => {
     );
 });
 
-export default function ConnectedFriendRequests() {
+export default function ConnectedCurrentFriends() {
     const { state, actions } = useContext(AppContext);
-    const { user, friendRequests } = state;
+    const { user, friends } = state;
     const { uid } = user;
-    const { removeFriend, viewList } = actions;
 
     return (
-        <FriendRequests 
+        <CurrentFriends
             uid={uid} 
-            friendRequests={friendRequests} 
-            acceptFriendRequest={acceptFriendRequest} 
-            deleteFriendRequest={deleteFriendRequest} />
+            friends={friends} />
     );
 }
