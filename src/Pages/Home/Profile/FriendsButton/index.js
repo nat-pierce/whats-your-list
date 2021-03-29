@@ -1,16 +1,18 @@
 import Button from '@material-ui/core/Button';
-import { useState } from 'react';
+import { useState, memo, useContext } from 'react';
 import Modal from '../../../../CommonComponents/Modal';
 import './FriendsButton.scss';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import FindFriends from './FindFriends';
+import FriendRequests from './FriendRequests';
+import AppContext from '../../../../AppContext';
+import Badge from '@material-ui/core/Badge';
 
-export default function FriendsButton() {
+const FriendsButton = memo(({ numRequests }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentTab, setCurrentTab] = useState(0);
     const numFriends = 0;
-    const numRequests = 0;
 
     let buttonText;
     if (numFriends === 0) {
@@ -38,9 +40,11 @@ export default function FriendsButton() {
     }
 
     return (
-        <>
+        <>  
             <Button className='friends-button' onClick={() => setIsModalOpen(true)}>
-                {buttonText}
+                <Badge badgeContent={numRequests} color="primary">
+                    {buttonText}
+                    </Badge>
             </Button>
             <Modal 
                 className='friends-modal' 
@@ -65,9 +69,16 @@ export default function FriendsButton() {
                     Tab 1
                 </TabPanel>
                 <TabPanel index={2}>
-                    Tab 2
+                    <FriendRequests />
                 </TabPanel>
             </Modal>
         </>
     );
+});
+
+export default function ConnectedFriendsButton() {
+    const { state } = useContext(AppContext);
+    const { friendRequests } = state;
+
+    return <FriendsButton numRequests={friendRequests.length} />;
 }

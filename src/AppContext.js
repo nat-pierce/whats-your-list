@@ -7,6 +7,7 @@ const AppContext = createContext({});
 const defaultState = {
     user: null,
     publicUserInfo: null,
+    friendRequests: [],
     favoriteMovies: [],
     isSettingsModalOpen: false,
     hasSentEmailVerification: false
@@ -29,6 +30,24 @@ export class AppContextProvider extends PureComponent {
         this.unsubscribeFromPublicUserInfo = db.collection('publicUserInfo').doc(uid).onSnapshot(snap => {
             snap && this.setState({ publicUserInfo: snap.data() });
         });
+        this.unsubscribeFromFriendRequests = db.collection('friendRequests').doc(uid).collection('users').onSnapshot(querySnapshot => {
+            const newRequests = [];
+
+            querySnapshot.docChanges().forEach(change => {
+                if (change.type === 'added') {
+                    const { name, profilePicUrl } = change.doc.data();
+                    const request = {
+                        uid: change.doc.id,
+                        name,
+                        profilePicUrl
+                    };
+
+                    newRequests.push(request);
+                }
+            });
+
+            this.setState({ friendRequests: [...this.state.friendRequests, ...newRequests] });
+        });
 
         // retrieve movie list
         const snapshot = await db.collection('publicUserInfo').doc(uid)
@@ -44,6 +63,7 @@ export class AppContextProvider extends PureComponent {
     signOut = (history) => {
         this.unsubscribeFromUser && this.unsubscribeFromUser();
         this.unsubscribeFromPublicUserInfo && this.unsubscribeFromPublicUserInfo();
+        this.unsubscribeFromFriendRequests && this.unsubscribeFromFriendRequests();
 
         this.props.firebase.auth().signOut().then(() => {
             this.setState(defaultState, () => {
