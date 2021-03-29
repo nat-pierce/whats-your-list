@@ -63,7 +63,7 @@ const ViewList = memo(({ uid, setUser }) => {
             <Header />
             <div className='main-content'>
                 <div className='upper'>
-                    <ViewListProfile profilePicUrl={profilePicUrl} name={name} />
+                    <ViewListProfile profilePicUrl={profilePicUrl} name={name} viewId={viewId} />
                 </div>
                 <div className='lower'>
                     <ViewListFavoriteMovies viewListMovies={viewListMovies} />

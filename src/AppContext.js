@@ -32,7 +32,7 @@ export class AppContextProvider extends PureComponent {
             snap && this.setState({ publicUserInfo: snap.data() });
         });
         this.unsubscribeFromCurrentFriends = db.collection('users').doc(uid).collection('friends').onSnapshot(querySnapshot => {
-            querySnapshot.docChanges().forEach(async change => {
+            querySnapshot.docChanges().forEach(change => {
                 if (change.type === 'added') {
                     db.collection('publicUserInfo').doc(change.doc.id).get().then(info => {
                         const { name, profilePicUrl } = info.data();
