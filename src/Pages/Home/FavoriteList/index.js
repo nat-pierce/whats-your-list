@@ -51,7 +51,7 @@ const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromLi
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}>
-                                            <div className='rank'>{i+1}</div>
+                                            <div className='rank'>#{i+1}</div>
                                             {movie.Poster !== 'N/A' && 
                                                 <img 
                                                     className='poster' 

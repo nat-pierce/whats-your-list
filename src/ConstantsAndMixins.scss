@@ -11,9 +11,9 @@ $dark-red: #9B0404;
 // Mixins
 @mixin tileStyles() {
     background-color: white;
-    padding: 1rem;
+    padding: 0.25rem 1rem;
     box-sizing: border-box;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     border: solid $gray 1px;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 $gray;

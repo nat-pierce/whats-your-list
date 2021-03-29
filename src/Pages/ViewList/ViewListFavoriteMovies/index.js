@@ -3,7 +3,7 @@ export default function ViewListFavoriteMovies({ viewListMovies }) {
         <div className='favorite-list'>
             {viewListMovies && viewListMovies.map((movie, i) => (
                 <div className='tile' key={movie.imdbID}>
-                    <div className='rank'>{i+1}</div>
+                    <div className='rank'>#{i+1}</div>
                     {movie.Poster !== 'N/A' && 
                         <img 
                             className='poster' 
