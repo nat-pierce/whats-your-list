@@ -12,10 +12,15 @@
         width: 100%;
 
         .friend-requests, .current-friends {
-            .request {
+            width: 100%;
+
+            .request, .friend {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                max-width: 600px;
+                margin-left: auto;
+                margin-right: auto;
         
                 .profile-info {
                     display: flex;

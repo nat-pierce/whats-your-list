@@ -7,7 +7,7 @@ const CurrentFriends = memo(({ uid, friends }) => {
     return (
         <div className='current-friends'>
             {friends.map(friend => (
-                <div className='request' key={friend.uid}>
+                <div className='friend' key={friend.uid}>
                     <div className='profile-info'>
                         <Avatar className='profile-pic' src={friend.profilePicUrl} alt='Profile pic' />
                         <div className='name'>{friend.name}</div>
