@@ -9,6 +9,7 @@ import './Friends.scss';
 import Header from '../../CommonComponents/Header';
 import { useHistory } from 'react-router';
 import { ROUTES } from '../../Constants';
+import Badge from '@material-ui/core/Badge';
 
 const Friends = memo(({ user, numFriends, numRequests }) => {
     const [currentTab, setCurrentTab] = useState(0);
@@ -52,7 +53,11 @@ const Friends = memo(({ user, numFriends, numRequests }) => {
                 >
                 <Tab label="Find friends" />
                 <Tab label={`Current friends (${numFriends})`} />
-                <Tab label={`Friend requests (${numRequests})`} />
+                <Tab label={
+                    <Badge badgeContent={numRequests} color="primary">
+                        Friend requests
+                    </Badge>
+                } />
             </Tabs>
             <TabPanel index={0}>
                 <FindFriends />

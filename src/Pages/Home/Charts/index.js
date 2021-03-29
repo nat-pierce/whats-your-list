@@ -98,7 +98,7 @@ const Charts = memo(({ favoriteMovies }) => {
                     <YAxis dataKey="name" type="category" interval={0} />
                     <XAxis type="number" />
                     <Tooltip content={<CustomTooltip />} />
-                    <Bar dataKey="score" fill="#9B0404" />
+                    <Bar dataKey="score" fill="#FFF88B" stroke="#000000" />
                 </BarChart>
             </ResponsiveContainer>
             <ResponsiveContainer width="100%" height="50%">
@@ -106,7 +106,7 @@ const Charts = memo(({ favoriteMovies }) => {
                     <YAxis dataKey="name" type="category" />
                     <XAxis type="number" />
                     <Tooltip content={<CustomTooltip />} />
-                    <Bar dataKey="score" fill="#9B0404" />
+                    <Bar dataKey="score" fill="#FFF88B" stroke="#000000" />
                 </BarChart>
             </ResponsiveContainer>
         </div>
