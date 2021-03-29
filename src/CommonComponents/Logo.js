@@ -16,7 +16,7 @@ export default class Logo extends PureComponent {
         if (this.props.shouldAnimate) {
             this.intervalId = setInterval(() => {
                 this.setState({ color1: this.state.color2, color2: this.state.color1 });
-            }, 1000);
+            }, 750);
         }
     }
 
