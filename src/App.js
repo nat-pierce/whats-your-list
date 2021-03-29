@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Redirect, Route, useHistory } from "react-rout
 import Login from './Pages/Login';
 import Home from './Pages/Home';
 import ViewList from './Pages/ViewList';
+import Friends from './Pages/Friends';
 import { AppContextProvider } from './AppContext';
 import { ROUTES } from './Constants';
 import { FirebaseContext } from './Firebase';
@@ -42,6 +43,7 @@ function App() {
                         <Route path={ROUTES.Login} component={Login} />
                         <Route path={ROUTES.Home} component={Home} />
                         <Route path={ROUTES.ViewList} component={ViewList} />
+                        <Route path={ROUTES.Friends} component={Friends} />
                     </div>
                 </Router>
             </AppContextProvider>

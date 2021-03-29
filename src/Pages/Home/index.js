@@ -19,12 +19,12 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
     const authUser = firebase.auth().currentUser;
 
     useEffect(() => {
-        if (!user) {
+        if (!user && !isMounted) {
             history.push(ROUTES.Login);
         } else {
             setIsMounted(true);
         }
-    }, [user, history, setIsMounted]);
+    }, [user, history, setIsMounted, isMounted]);
 
     if (!isMounted || !user) {
         return <div>Loading</div>; // TODO Spinner

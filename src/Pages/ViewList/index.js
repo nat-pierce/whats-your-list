@@ -1,6 +1,5 @@
 import Header from '../Home/Header';
 import ViewListProfile from './ViewListProfile';
-import './ViewList.scss';
 import { useEffect, useContext, useState, memo } from 'react';
 import { FirebaseContext } from '../../Firebase';
 import ViewListFavoriteMovies from './ViewListFavoriteMovies';
