@@ -20,7 +20,7 @@ const ViewListFriends = memo(({ uid, viewId, isModalOpen, onCloseModal, addFrien
 
         getFriendsInfo(viewId).then((response) => {
             if (response) {
-                setViewListFriends(response.result);
+                setViewListFriends(response.friends);
             }
         })
     }, [viewListFriends, setViewListFriends, viewId, uid]);

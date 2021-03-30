@@ -54,9 +54,9 @@ export class AppContextProvider extends PureComponent {
         // retrieve friends
         getFriendsInfo(uid).then((response) => {
             if (response) {
-                this.setState({ friends: response.result });
+                this.setState({ friends: response.friends });
             }
-        })
+        }).catch(err => console.log('friends error', err));
 
         // retrieve movie list
         const snapshot = await db.collection('publicUserInfo').doc(uid)

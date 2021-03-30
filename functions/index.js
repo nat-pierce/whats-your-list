@@ -11,11 +11,14 @@ exports.getFriendsInfo = functions.https.onRequest((req, res) => {
             return admin.firestore().collection('publicUserInfo').doc(doc.id);
         });
 
-        const snapshot = await admin.firestore().getAll(...friendRefs);
         const friends = [];
 
-        snapshot.forEach(f => friends.push({ uid: f.id, ...f.data() }));
+        if (friendRefs.length) {
+            const snapshot = await admin.firestore().getAll(...friendRefs);
 
-        res.json({ result: friends });
+            snapshot.forEach(f => friends.push({ uid: f.id, ...f.data() }));
+        }
+
+        res.json({ friends });
     });
 });

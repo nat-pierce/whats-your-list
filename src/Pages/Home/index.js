@@ -1,4 +1,4 @@
-import { useContext, memo, useEffect, useState } from 'react';
+import { useContext, memo, useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Home.scss';
 import { ROUTES } from '../../Constants';
@@ -19,6 +19,13 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
     const firebase = useContext(FirebaseContext);
     const authUser = firebase.auth().currentUser;
 
+    const sendConfirmationEmail = useCallback(() => {
+        authUser.sendEmailVerification({
+            url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
+        })
+        .catch((err) => console.error(err));
+    }, [authUser]);
+
     useEffect(() => {
         if (!user && !isMounted) {
             history.push(ROUTES.Login);
@@ -27,24 +34,19 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
         }
     }, [user, history, setIsMounted, isMounted]);
 
+    useEffect(() => {
+        if (authUser && !authUser.emailVerified && !hasSentEmailVerification) {
+            console.log('sent email');
+            sendConfirmationEmail();
+            setHasSentEmailVerification(true);
+        }
+    }, [authUser, hasSentEmailVerification, setHasSentEmailVerification, sendConfirmationEmail]);
+
     if (!isMounted || !user) {
         return <OverlayLogoSpinner />;
     }
 
-    const sendConfirmationEmail = () => {
-        firebase.auth().currentUser.sendEmailVerification({
-            url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
-        })
-        .catch((err) => console.error(err));
-    }
-
     if (authUser && !authUser.emailVerified) {
-        if (!hasSentEmailVerification) {
-            console.log('here');
-            sendConfirmationEmail();
-            setHasSentEmailVerification(true);
-        }
-
         return (
             <div className='email-verification-page'>
                 <Header />
