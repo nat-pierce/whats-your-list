@@ -3,4 +3,6 @@ export const ROUTES = {
     Home: "/home",
     ViewList: "/viewlist",
     Friends: "/friends"
-}
+};
+
+export const MAX_NUM_MOVIES = 100;

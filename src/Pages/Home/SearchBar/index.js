@@ -7,6 +7,7 @@ import { searchMovieApi } from '../../../ApiUtilities';
 import { useContext } from 'react';
 import AppContext from '../../../AppContext';
 import './SearchBar.scss';
+import { MAX_NUM_MOVIES } from '../../../Constants';
 
 const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
     const [inputValue, setInputValue] = useState('');
@@ -15,7 +16,7 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
     const [error, setError] = useState(null);
     const existingIds = favoriteMovies.map(m => m.imdbID);
 
-    const maxNum = 100;
+    const maxNum = MAX_NUM_MOVIES;
     const isDisabled = favoriteMovies.length >= maxNum;
 
     const onChooseMovie = (e, value) => {
