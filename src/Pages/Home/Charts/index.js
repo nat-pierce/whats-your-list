@@ -3,6 +3,7 @@ import { BarChart, Bar, YAxis, XAxis, Tooltip, ResponsiveContainer } from 'recha
 import './Charts.scss';
 import { useContext } from 'react';
 import AppContext from '../../../AppContext';
+import { colorYellow } from '../../../StyleExports.module.scss';
 
 const Charts = memo(({ favoriteMovies }) => {
     const genreData = useMemo(() => {
@@ -95,18 +96,18 @@ const Charts = memo(({ favoriteMovies }) => {
         <div className='charts'>
             <ResponsiveContainer width="100%" height="50%">
                 <BarChart data={genreData} layout='vertical'>
-                    <YAxis dataKey="name" type="category" interval={0} />
-                    <XAxis type="number" />
+                    <YAxis dataKey="name" type="category" interval={0} tick={{ fill: 'black' }} />
+                    <XAxis type="number" tick={{ fill: 'black' }} />
                     <Tooltip content={<CustomTooltip />} />
-                    <Bar dataKey="score" fill="#FFF88B" stroke="#000000" />
+                    <Bar dataKey="score" fill={colorYellow} stroke="#000000" />
                 </BarChart>
             </ResponsiveContainer>
             <ResponsiveContainer width="100%" height="50%">
                 <BarChart data={decadeData} layout='vertical'>
-                    <YAxis dataKey="name" type="category" />
-                    <XAxis type="number" />
+                    <YAxis dataKey="name" type="category" tick={{ fill: 'black' }} />
+                    <XAxis type="number" tick={{ fill: 'black' }} />
                     <Tooltip content={<CustomTooltip />} />
-                    <Bar dataKey="score" fill="#FFF88B" stroke="#000000" />
+                    <Bar dataKey="score" fill={colorYellow} stroke="#000000" />
                 </BarChart>
             </ResponsiveContainer>
         </div>

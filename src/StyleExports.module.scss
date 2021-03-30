@@ -1,0 +1,7 @@
+@import './ConstantsAndMixins.scss';
+
+:export {
+    colorRed: $red;
+    colorDarkRef: $dark-red;
+    colorYellow: $yellow;
+}
