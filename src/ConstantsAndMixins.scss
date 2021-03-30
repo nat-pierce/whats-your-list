@@ -18,6 +18,9 @@ $yellow: #FFF88B;
     border: solid $gray 1px;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 $gray;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 $small-screen-min: 300px;
