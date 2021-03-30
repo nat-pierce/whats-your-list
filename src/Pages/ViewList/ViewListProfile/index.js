@@ -30,7 +30,7 @@ const ViewListProfile = memo(({ profilePicUrl, name, isSignedIn, setUser, isAlre
                 }
                 {isSignedIn && isAlreadyFriends &&
                     <>
-                        <Button className='send-request-button' color='secondary' onClick={() => setIsModalOpen(true)}>
+                        <Button className='view-friends-button' color='secondary' onClick={() => setIsModalOpen(true)}>
                             View friends
                         </Button>
                         <ViewListFriends viewId={viewId} isModalOpen={isModalOpen} onCloseModal={() => setIsModalOpen(false)} />
