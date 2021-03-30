@@ -17,6 +17,7 @@ const FindFriends = memo(({ uid, addFriend, friends }) => {
         setSearchValue(e.target.value);
     };
 
+    // TODO respond to enter key
     const onClickSearch = () => {
         let uppercasedName = [];
         searchValue.split(" ").forEach(word => {

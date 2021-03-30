@@ -1,24 +1,32 @@
 import Avatar from '@material-ui/core/Avatar';
 import './ViewListProfile.scss';
-import { useContext, memo } from 'react';
+import { useContext, memo, useState } from 'react';
 import AppContext from '../../../AppContext';
 import Button from '@material-ui/core/Button';
 import Settings from '../../Home/Settings';
-import { useState } from 'react';
 import ViewListFriends from './ViewListFriends';
 
-const ViewListProfile = memo(({ profilePicUrl, name, isSignedIn, setUser, isAlreadyFriends, viewId }) => {
+const ViewListProfile = memo(({ profilePicUrl, name, isSignedIn, setUser, isAlreadyFriends, viewId, addFriend }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [sentRequest, setSentRequest] = useState(false);
+
+    const onClickSendRequest = () => {
+        setSentRequest(true);
+        addFriend(viewId);
+    };
     
     return (
         <div className='view-list-profile'>
             <Avatar className='profile-pic' src={profilePicUrl} alt='Profile pic' />
             <div className='profile-info'>
                 <div className='profile-name'>{name}</div>
-                {isSignedIn && !isAlreadyFriends &&
-                    <Button className='send-request-button' color='secondary'>
+                {isSignedIn && !isAlreadyFriends && !sentRequest &&
+                    <Button className='send-request-button' color='secondary' onClick={onClickSendRequest}>
                         Send friend request
                     </Button>
+                }
+                {isSignedIn && !isAlreadyFriends && sentRequest &&
+                    <div className='sent-message'>Sent!</div>
                 }
                 {isSignedIn && isAlreadyFriends &&
                     <>
@@ -35,13 +43,15 @@ const ViewListProfile = memo(({ profilePicUrl, name, isSignedIn, setUser, isAlre
 });
 
 export default function ConnectedViewListProfile(props) {
-    const { state } = useContext(AppContext);
+    const { state, actions } = useContext(AppContext);
     const { user, friends } = state;
 
     const isSignedIn = !!user;
     const isAlreadyFriends = friends.findIndex(f => f.uid === props.viewId) > -1;
 
+    const { addFriend } = actions;
+
     return (
-        <ViewListProfile {...props} isSignedIn={isSignedIn} isAlreadyFriends={isAlreadyFriends} />
+        <ViewListProfile {...props} isSignedIn={isSignedIn} isAlreadyFriends={isAlreadyFriends} addFriend={addFriend} />
     );
 }
