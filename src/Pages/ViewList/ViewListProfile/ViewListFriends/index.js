@@ -18,9 +18,11 @@ const ViewListFriends = memo(({ uid, viewId, isModalOpen, onCloseModal, addFrien
     useEffect(() => {
         if (viewListFriends.length) { return };
 
-        getFriendsInfo(viewId).then(({ result }) => {
-            const filteredFriends = result.filter(f => f.uid !== uid);
-            setViewListFriends(filteredFriends);
+        getFriendsInfo(viewId).then((response) => {
+            if (response) {
+                const filteredFriends = response.result.filter(f => f.uid !== uid);
+                setViewListFriends(filteredFriends);
+            }
         })
     }, [viewListFriends, setViewListFriends, viewId, uid]);
     

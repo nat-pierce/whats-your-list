@@ -52,8 +52,10 @@ export class AppContextProvider extends PureComponent {
         });
 
         // retrieve friends
-        getFriendsInfo(uid).then(({ result }) => {
-            this.setState({ friends: result });
+        getFriendsInfo(uid).then((response) => {
+            if (response) {
+                this.setState({ friends: response.result });
+            }
         })
 
         // retrieve movie list
