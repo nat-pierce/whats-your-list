@@ -52,7 +52,7 @@ export class AppContextProvider extends PureComponent {
         });
 
         // retrieve friends
-        getFriendsInfo(this.props.firebase.auth().currentUser, uid).then(({ result }) => {
+        getFriendsInfo(uid).then(({ result }) => {
             this.setState({ friends: result });
         })
 

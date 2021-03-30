@@ -1,4 +1,4 @@
-export const getFriendsInfo = async (currentUser, userId) => {
+export const getFriendsInfo = async (userId) => {
     const url = `https://us-central1-whats-your-list.cloudfunctions.net/getFriendsInfo?userId=${userId}`;
 
     return fetch(url, {

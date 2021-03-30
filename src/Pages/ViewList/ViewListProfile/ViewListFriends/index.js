@@ -2,6 +2,7 @@ import { useEffect, useContext } from 'react';
 import { FirebaseContext } from '../../../../Firebase';
 import { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
+import { getFriendsInfo } from '../../../../FirebaseFunctions';
 
 export default function ViewListFriends({ viewId }) {
     const firebase = useContext(FirebaseContext);
@@ -10,26 +11,9 @@ export default function ViewListFriends({ viewId }) {
     useEffect(() => {
         if (viewListFriends.length) { return };
 
-        const db = firebase.firestore();
-
-        // TODO do one query for all publicUserInfo, use firebase function with firestore.getAll (also in AppContext)
-        // getFriendsWithMetadata(userId)
-        // then change security rules
-        db.collection('users').doc(viewId).collection('friends').get().then(querySnapshot => {
-            querySnapshot.docs.map(doc => {
-                db.collection('publicUserInfo').doc(doc.id).get().then(info => {
-                    const { name, profilePicUrl } = info.data();
-    
-                    const friend = {
-                        uid: doc.id,
-                        name,
-                        profilePicUrl
-                    };
-    
-                    setViewListFriends([...viewListFriends, friend]);
-                });
-            });
-        });
+        getFriendsInfo(viewId).then(({ result }) => {
+            setViewListFriends(result);
+        })
     }, [firebase, viewListFriends, setViewListFriends, viewId]);
     
     return (
