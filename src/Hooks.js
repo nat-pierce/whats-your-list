@@ -13,3 +13,14 @@ export function usePrevious(value) {
     // Return previous value (happens before update in useEffect above)
     return ref.current;
 }
+
+export function useKeypress(key, action) {
+    useEffect(() => {
+        function onKeyup(e) {
+            if (e.key === key) action()
+        }
+
+        window.addEventListener('keyup', onKeyup);
+        return () => window.removeEventListener('keyup', onKeyup);
+    }, [key, action]);
+}

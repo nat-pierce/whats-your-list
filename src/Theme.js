@@ -1,9 +1,10 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import { colorYellow } from './StyleExports.module.scss';
 
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: '#FFF88B', // TODO make COLORS constant
+            main: colorYellow
         },
         secondary: {
             main: '#000000'

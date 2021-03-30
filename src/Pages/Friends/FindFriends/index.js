@@ -5,6 +5,7 @@ import { FirebaseContext } from "../../../Firebase";
 import AppContext from '../../../AppContext';
 import Avatar from '@material-ui/core/Avatar';
 import './FindFriends.scss';
+import { useKeypress } from '../../../Hooks';
 
 const FindFriends = memo(({ uid, addFriend, friends }) => {
     const [searchValue, setSearchValue] = useState('');
@@ -17,7 +18,6 @@ const FindFriends = memo(({ uid, addFriend, friends }) => {
         setSearchValue(e.target.value);
     };
 
-    // TODO respond to enter key
     const onClickSearch = () => {
         let uppercasedName = [];
         searchValue.split(" ").forEach(word => {
@@ -55,6 +55,8 @@ const FindFriends = memo(({ uid, addFriend, friends }) => {
         setSentRequests([...sentRequests, id]);
         addFriend(id);
     }
+
+    useKeypress('Enter', onClickSearch);
 
     return (
         <div className='find-friends'>
