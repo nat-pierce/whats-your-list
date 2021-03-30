@@ -20,8 +20,7 @@ const ViewListFriends = memo(({ uid, viewId, isModalOpen, onCloseModal, addFrien
 
         getFriendsInfo(viewId).then((response) => {
             if (response) {
-                const filteredFriends = response.result.filter(f => f.uid !== uid);
-                setViewListFriends(filteredFriends);
+                setViewListFriends(response.result);
             }
         })
     }, [viewListFriends, setViewListFriends, viewId, uid]);
@@ -35,13 +34,13 @@ const ViewListFriends = memo(({ uid, viewId, isModalOpen, onCloseModal, addFrien
                             <Avatar className='profile-pic' src={friend.profilePicUrl} alt='Profile pic' />
                             <div className='name'>{friend.name}</div>
                         </div>
-                        {sentRequests.includes(friend.uid)
-                            ? <div>Sent request</div>
-                            : (
-                                <Button className='add-button' onClick={() => onClickAddFriend(friend.uid)}>
-                                    Add
-                                </Button>
-                            )
+                        {friend.uid !== uid && sentRequests.includes(friend.uid) &&
+                            <div>Sent request</div>
+                        }
+                        {friend.uid !== uid && !sentRequests.includes(friend.uid) &&
+                            <Button className='add-button' onClick={() => onClickAddFriend(friend.uid)}>
+                                Add
+                            </Button>
                         }
                     </div>
                 ))}
