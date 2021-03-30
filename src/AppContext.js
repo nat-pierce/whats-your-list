@@ -27,7 +27,14 @@ export class AppContextProvider extends PureComponent {
 
         // subscribe to user updates
         this.unsubscribeFromUser = db.collection('users').doc(uid).onSnapshot(snap => {
-            snap && this.setState({ user: snap.data() });
+            if (snap) {
+                const newUserData = snap.data();
+
+                // when email changes, we are going to force the user to sign out, so we can ignore this state change
+                if (this.state.user && this.state.user.email !== newUserData.email) { return }
+
+                this.setState({ user: newUserData });
+            }
         });
         this.unsubscribeFromPublicUserInfo = db.collection('publicUserInfo').doc(uid).onSnapshot(snap => {
             snap && this.setState({ publicUserInfo: snap.data() });
@@ -223,6 +230,7 @@ export class AppContextProvider extends PureComponent {
             state: this.state,
             actions: {
                 setUser: this.setUser,
+                setUserEmail: this.setUserEmail,
                 signOut: this.signOut,
                 addMovieToList: this.addMovieToList,
                 reorderMovieList: this.reorderMovieList,

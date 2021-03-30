@@ -7,7 +7,7 @@ import AppContext from "../../../AppContext";
 import Modal from '../../../CommonComponents/Modal';
 import TextField from "@material-ui/core/TextField";
 
-const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen }) => {
+const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen, uid }) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
     const [currentPassword, setCurrentPassword] = useState('');
@@ -23,6 +23,7 @@ const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen })
     };
 
     const onCloseModal = () => {
+        console.log('closed');
         setIsSettingsModalOpen(false);
         setCurrentPassword('');
         setNewEmail('');
@@ -32,7 +33,7 @@ const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen })
 
         if (successMessage) {
             setSuccessMessage(null);
-            onSignOut();
+            onSignOut(history);
         }
     }
 
@@ -48,6 +49,11 @@ const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen })
             const user = firebase.auth().currentUser;
             user.updateEmail(newEmail).then(() => {
                 setSuccessMessage('Email changed!');
+
+                firebase.firestore()
+                    .collection('users')
+                    .doc(uid)
+                    .update({ email: newEmail });
             }).catch((error) => { console.log(error); setHasError(true) });
         }).catch((error) => { console.log(error); setHasError(true) });
     };
@@ -140,13 +146,14 @@ const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen })
 
 export default function ConnectedSettings() {
     const { state, actions } = useContext(AppContext);
-    const { isSettingsModalOpen } = state;
+    const { isSettingsModalOpen, user } = state;
     const { signOut, setIsSettingsModalOpen } = actions;
 
     return (
         <Settings 
             signOut={signOut} 
             isSettingsModalOpen={isSettingsModalOpen}
-            setIsSettingsModalOpen={setIsSettingsModalOpen} />
+            setIsSettingsModalOpen={setIsSettingsModalOpen}
+            uid={user.uid} />
     );
 }
