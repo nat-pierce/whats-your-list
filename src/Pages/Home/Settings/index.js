@@ -154,6 +154,6 @@ export default function ConnectedSettings() {
             signOut={signOut} 
             isSettingsModalOpen={isSettingsModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
-            uid={user.uid} />
+            uid={user && user.uid} />
     );
 }

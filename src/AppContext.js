@@ -123,9 +123,12 @@ export class AppContextProvider extends PureComponent {
             { imdbID, Title, Year, Poster, OrderId, Genres }
         ];
 
-        // TODO dedup newFavoriteMovies incase added twice accidentally
+        const uniqueFavoriteMovies = Array.from(new Set(newFavoriteMovies.map(m => m.imdbID)))
+            .map(id => {
+                return newFavoriteMovies.find(m => m.imdbID === id);
+            });
         
-        this.setState({ favoriteMovies: newFavoriteMovies });
+        this.setState({ favoriteMovies: uniqueFavoriteMovies });
 
         this.props.firebase.firestore()
             .collection('publicUserInfo')
