@@ -1,6 +1,7 @@
 import { createContext, PureComponent } from 'react';
 import { getMovieMetadataApi } from './ApiUtilities';
 import { ROUTES } from './Constants';
+import { getFriendsInfo } from './FirebaseFunctions';
 
 const AppContext = createContext({});
 
@@ -31,26 +32,6 @@ export class AppContextProvider extends PureComponent {
         this.unsubscribeFromPublicUserInfo = db.collection('publicUserInfo').doc(uid).onSnapshot(snap => {
             snap && this.setState({ publicUserInfo: snap.data() });
         });
-        // TODO call firestore.getAll function
-        this.unsubscribeFromCurrentFriends = db.collection('users').doc(uid).collection('friends').onSnapshot(querySnapshot => {
-            querySnapshot.docChanges().forEach(change => {
-                const friendAlreadyAdded = this.state.friends.findIndex(f => f.uid !== change.doc.id) > -1;
-                
-                if (change.type === 'added' && !friendAlreadyAdded) {
-                    db.collection('publicUserInfo').doc(change.doc.id).get().then(info => {
-                        const { name, profilePicUrl } = info.data();
-
-                        const friend = {
-                            uid: change.doc.id,
-                            name,
-                            profilePicUrl
-                        };
-
-                        this.setState({ friends: [...this.state.friends, friend] });
-                    });
-                }
-            });
-        });
         this.unsubscribeFromFriendRequests = db.collection('users').doc(uid).collection('friendRequests').onSnapshot(querySnapshot => {
             const newRequests = [];
 
@@ -70,6 +51,11 @@ export class AppContextProvider extends PureComponent {
             this.setState({ friendRequests: [...this.state.friendRequests, ...newRequests] });
         });
 
+        // retrieve friends
+        getFriendsInfo(this.props.firebase.auth().currentUser, uid).then(({ result }) => {
+            this.setState({ friends: result });
+        })
+
         // retrieve movie list
         const snapshot = await db.collection('publicUserInfo').doc(uid)
             .collection('favoriteMovies')
@@ -85,7 +71,6 @@ export class AppContextProvider extends PureComponent {
         this.unsubscribeFromUser && this.unsubscribeFromUser();
         this.unsubscribeFromPublicUserInfo && this.unsubscribeFromPublicUserInfo();
         this.unsubscribeFromFriendRequests && this.unsubscribeFromFriendRequests();
-        this.unsubscribeFromCurrentFriends && this.unsubscribeFromCurrentFriends();
 
         this.props.firebase.auth().signOut().then(() => {
             this.setState(defaultState, () => {
@@ -171,22 +156,24 @@ export class AppContextProvider extends PureComponent {
             });
     }
 
-    acceptFriendRequest = async (id) => {
+    acceptFriendRequest = async (friend) => {
         await this.props.firebase.firestore()
             .collection('users')
             .doc(this.state.user.uid)
             .collection('friends')
-            .doc(id)
+            .doc(friend.uid)
             .set({});
 
         await this.props.firebase.firestore()
             .collection('users')
-            .doc(id)
+            .doc(friend.uid)
             .collection('friends')
             .doc(this.state.user.uid)
             .set({});
 
-        this.deleteFriendRequest(id);
+        this.deleteFriendRequest(friend.uid);
+
+        this.setState({ friends: [...this.state.friends, friend] });
     }
 
     deleteFriendRequest = (id) => {
