@@ -33,7 +33,7 @@ const FindFriends = memo(({ uid, addFriend, friends }) => {
                 const newSearchResults = [];
 
                 querySnapshot.forEach((doc) => {
-                    if (doc.id === uid || friendIds.includes(doc.id)) { return } // TODO uncomment
+                    if (doc.id === uid || friendIds.includes(doc.id)) { return }
 
                     const { name, profilePicUrl } = doc.data();
 

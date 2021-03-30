@@ -2,7 +2,7 @@ import { useEffect, useContext, memo, useState } from 'react';
 import './Login.scss';
 import { ROUTES } from '../../Constants';
 import { FirebaseContext } from '../../Firebase';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'; // TODO switch to regular and style it
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../../AppContext';
 import Logo from '../../CommonComponents/Logo';
