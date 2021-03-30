@@ -110,11 +110,15 @@ export class AppContextProvider extends PureComponent {
         const OrderId = this.state.favoriteMovies.length;
         const Metadata = await getMovieMetadataApi(imdbID);
         const Genres = Metadata.Genre.split(", ");
-        
-        this.setState({ favoriteMovies: [
+
+        const newFavoriteMovies = [
             ...this.state.favoriteMovies,
             { imdbID, Title, Year, Poster, OrderId, Genres }
-        ]});
+        ];
+
+        // TODO dedup newFavoriteMovies incase added twice accidentally
+        
+        this.setState({ favoriteMovies: newFavoriteMovies });
 
         this.props.firebase.firestore()
             .collection('publicUserInfo')
