@@ -5,23 +5,23 @@ import AppContext from "../../../AppContext";
 import './ViewListFavoriteMovies.scss';
 import { MAX_NUM_MOVIES } from "../../../Constants";
 
-const ViewListFavoriteMovies = memo(({ viewListMovies, favoriteMovies, addMovieToList }) => {
-    const canAddMovies = favoriteMovies.length < MAX_NUM_MOVIES;
+const ViewListFavoriteMovies = memo(({ isSignedIn, viewListMovies, favoriteMovies, addMovieToList }) => {
+    const atMaxMovies = favoriteMovies.length >= MAX_NUM_MOVIES;
 
     const addButton = (movie) => {
-        return canAddMovies
-            ? <Button 
-                className='add-button' 
-                onClick={() => addMovieToList(movie)}>
-                Add
-            </Button>
-            : <Tooltip title={`Max movies already added (${MAX_NUM_MOVIES})`}>
+        return atMaxMovies
+            ? <Tooltip title={`Max movies already added (${MAX_NUM_MOVIES})`}>
                 <span className='add-button'>
                     <Button disabled={true}>
                         Add
                     </Button>
                 </span>
             </Tooltip>
+            : <Button 
+                className='add-button' 
+                onClick={() => addMovieToList(movie)}>
+                Add
+            </Button>;
     };
     
     return (
@@ -39,9 +39,11 @@ const ViewListFavoriteMovies = memo(({ viewListMovies, favoriteMovies, addMovieT
                                 alt='Movie poster' />
                         }
                         <div>{movie.Title} ({movie.Year})</div>
-                        {myRank > 0 
-                            ? <div className='my-rank'>My rank: {myRank}</div>
-                            : addButton(movie)
+                        {isSignedIn && myRank > 0 &&
+                            <div className='my-rank'>My rank: {myRank}</div>
+                        }
+                        {isSignedIn && myRank <= 0 &&
+                            addButton(movie)
                         }
                     </div>
                 );
@@ -52,7 +54,10 @@ const ViewListFavoriteMovies = memo(({ viewListMovies, favoriteMovies, addMovieT
 
 export default function ConnectedViewListFavoriteMovies(props) {
     const { state, actions } = useContext(AppContext);
-    const favoriteMovies = state.user
+
+    const isSignedIn = !!state.user;
+
+    const favoriteMovies = isSignedIn
         ? state.favoriteMovies
         : [];
 
@@ -61,6 +66,7 @@ export default function ConnectedViewListFavoriteMovies(props) {
     return (
         <ViewListFavoriteMovies 
             {...props} 
+            isSignedIn={isSignedIn}
             favoriteMovies={favoriteMovies} 
             addMovieToList={addMovieToList} />
     );
