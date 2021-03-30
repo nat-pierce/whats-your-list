@@ -53,12 +53,14 @@
 
         .lower {
             display: flex;
-            padding: 1rem;
+            padding: 0 1rem;
             box-sizing: border-box;
             height: calc(100% - #{$home-upper-height});
+            background-color: $light-gray;
 
             .favorite-list, .charts {
                 width: 50%;
+                padding: 1rem 0;
             }
 
             .charts {
@@ -75,8 +77,6 @@
                 }
 
                 .charts {
-                    margin-top: 1rem;
-                    padding: 1rem;
                     padding-right: 0;
                     padding-left: 2rem;
                     box-sizing: border-box;
