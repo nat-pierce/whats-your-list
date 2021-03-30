@@ -6,6 +6,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'; // TODO sw
 import { useHistory } from 'react-router-dom';
 import AppContext from '../../AppContext';
 import Logo from '../../CommonComponents/Logo';
+import OverlayLogoSpinner from '../../CommonComponents/OverlayLogoSpinner';
 
 const Login = memo(({ user, setUser }) => {
     const history = useHistory();
@@ -59,7 +60,7 @@ const Login = memo(({ user, setUser }) => {
     };
 
     if (!isMounted) {
-        return <div>Loading login</div> //TODO spinner
+        return <OverlayLogoSpinner />;
     }
 
     return (

@@ -11,6 +11,7 @@ import SearchBar from './SearchBar';
 import Charts from './Charts';
 import Settings from './Settings';
 import Button from '@material-ui/core/Button';
+import OverlayLogoSpinner from '../../CommonComponents/OverlayLogoSpinner';
 
 const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification }) => {
     const history = useHistory();
@@ -27,7 +28,7 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
     }, [user, history, setIsMounted, isMounted]);
 
     if (!isMounted || !user) {
-        return <div>Loading</div>; // TODO Spinner
+        return <OverlayLogoSpinner />;
     }
 
     const sendConfirmationEmail = () => {
