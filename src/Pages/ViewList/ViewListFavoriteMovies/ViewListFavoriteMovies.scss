@@ -1,0 +1,18 @@
+@import '../../../ConstantsAndMixins.scss';
+
+.view-list-favorite-movies {
+    .tile {
+        position: relative;
+
+        .my-rank {
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            background-color: $dark-red;
+            color: white;
+            white-space: nowrap;
+            padding: 2px 8px;
+            border-radius: 15px;
+        }
+    }
+}
