@@ -16,7 +16,13 @@ exports.getFriendsInfo = functions.https.onRequest((req, res) => {
         if (friendRefs.length) {
             const snapshot = await admin.firestore().getAll(...friendRefs);
 
-            snapshot.forEach(f => friends.push({ uid: f.id, ...f.data() }));
+            snapshot.forEach(f => friends.push({ uid: f.id, ...f.data() }))
+                .sort((a, b) => {
+                    const nameA = a.name.toUpperCase();
+                    const nameB = b.name.toUpperCase();
+
+                    return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+                });
         }
 
         res.json({ friends });
