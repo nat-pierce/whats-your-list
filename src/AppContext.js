@@ -156,6 +156,26 @@ export class AppContextProvider extends PureComponent {
             });
     }
 
+    removeFriend = async (id) => {
+        await this.props.firebase.firestore()
+            .collection('users')
+            .doc(this.state.user.uid)
+            .collection('friends')
+            .doc(id)
+            .delete();
+
+        await this.props.firebase.firestore()
+            .collection('users')
+            .doc(id)
+            .collection('friends')
+            .doc(this.state.user.uid)
+            .delete();
+
+        const newFriends = this.state.friends.filter(f => f.uid !== id);
+
+        this.setState({ friends: newFriends });
+    }
+
     acceptFriendRequest = async (friend) => {
         await this.props.firebase.firestore()
             .collection('users')
@@ -205,7 +225,8 @@ export class AppContextProvider extends PureComponent {
                 setHasSentEmailVerification: this.setHasSentEmailVerification,
                 addFriend: this.addFriend,
                 acceptFriendRequest: this.acceptFriendRequest,
-                deleteFriendRequest: this.deleteFriendRequest
+                deleteFriendRequest: this.deleteFriendRequest,
+                removeFriend: this.removeFriend
             }
         };
 
