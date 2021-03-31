@@ -52,7 +52,7 @@ const ShareButton = memo(({ favoriteMovies, uid }) => {
 
     return (
         <>
-            <IconButton color='secondary' onClick={handleClick}>
+            <IconButton className='share-button' color='secondary' onClick={handleClick}>
                 <ShareIcon />
             </IconButton>
             <Menu

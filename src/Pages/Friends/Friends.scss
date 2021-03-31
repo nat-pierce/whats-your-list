@@ -1,6 +1,7 @@
 @import '../../ConstantsAndMixins.scss';
 
-$tab-bar-height: 60px;
+$tab-bar-height: 30px;
+$tab-bar-height-expanded: 60px; // For small screens the words may go onto two lines
 
 .friends-page {
     height: 100%;
@@ -10,6 +11,10 @@ $tab-bar-height: 60px;
 
     .MuiTabs-root {
         height: $tab-bar-height;
+
+        @include smallScreen {
+            height: $tab-bar-height-expanded;
+        }
     }
 
     .tab-panel {
@@ -19,6 +24,10 @@ $tab-bar-height: 60px;
         height: calc(100% - #{$tab-bar-height});
         overflow: auto;
         background-color: $light-gray;
+
+        @include smallScreen {
+            height: calc(100% - #{$tab-bar-height-expanded});
+        }
 
         .friend-requests, .current-friends {
             width: 100%;

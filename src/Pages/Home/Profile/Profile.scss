@@ -47,13 +47,7 @@ $profile-pic-margin: 1rem;
         }
 
         .friends-button {
-            width: 125px;
-            width: fit-content;
-            padding: 0.5rem 1rem;
-
-            .MuiButton-label {
-                width: auto;
-            }
+            border-radius: 10px;
         }
     }
 }

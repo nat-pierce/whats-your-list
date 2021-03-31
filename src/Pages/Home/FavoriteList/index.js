@@ -6,6 +6,7 @@ import AppContext from '../../../AppContext';
 import IconButton from '@material-ui/core/IconButton';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { usePrevious } from '../../../Hooks';
+import { smallScreenMax } from '../../../StyleExports.module.scss';
 
 const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromList }) => {
     const containerRef = useRef(null);
@@ -27,7 +28,7 @@ const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromLi
 
     useEffect(() => {
         if (favoriteMovies.length > previousNumMovies) {
-            if (window.innerWidth > 600) {
+            if (window.innerWidth > smallScreenMax) {
                 containerRef.current.scrollTo(0, containerRef.current.scrollHeight);
             } else {
                 containerRef.current.scrollIntoView(false);

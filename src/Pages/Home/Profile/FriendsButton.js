@@ -1,4 +1,5 @@
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import GroupIcon from '@material-ui/icons/Group';
 import { memo, useContext } from 'react';
 import Badge from '@material-ui/core/Badge';
 import { useHistory } from 'react-router';
@@ -8,25 +9,16 @@ import AppContext from '../../../AppContext';
 const FriendsButton = memo(({ numRequests, numFriends }) => {
     const history = useHistory();
 
-    let buttonText;
-    if (numFriends === 0) {
-        buttonText = "Add friends";
-    } else if (numFriends === 1) {
-        buttonText = "1 friend";
-    } else {
-        buttonText = `${numFriends} friends`;
-    }
-
     const onClick = () => {
         history.push(ROUTES.Friends);
     }
 
     return (
-        <Button className='friends-button' onClick={onClick}>
+        <IconButton className='friends-button' variant="outlined" color="secondary" onClick={onClick}>
             <Badge badgeContent={numRequests} color="primary">
-                {buttonText}
+                {numFriends} <GroupIcon />
             </Badge>
-        </Button>
+        </IconButton>
     );
 });
 

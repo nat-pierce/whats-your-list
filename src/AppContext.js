@@ -113,11 +113,16 @@ export class AppContextProvider extends PureComponent {
         this.updateOrderIds(newListWithUpdatedOrderIds);
     }
 
-    addMovieToList = async ({ imdbID, Title, Year, Poster }) => {
+    addMovieToList = async ({ imdbID, Title, Year, Poster, Genre }) => {
         const OrderId = this.state.favoriteMovies.length;
-        const Metadata = await getMovieMetadataApi(imdbID);
-        const Genres = Metadata.Genre.split(", ");
 
+        let genreString = Genre;
+        if (!genreString) {
+            const Metadata = await getMovieMetadataApi(imdbID);
+            genreString = Metadata.Genre;
+        }
+
+        const Genres = genreString.split(", ");
         const newFavoriteMovies = [
             ...this.state.favoriteMovies,
             { imdbID, Title, Year, Poster, OrderId, Genres }
