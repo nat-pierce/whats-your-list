@@ -6,8 +6,9 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { smallScreenMax, mediumScreenMax } from '../../../StyleExports.module.scss';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies }) => {
+const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies, addMovieToList }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -17,6 +18,8 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies 
             // get similar to random movie
             const randomIndex = getRandomInt(0, favoriteMovies.length);
             const { imdbID } = favoriteMovies[randomIndex];
+
+            console.log('fetching movies for:', favoriteMovies[randomIndex]);
 
             getSimilarMoviesApi(imdbID).then(result => {
                 if (result) {
@@ -32,7 +35,9 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies 
     }, [suggestedMovies, setIsLoading, setSuggestedMovies, favoriteMovies]);
 
     if (isLoading) {
-        return <div className='suggestions'>Loading</div> // TODO material spinner
+        return <div className='suggestions suggestions-overlay'>
+            <CircularProgress color="secondary" />
+        </div>;
     }
 
     const responsive = {
@@ -51,7 +56,7 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies 
             <h1 className='section-title'>Suggested</h1>
             <Carousel className='carousel' responsive={responsive} infinite={true}>
                 {suggestedMovies.map(movie => !!movie && (
-                    <div className="suggestion" key={movie.imdbID}>
+                    <div className="suggestion" key={movie.imdbID} onClick={() => addMovieToList(movie)}>
                         <img 
                             className='poster' 
                             src={movie.Poster} 
@@ -76,7 +81,11 @@ function getRandomInt(min, max) {
 export default function ConnectedSuggestions() {
     const { state, actions } = useContext(AppContext);
     const { suggestedMovies, favoriteMovies } = state;
-    const { setSuggestedMovies } = actions;
+    const { setSuggestedMovies, addMovieToList } = actions;
 
-    return <Suggestions favoriteMovies={favoriteMovies} suggestedMovies={suggestedMovies} setSuggestedMovies={setSuggestedMovies} />;
+    return <Suggestions 
+        favoriteMovies={favoriteMovies} 
+        suggestedMovies={suggestedMovies} 
+        setSuggestedMovies={setSuggestedMovies} 
+        addMovieToList={addMovieToList} />;
 }
