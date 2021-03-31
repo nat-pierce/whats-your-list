@@ -2,6 +2,10 @@ import './Suggestions.scss';
 import { memo, useContext, useState, useEffect } from 'react';
 import AppContext from '../../../AppContext';
 import { getSimilarMoviesApi } from '../../../ApiUtilities';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import { smallScreenMax, mediumScreenMax } from '../../../StyleExports.module.scss';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies }) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -28,21 +32,36 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies 
     }, [suggestedMovies, setIsLoading, setSuggestedMovies, favoriteMovies]);
 
     if (isLoading) {
-        return <div>Loading</div> // TODO material spinner
+        return <div className='suggestions'>Loading</div> // TODO material spinner
     }
+
+    const responsive = {
+        largeScreen: {
+            breakpoint: { max: 3000, min: parseInt(mediumScreenMax) },
+            items: 5
+        },
+        mediumScreen: {
+            breakpoint: { max: parseInt(mediumScreenMax), min: parseInt(smallScreenMax) },
+            items: 3
+        }
+    };
 
     return (
         <div className='suggestions'>
-            {suggestedMovies.map(movie => (
-                <div key={movie.imdbID}>
-                    {movie.Poster !== 'N/A' &&
+            <h1 className='section-title'>Suggested</h1>
+            <Carousel className='carousel' responsive={responsive} infinite={true}>
+                {suggestedMovies.map(movie => !!movie && (
+                    <div className="suggestion" key={movie.imdbID}>
                         <img 
                             className='poster' 
                             src={movie.Poster} 
                             alt='Movie poster' />
-                    }
-                </div>
-            ))}
+                        <div className='hover-overlay'>
+                            <AddCircleIcon className='add-icon' />
+                        </div>
+                    </div>
+                ))}
+            </Carousel>
         </div>
     );
 });

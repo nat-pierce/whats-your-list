@@ -247,6 +247,10 @@ export class AppContextProvider extends PureComponent {
             const result = await getMovieMetadataApi(id);
             const { imdbID, Title, Year, Poster, Genre } = result;
             const Genres = Genre.split(", ");
+
+            if (Poster === 'N/A') {
+                return null;
+            }
             
             return {
                 imdbID,
