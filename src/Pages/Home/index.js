@@ -11,6 +11,7 @@ import Charts from './Charts';
 import Settings from './Settings';
 import Button from '@material-ui/core/Button';
 import OverlayLogoSpinner from '../../CommonComponents/OverlayLogoSpinner';
+import Suggestions from './Suggestions';
 
 const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification }) => {
     const history = useHistory();
@@ -64,6 +65,7 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
             <div className='main-content'>
                 <div className='upper'>
                     <Profile />
+                    <Suggestions />
                 </div>
                 <div className='lower'>
                     <FavoriteList />

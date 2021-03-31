@@ -10,7 +10,7 @@ export const searchMovieApi = (title, callback) => {
         "method": "GET",
         "headers": {
             "x-rapidapi-key": process.env.REACT_APP_MOVIE_API_KEY,
-            "x-rapidapi-host": process.env.REACT_APP_MOVIE_API_HOST
+            "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
         }
     })
     .then(response => response.json())
@@ -40,7 +40,7 @@ const getMovieByTitle = (title, callback) => {
         "method": "GET",
         "headers": {
             "x-rapidapi-key": process.env.REACT_APP_MOVIE_API_KEY,
-            "x-rapidapi-host": process.env.REACT_APP_MOVIE_API_HOST
+            "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
         }
     })
     .then(response => response.json())
@@ -67,7 +67,43 @@ export const getMovieMetadataApi = (imdbID) => {
         "method": "GET",
         "headers": {
             "x-rapidapi-key": process.env.REACT_APP_MOVIE_API_KEY,
-            "x-rapidapi-host": process.env.REACT_APP_MOVIE_API_HOST
+            "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
+        }
+    })
+    .then(response => response.json())
+    .catch(err => {
+        console.error(err);
+    });
+}
+
+export const getSimilarMoviesApi = (imdbID) => {
+    if (!imdbID) {
+        return null;
+    }
+
+    const url = `https://movies-tvshows-data-imdb.p.rapidapi.com/?type=get-similar-movies&imdb=${imdbID}&page=1`;
+    
+    return fetch(url, {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-key": process.env.REACT_APP_MOVIE_API_KEY,
+            "x-rapidapi-host": "movies-tvshows-data-imdb.p.rapidapi.com"
+        }
+    })
+    .then(response => response.json())
+    .catch(err => {
+        console.error(err);
+    });
+}
+
+export const getPopularMoviesApi = () => {
+    const url = "https://movies-tvshows-data-imdb.p.rapidapi.com/?type=get-popular-movies&page=1&year=2020";
+    
+    return fetch(url, {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-key": process.env.REACT_APP_MOVIE_API_KEY,
+            "x-rapidapi-host": "movies-tvshows-data-imdb.p.rapidapi.com"
         }
     })
     .then(response => response.json())

@@ -11,6 +11,7 @@ const defaultState = {
     friends: [],
     friendRequests: [],
     favoriteMovies: [],
+    suggestedMovies: [],
     isSettingsModalOpen: false,
     hasSentEmailVerification: false
 };
@@ -233,6 +234,26 @@ export class AppContextProvider extends PureComponent {
             });
     }
 
+    setSuggestedMovies = async (movieIds) => {
+        const suggestedMovies = await Promise.all(movieIds.map(async id => {
+            const result = await getMovieMetadataApi(id);
+            const { imdbID, Title, Year, Poster, Genre } = result;
+            const Genres = Genre.split(", ");
+            
+            return {
+                imdbID,
+                Title,
+                Year,
+                Poster,
+                Genres
+            };
+        }));
+
+        console.log('suggested', suggestedMovies);
+
+        this.setState({ suggestedMovies });
+    }
+
     render() {
         const contextValue = {
             state: this.state,
@@ -243,6 +264,7 @@ export class AppContextProvider extends PureComponent {
                 addMovieToList: this.addMovieToList,
                 reorderMovieList: this.reorderMovieList,
                 removeMovieFromList: this.removeMovieFromList,
+                setSuggestedMovies: this.setSuggestedMovies,
                 setIsSettingsModalOpen: this.setIsSettingsModalOpen,
                 setHasSentEmailVerification: this.setHasSentEmailVerification,
                 addFriend: this.addFriend,
