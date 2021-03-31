@@ -1,6 +1,6 @@
 /* eslint-disable */
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useState, useEffect, useCallback, memo } from 'react';
+import { useState, useEffect, useCallback, memo, useRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 import debounce from 'lodash.debounce';
 import { searchMovieApi } from '../../../ApiUtilities';
@@ -14,6 +14,7 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
     const [options, setOptions] = useState([]);
     const [reactKey, setReactKey] = useState(0);
     const [error, setError] = useState(null);
+    const inputRef = useRef(null);
     const existingIds = favoriteMovies.map(m => m.imdbID);
 
     const maxNum = MAX_NUM_MOVIES;
@@ -83,6 +84,7 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
             renderOption={renderOption}
             renderInput={(params) => <TextField 
                 {...params} 
+                autoFocus={reactKey > 0} // After a movie is chosen and this is rerendered, maintain focus to easily add more movies
                 label={isDisabled ? `Max number of movies added (${maxNum})` : "Search"} 
                 color="secondary" 
                 variant="outlined" />
