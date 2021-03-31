@@ -95,19 +95,3 @@ export const getSimilarMoviesApi = (imdbID) => {
         console.error(err);
     });
 }
-
-export const getPopularMoviesApi = () => {
-    const url = "https://movies-tvshows-data-imdb.p.rapidapi.com/?type=get-popular-movies&page=1&year=2020";
-    
-    return fetch(url, {
-        "method": "GET",
-        "headers": {
-            "x-rapidapi-key": process.env.REACT_APP_MOVIE_API_KEY,
-            "x-rapidapi-host": "movies-tvshows-data-imdb.p.rapidapi.com"
-        }
-    })
-    .then(response => response.json())
-    .catch(err => {
-        console.error(err);
-    });
-}

@@ -1,4 +1,10 @@
 .suggestions {
     margin-left: 1rem;
     display: flex;
+    height: 100%;
+
+    .poster {
+        max-height: 100%;
+        max-width: 100%;
+    }
 }

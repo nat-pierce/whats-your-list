@@ -136,6 +136,14 @@ export class AppContextProvider extends PureComponent {
         
         this.setState({ favoriteMovies: uniqueFavoriteMovies });
 
+        const suggestedIndex = this.state.suggestedMovies.findIndex(m => m.imdbID === imdbID);
+        if (suggestedIndex > -1) {
+            const newSuggestedMovies = [...this.state.suggestedMovies];
+            newSuggestedMovies.splice(suggestedIndex, 1);
+
+            this.setState({ suggestedMovies: newSuggestedMovies });
+        }
+
         this.props.firebase.firestore()
             .collection('publicUserInfo')
             .doc(this.state.user.uid)
@@ -248,8 +256,6 @@ export class AppContextProvider extends PureComponent {
                 Genres
             };
         }));
-
-        console.log('suggested', suggestedMovies);
 
         this.setState({ suggestedMovies });
     }
