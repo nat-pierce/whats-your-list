@@ -62,6 +62,7 @@
             @include smallScreen {
                 flex-direction: column;
                 overflow: auto;
+                height: 100%;
 
                 .favorite-list, .charts {
                     width: 100%;

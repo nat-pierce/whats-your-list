@@ -12,6 +12,8 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies,
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        if (isLoading) { return }
+
         if (suggestedMovies.length === 0 && favoriteMovies.length !== 0) {
             setIsLoading(true);
 
@@ -22,17 +24,27 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies,
             console.log('fetching movies for:', favoriteMovies[randomIndex]);
 
             getSimilarMoviesApi(imdbID).then(result => {
-                if (result) {
-                    const ids = result.movie_results.map(m => m.imdb_id);
-                    const filteredIds = ids.filter(id => favoriteMovies.findIndex(m => m.imdbID === id) === -1);
+                if (result && result.movie_results) {
+                    const ids = result.movie_results.filter(m => {
+                        const alreadyAdded = favoriteMovies.findIndex(m => m.imdbID === m.imdb_id) > -1;
+                        const alreadyReleased = Date.parse(m.release_date) < new Date().getTime();
 
-                    setSuggestedMovies(filteredIds);
+                        return alreadyReleased && !alreadyAdded;
+                    }).map(m => m.imdb_id);
+
+                    setSuggestedMovies(ids);
+                } else {
+                    setSuggestedMovies([]);
                 }
             });
-        } else {
+        }
+    }, [suggestedMovies, setIsLoading, setSuggestedMovies, favoriteMovies, isLoading]);
+
+    useEffect(() => {
+        if (suggestedMovies.length) {
             setIsLoading(false);
         }
-    }, [suggestedMovies, setIsLoading, setSuggestedMovies, favoriteMovies]);
+    }, [setIsLoading, suggestedMovies]);
 
     if (isLoading) {
         return <div className='suggestions suggestions-overlay'>
@@ -43,7 +55,7 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies,
     const responsive = {
         largeScreen: {
             breakpoint: { max: 3000, min: parseInt(mediumScreenMax) },
-            items: 5
+            items: 4
         },
         mediumScreen: {
             breakpoint: { max: parseInt(mediumScreenMax), min: parseInt(smallScreenMax) },

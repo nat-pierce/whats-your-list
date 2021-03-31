@@ -1,6 +1,6 @@
 @import '../../../ConstantsAndMixins.scss';
 
-$profile-pic-width: 100px;
+$profile-pic-width: 150px;
 $profile-pic-margin: 1rem;
 
 .profile {
@@ -9,7 +9,7 @@ $profile-pic-margin: 1rem;
     height: 100%;
 
     @include smallScreen {
-        justify-content: center;
+        justify-content: space-between;
     }
 
     .profile-pic-wrapper {
@@ -20,6 +20,11 @@ $profile-pic-margin: 1rem;
         .profile-pic {
             height: $profile-pic-width;
             width: $profile-pic-width;
+
+            @include smallScreen {
+                height: $profile-pic-width / 2;
+                width: $profile-pic-width / 2;
+            }
         }
     }
 
@@ -29,6 +34,10 @@ $profile-pic-margin: 1rem;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+
+        @include smallScreen {
+            width: calc(100% - #{$profile-pic-width/2} - #{$profile-pic-margin});
+        }
 
         .info-upper {
             display: flex;

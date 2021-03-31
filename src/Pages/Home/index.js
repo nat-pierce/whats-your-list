@@ -12,10 +12,12 @@ import Settings from './Settings';
 import Button from '@material-ui/core/Button';
 import OverlayLogoSpinner from '../../CommonComponents/OverlayLogoSpinner';
 import Suggestions from './Suggestions';
+import { smallScreenMax } from '../../StyleExports.module.scss';
 
 const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification }) => {
     const history = useHistory();
     const [isMounted, setIsMounted] = useState(false);
+    const [shouldShowSuggestions, setShouldShowSuggestions] = useState(false);
     const firebase = useContext(FirebaseContext);
     const authUser = firebase.auth().currentUser;
 
@@ -25,6 +27,14 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
         })
         .catch((err) => console.error(err));
     }, [authUser]);
+
+    const resizeListener = () => {
+        if (window.innerWidth < parseInt(smallScreenMax)) {
+            setShouldShowSuggestions(false);
+        } else {
+            setShouldShowSuggestions(true);
+        }
+    }
 
     useEffect(() => {
         if (!user && !isMounted) {
@@ -41,6 +51,15 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
             setHasSentEmailVerification(true);
         }
     }, [authUser, hasSentEmailVerification, setHasSentEmailVerification, sendConfirmationEmail]);
+
+    useEffect(() => {
+        resizeListener();
+        window.addEventListener('resize', resizeListener);
+
+        return () => {
+            window.removeEventListener('resize', resizeListener);
+        }
+    }, [])
 
     if (!isMounted || !user) {
         return <OverlayLogoSpinner />;
@@ -65,7 +84,7 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
             <div className='main-content'>
                 <div className='upper'>
                     <Profile />
-                    <Suggestions />
+                    {shouldShowSuggestions && <Suggestions />}
                 </div>
                 <div className='lower'>
                     <FavoriteList />
