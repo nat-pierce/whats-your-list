@@ -6,6 +6,7 @@ import { FirebaseContext } from '../../../Firebase';
 import EditableLabel from '../../../CommonComponents/EditableLabel';
 import FriendsButton from './FriendsButton';
 import ShareButton from '../ShareButton';
+import SearchBar from '../SearchBar';
 
 const Profile = memo(({ uid, name, profilePicUrl }) => {
     const profilePicInputRef = useRef(null);
@@ -66,9 +67,12 @@ const Profile = memo(({ uid, name, profilePicUrl }) => {
                         initialValue={name}
                         onConfirm={onConfirmName}
                     />
-                    <ShareButton />
+                    <div className='right'>
+                        <FriendsButton />
+                        <ShareButton />
+                    </div>
                 </div>
-                <FriendsButton />
+                <SearchBar />
             </div>
         </div>
     )

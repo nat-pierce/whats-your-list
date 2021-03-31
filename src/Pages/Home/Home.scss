@@ -23,30 +23,21 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: solid 1px $gray;
-            padding: 1rem;
+            padding: 0.5rem 1rem;
             box-sizing: border-box;
             height: $home-upper-height;
             background-color: white;
 
-            .profile, .search {
+            .profile, .suggestions {
                 width: 50%;
-            }
-
-            .search {
-                margin-left: 1rem;
             }
 
             @include smallScreen {
                 flex-direction: column;
                 height: auto;
 
-                .profile, .search {
+                .profile {
                     width: 100%;
-                }
-
-                .search {
-                    margin-top: 1rem;
-                    margin-left: 0;
                 }
             }
         }
@@ -77,9 +68,6 @@
                 }
 
                 .charts {
-                    padding-right: 0;
-                    padding-left: 2rem;
-                    box-sizing: border-box;
                     border-top: solid 1px $gray;
                 }
             }

@@ -7,7 +7,6 @@ import Header from '../../CommonComponents/Header';
 import Profile from './Profile';
 import { FirebaseContext } from '../../Firebase';
 import FavoriteList from './FavoriteList';
-import SearchBar from './SearchBar';
 import Charts from './Charts';
 import Settings from './Settings';
 import Button from '@material-ui/core/Button';
@@ -65,7 +64,6 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
             <div className='main-content'>
                 <div className='upper'>
                     <Profile />
-                    <SearchBar />
                 </div>
                 <div className='lower'>
                     <FavoriteList />

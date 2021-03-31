@@ -39,6 +39,11 @@ $profile-pic-margin: 1rem;
                 text-align: center;
                 font-weight: bold;
             }
+
+            .right {
+                display: flex;
+                align-items: center;
+            }
         }
 
         .friends-button {
