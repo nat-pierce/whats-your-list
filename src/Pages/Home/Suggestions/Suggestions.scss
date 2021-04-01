@@ -11,8 +11,13 @@
     .suggestions-overlay {
         height: 100%;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+
+        .try-again-button {
+            margin-top: 0.5rem;
+        }
     }
 
     .section-title {

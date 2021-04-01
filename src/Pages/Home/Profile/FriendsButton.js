@@ -16,7 +16,7 @@ const FriendsButton = memo(({ numRequests, numFriends }) => {
     return (
         <IconButton className='friends-button' variant="outlined" color="secondary" onClick={onClick}>
             <Badge badgeContent={numRequests} color="primary">
-                {numFriends} <GroupIcon />
+                {numFriends > 0 && numFriends} <GroupIcon />
             </Badge>
         </IconButton>
     );

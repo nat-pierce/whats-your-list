@@ -57,6 +57,10 @@ $profile-pic-margin: 1rem;
 
         .friends-button {
             border-radius: 10px;
+            
+            .MuiBadge-root {
+                align-items: center;
+            }
         }
     }
 }

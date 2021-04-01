@@ -7,16 +7,22 @@ import 'react-multi-carousel/lib/styles.css';
 import { smallScreenMax, mediumScreenMax } from '../../../StyleExports.module.scss';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Button } from '@material-ui/core';
 
 const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies, addMovieToList }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [numTries, setNumTries] = useState(0);
     const [error, setError] = useState(null);
 
+    const onTryAgain = () => {
+        setError(null);
+        setNumTries(0);
+    }
+
     useEffect(() => {
         if (isLoading) { return }
 
-        if (numTries > 2) {
+        if (numTries > 3) {
             setError('Unable to load suggestions');
             return;
         }
@@ -34,11 +40,11 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies,
                 console.log('r', result);
                 if (result && result.movie_results && result.results !== 0) {
                     const ids = result.movie_results.filter(m => {
-                        const alreadyAdded = favoriteMovies.findIndex(m => m.imdbID === m.imdb_id) > -1;
+                        const alreadyAdded = favoriteMovies.findIndex(f => f.imdbID === m.imdb_id) > -1;
                         const alreadyReleased = Date.parse(m.release_date) < new Date().getTime();
 
                         return alreadyReleased && !alreadyAdded;
-                    }).map(m => m.imdb_id);
+                    }).map(m => m.imdb_id).slice(0, 7);
 
                     if (ids.length) {
                         setSuggestedMovies(ids);
@@ -75,7 +81,10 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies,
     if (error) {
         return <div className='suggestions'>
             <h1 className='section-title'>Suggested</h1>
-            <div className='suggestions-overlay'>{error}</div>
+            <div className='suggestions-overlay'>
+                {error}
+                <Button className="try-again-button" variant="contained" color="seocndary" onClick={onTryAgain}>Try again</Button>
+            </div>
         </div>
     }
 
