@@ -7,6 +7,7 @@ import Charts from '../Home/Charts';
 import AppContext from '../../AppContext';
 import { useHistory } from 'react-router';
 import { ROUTES } from '../../Constants';
+import './ViewList.scss';
 
 const ViewList = memo(({ uid, setUser }) => {
     const history = useHistory();

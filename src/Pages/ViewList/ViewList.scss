@@ -1,0 +1,11 @@
+$view-list-upper-height: 120px;
+
+.view-list-page {
+    .upper {
+        height: $view-list-upper-height;
+    }
+
+    .lower {
+        height: calc(100% - #{$view-list-upper-height});
+    }
+}

@@ -1,5 +1,15 @@
 @import '../../ConstantsAndMixins.scss';
 
+.home-page {
+    .upper {
+        height: $home-upper-height;
+    }
+
+    .lower {
+        height: calc(100% - #{$home-upper-height});
+    }
+}
+
 .home-page, .view-list-page {
     display: flex;
     height: 100%;
@@ -25,7 +35,6 @@
             border-bottom: solid 1px $gray;
             padding: 0.5rem 1rem;
             box-sizing: border-box;
-            height: $home-upper-height;
             background-color: white;
 
             .profile, .suggestions {
@@ -46,7 +55,6 @@
             display: flex;
             padding: 0 1rem;
             box-sizing: border-box;
-            height: calc(100% - #{$home-upper-height});
             background-color: $light-gray;
 
             .favorite-list, .charts {
