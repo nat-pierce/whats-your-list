@@ -10,9 +10,16 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies, addMovieToList }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const [numTries, setNumTries] = useState(0);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (isLoading) { return }
+
+        if (numTries > 2) {
+            setError('Unable to load suggestions');
+            return;
+        }
 
         if (suggestedMovies.length === 0 && favoriteMovies.length !== 0) {
             setIsLoading(true);
@@ -24,7 +31,8 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies,
             console.log('fetching movies for:', favoriteMovies[randomIndex]);
 
             getSimilarMoviesApi(imdbID).then(result => {
-                if (result && result.movie_results) {
+                console.log('r', result);
+                if (result && result.movie_results && result.results !== 0) {
                     const ids = result.movie_results.filter(m => {
                         const alreadyAdded = favoriteMovies.findIndex(m => m.imdbID === m.imdb_id) > -1;
                         const alreadyReleased = Date.parse(m.release_date) < new Date().getTime();
@@ -32,13 +40,22 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies,
                         return alreadyReleased && !alreadyAdded;
                     }).map(m => m.imdb_id);
 
-                    setSuggestedMovies(ids);
+                    if (ids.length) {
+                        setSuggestedMovies(ids);
+                        setNumTries(0);
+                    } else {
+                        // if request didn't work, run it again with a new random movie
+                        setNumTries(numTries + 1);
+                        setIsLoading(false);
+                    }
                 } else {
-                    setSuggestedMovies([]);
+                    // if request didn't work, run it again with a new random movie
+                    setNumTries(numTries + 1);
+                    setIsLoading(false);
                 }
             });
         }
-    }, [suggestedMovies, setIsLoading, setSuggestedMovies, favoriteMovies, isLoading]);
+    }, [suggestedMovies, setIsLoading, setSuggestedMovies, favoriteMovies, isLoading, setNumTries, numTries, setError]);
 
     useEffect(() => {
         if (suggestedMovies.length) {
@@ -47,9 +64,19 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies,
     }, [setIsLoading, suggestedMovies]);
 
     if (isLoading) {
-        return <div className='suggestions suggestions-overlay'>
-            <CircularProgress color="secondary" />
+        return <div className='suggestions'>
+            <h1 className='section-title'>Suggested</h1>
+            <div className='suggestions-overlay'>
+                <CircularProgress color="secondary" />
+            </div>
         </div>;
+    }
+
+    if (error) {
+        return <div className='suggestions'>
+            <h1 className='section-title'>Suggested</h1>
+            <div className='suggestions-overlay'>{error}</div>
+        </div>
     }
 
     const responsive = {
