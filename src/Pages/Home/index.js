@@ -1,7 +1,7 @@
 import { useContext, memo, useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Home.scss';
-import { BASE_URL, EVENTS, ROUTES } from '../../Constants';
+import { BASE_URL, EVENTS, MAX_NUM_MOVIES, ROUTES } from '../../Constants';
 import AppContext from '../../AppContext';
 import Header from '../../CommonComponents/Header';
 import Profile from './Profile';
@@ -14,7 +14,7 @@ import OverlayLogoSpinner from '../../CommonComponents/OverlayLogoSpinner';
 import Suggestions from './Suggestions';
 import { smallScreenMax } from '../../StyleExports.module.scss';
 
-const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification, numFriends }) => {
+const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSentEmailVerification, numFriends }) => {
     const history = useHistory();
     const [isMounted, setIsMounted] = useState(false);
     const [shouldShowSuggestions, setShouldShowSuggestions] = useState(false);
@@ -89,7 +89,9 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
             <div className='main-content'>
                 <div className='upper'>
                     <Profile />
-                    {shouldShowSuggestions && numFriends > 0 && <Suggestions />}
+                    {shouldShowSuggestions && numFriends > 0 && (numFavoriteMovies < MAX_NUM_MOVIES) &&
+                        <Suggestions />
+                    }
                 </div>
                 <div className='lower'>
                     <FavoriteList />
@@ -103,12 +105,13 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
 
 export default function ConnectedHome() {
     const { state, actions } = useContext(AppContext);
-    const { user, hasSentEmailVerification, friends } = state;
+    const { user, hasSentEmailVerification, friends, favoriteMovies } = state;
     const { setHasSentEmailVerification } = actions;
 
     return <Home 
         user={user} 
         numFriends={friends.length}
+        numFavoriteMovies={favoriteMovies.length}
         hasSentEmailVerification={hasSentEmailVerification}
         setHasSentEmailVerification={setHasSentEmailVerification} />
 }
