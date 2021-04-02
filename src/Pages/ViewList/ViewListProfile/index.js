@@ -5,6 +5,7 @@ import AppContext from '../../../AppContext';
 import Button from '@material-ui/core/Button';
 import Settings from '../../Home/Settings';
 import ViewListFriends from './ViewListFriends';
+import { Tooltip } from '@material-ui/core';
 
 const ViewListProfile = memo(({ profilePicUrl, name, isSignedIn, setUser, isAlreadyFriends, viewId, addFriend }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,6 +25,15 @@ const ViewListProfile = memo(({ profilePicUrl, name, isSignedIn, setUser, isAlre
                     <Button className='send-request-button' color='secondary' onClick={onClickSendRequest}>
                         Send friend request
                     </Button>
+                }
+                {!isSignedIn && 
+                    <Tooltip title="Log in to add friends">
+                        <span>
+                            <Button className='send-request-button' color='secondary' disabled={true} onClick={undefined}>
+                                Send friend request
+                            </Button>
+                        </span>
+                    </Tooltip>
                 }
                 {isSignedIn && !isAlreadyFriends && sentRequest &&
                     <div className='sent-message'>Sent!</div>
