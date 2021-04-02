@@ -103,7 +103,7 @@ const Suggestions = memo(({ friends, suggestedMovies, setSuggestedMovies, addMov
             <h1 className='section-title'>Friends' Favorites</h1>
             <Carousel className='carousel' responsive={responsive} infinite={true}>
                 {suggestedMovies.map(movie => (
-                    <div className="suggestion" key={movie.imdbID} onClick={() => addMovieToList(movie)}>
+                    <div className="suggestion" key={movie.imdbID} onClick={() => addMovieToList(movie, "Suggested")}>
                         <img 
                             className='poster' 
                             src={movie.Poster} 

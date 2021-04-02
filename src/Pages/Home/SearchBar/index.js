@@ -21,7 +21,7 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
     const isDisabled = favoriteMovies.length >= maxNum;
 
     const onChooseMovie = (e, value) => {
-        addMovieToList(value);
+        addMovieToList(value, "Search");
         setReactKey(reactKey+1);
         setInputValue('');
         setOptions([]);

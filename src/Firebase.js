@@ -2,6 +2,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage'; 
+import 'firebase/analytics';
 import { createContext } from 'react';
 
 const config = {
@@ -20,3 +21,7 @@ app.initializeApp(config);
 export default app;
 
 export const FirebaseContext = createContext(null);
+
+export const log = process.env.NODE_ENV === 'production'
+    ? app.analytics().logEvent
+    : console.log;

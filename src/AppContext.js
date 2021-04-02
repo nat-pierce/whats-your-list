@@ -1,7 +1,8 @@
 import { createContext, PureComponent } from 'react';
 import { getMovieMetadataApi } from './ApiUtilities';
-import { ROUTES } from './Constants';
+import { EVENTS, ROUTES } from './Constants';
 import { getFriendsInfo } from './FirebaseFunctions';
+import { log } from './Firebase';
 
 const AppContext = createContext({});
 
@@ -114,7 +115,11 @@ export class AppContextProvider extends PureComponent {
         this.updateOrderIds(newListWithUpdatedOrderIds);
     }
 
-    addMovieToList = async ({ imdbID, Title, Year, Poster, Genre }) => {
+    addMovieToList = async ({ imdbID, Title, Year, Poster, Genre }, logSource) => {
+        log(EVENTS.AddMovie, { 
+            source: logSource 
+        });
+
         const OrderId = this.state.favoriteMovies.length;
 
         let genreString = Genre;

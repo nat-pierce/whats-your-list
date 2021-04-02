@@ -6,3 +6,7 @@ export const ROUTES = {
 };
 
 export const MAX_NUM_MOVIES = 100;
+
+export const EVENTS = {
+    AddMovie: "ADD_MOVIE"
+};

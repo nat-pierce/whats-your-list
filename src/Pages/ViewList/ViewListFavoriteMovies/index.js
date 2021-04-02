@@ -19,7 +19,7 @@ const ViewListFavoriteMovies = memo(({ isSignedIn, viewListMovies, favoriteMovie
             </Tooltip>
             : <Button 
                 className='add-button' 
-                onClick={() => addMovieToList(movie)}>
+                onClick={() => addMovieToList(movie, "View list")}>
                 Add
             </Button>;
     };
