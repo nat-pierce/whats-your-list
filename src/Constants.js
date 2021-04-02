@@ -16,3 +16,7 @@ export const EVENTS = {
     DeleteRequest: "DELETE_REQUEST",
     ResendEmail: "RESEND_EMAIL"
 };
+
+export const BASE_URL = process.env.NODE_ENV === 'production'
+    ? "https://whats-your-list.web.app"
+    : "http://localhost:3000";

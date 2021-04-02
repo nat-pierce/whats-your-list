@@ -1,7 +1,7 @@
 import { useContext, memo, useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Home.scss';
-import { EVENTS, ROUTES } from '../../Constants';
+import { BASE_URL, EVENTS, ROUTES } from '../../Constants';
 import AppContext from '../../AppContext';
 import Header from '../../CommonComponents/Header';
 import Profile from './Profile';
@@ -23,7 +23,7 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
 
     const sendConfirmationEmail = useCallback(() => {
         authUser.sendEmailVerification({
-            url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
+            url: BASE_URL
         })
         .catch((err) => console.error(err));
     }, [authUser]);

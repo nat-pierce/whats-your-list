@@ -10,13 +10,14 @@ import Modal from '../../../CommonComponents/Modal';
 import './ShareModal.scss';
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
+import { BASE_URL } from '../../../Constants';
 
 const ShareButton = memo(({ favoriteMovies, uid }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [hasCopiedLink, setHasCopiedLink] = useState(false);
 
-    const shareLink = `http://localhost:3000/viewList?id=${uid}` // TODO domain
+    const shareLink = `${BASE_URL}/viewList?id=${uid}` // TODO domain
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
