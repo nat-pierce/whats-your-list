@@ -51,7 +51,6 @@ const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSe
 
     useEffect(() => {
         if (authUser && !authUser.emailVerified && !hasSentEmailVerification) {
-            console.log('sent email');
             sendConfirmationEmail();
             setHasSentEmailVerification(true);
         }

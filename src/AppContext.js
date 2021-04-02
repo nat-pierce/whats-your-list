@@ -2,7 +2,7 @@ import { createContext, PureComponent } from 'react';
 import { getMovieMetadataApi } from './ApiUtilities';
 import { EVENTS, ROUTES } from './Constants';
 import { getFriendsInfo } from './FirebaseFunctions';
-import { log } from './Firebase';
+import { createAccount, log } from './Firebase';
 
 const AppContext = createContext({});
 
@@ -24,24 +24,22 @@ export class AppContextProvider extends PureComponent {
         this.state = defaultState;
     }
 
-    setUser = async (uid) => {
+    setUser = async (user) => {
         const db = this.props.firebase.firestore();
 
         // subscribe to user updates
-        this.unsubscribeFromUser = db.collection('users').doc(uid).onSnapshot(snap => {
-            if (snap) {
-                const newUserData = snap.data();
+        const userDoc = await db.collection('users').doc(user.uid).get();
 
-                // when email changes, we are going to force the user to sign out, so we can ignore this state change
-                if (this.state.user && this.state.user.email !== newUserData.email) { return }
+        if (userDoc.exists) {
+            this.setState({ user: userDoc.data() });
+        } else {
+            await createAccount(user);
+        }
 
-                this.setState({ user: newUserData });
-            }
-        });
-        this.unsubscribeFromPublicUserInfo = db.collection('publicUserInfo').doc(uid).onSnapshot(snap => {
+        this.unsubscribeFromPublicUserInfo = db.collection('publicUserInfo').doc(user.uid).onSnapshot(snap => {
             snap && this.setState({ publicUserInfo: snap.data() });
         });
-        this.unsubscribeFromFriendRequests = db.collection('users').doc(uid).collection('friendRequests').onSnapshot(querySnapshot => {
+        this.unsubscribeFromFriendRequests = db.collection('users').doc(user.uid).collection('friendRequests').onSnapshot(querySnapshot => {
             const newRequests = [];
 
             querySnapshot.docChanges().forEach(change => {
@@ -61,14 +59,14 @@ export class AppContextProvider extends PureComponent {
         });
 
         // retrieve friends
-        getFriendsInfo(uid).then((response) => {
+        getFriendsInfo(user.uid).then((response) => {
             if (response) {
                 this.setState({ friends: response.friends });
             }
         }).catch(err => console.log('friends error', err));
 
         // retrieve movie list
-        const snapshot = await db.collection('publicUserInfo').doc(uid)
+        const snapshot = await db.collection('publicUserInfo').doc(user.uid)
             .collection('favoriteMovies')
             .orderBy('OrderId')
             .get();
@@ -79,7 +77,6 @@ export class AppContextProvider extends PureComponent {
     }
 
     signOut = (history) => {
-        this.unsubscribeFromUser && this.unsubscribeFromUser();
         this.unsubscribeFromPublicUserInfo && this.unsubscribeFromPublicUserInfo();
         this.unsubscribeFromFriendRequests && this.unsubscribeFromFriendRequests();
 

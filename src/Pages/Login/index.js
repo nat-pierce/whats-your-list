@@ -22,7 +22,7 @@ const Login = memo(({ user, setUser }) => {
     useEffect(() => {
         firebase.auth().onAuthStateChanged(authUser => {
             if (authUser) {
-                setUser(authUser.uid)
+                setUser(authUser)
             } else {
                 setIsMounted(true);
             }
@@ -30,32 +30,13 @@ const Login = memo(({ user, setUser }) => {
     }, [setIsMounted, setUser, firebase])
 
     const uiConfig = {
-        signInSuccessUrl: "/", // This is not used, instead the redirect happens in setUser
         signInOptions: [{
             requireDisplayName: true,
             provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
         }],
         callbacks: {
-            signInSuccessWithAuthResult: async (authResult) => {
-                if (authResult.additionalUserInfo.isNewUser) {
-                    const userInfo = {
-                        uid: authResult.user.uid,
-                        email: authResult.user.email
-                    };
-    
-                    await firebase.firestore().collection('users')
-                        .doc(authResult.user.uid)
-                        .set(userInfo);
-
-                    await firebase.firestore().collection('publicUserInfo')
-                        .doc(authResult.user.uid)
-                        .set({ 
-                            name: authResult.user.displayName,
-                            profilePicUrl: null 
-                        });
-
-                    setUser(authResult.user.uid);
-                }
+            signInSuccessWithAuthResult: (authResult) => {
+                setUser(authResult.user);
 
                 return false;
             }

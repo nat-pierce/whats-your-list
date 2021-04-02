@@ -25,3 +25,21 @@ export const FirebaseContext = createContext(null);
 export const log = process.env.NODE_ENV === 'production'
     ? app.analytics().logEvent
     : console.log;
+
+export const createAccount = async (user) => {
+    const userInfo = {
+        uid: user.uid,
+        email: user.email
+    };
+
+    await app.firestore().collection('users')
+        .doc(user.uid)
+        .set(userInfo);
+
+    await app.firestore().collection('publicUserInfo')
+        .doc(user.uid)
+        .set({ 
+            name: user.displayName,
+            profilePicUrl: null 
+        });
+}

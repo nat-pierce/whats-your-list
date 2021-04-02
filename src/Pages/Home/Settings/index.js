@@ -23,7 +23,6 @@ const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen, u
     };
 
     const onCloseModal = () => {
-        console.log('closed');
         setIsSettingsModalOpen(false);
         setCurrentPassword('');
         setNewEmail('');
