@@ -1,7 +1,9 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const cors = require('cors')({
-    origin: "https://whats-your-list.web.app"
+    origin: process.env.NODE_ENV === 'production'
+        ? "https://whats-your-list.web.app"
+        : "http://localhost:3000"
 });
 admin.initializeApp();
 
@@ -18,7 +20,7 @@ exports.getFriendsInfo = functions.https.onRequest((req, res) => {
         if (friendRefs.length) {
             const snapshot = await admin.firestore().getAll(...friendRefs);
 
-            snapshot.forEach(f => friends.push({ uid: f.id, ...f.data() }))
+            snapshot.forEach(f => friends.push({ uid: f.id, ...f.data() }));
 
             friends.sort((a, b) => {
                 const nameA = a.name.toUpperCase();

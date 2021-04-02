@@ -6,6 +6,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Run `npm run build` followed by `firebase deploy`
 
+## To run emulators
+
+Run `firebase emulators:start`
+
 ## Available Scripts
 
 In the project directory, you can run:
