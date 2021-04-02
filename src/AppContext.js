@@ -242,24 +242,16 @@ export class AppContextProvider extends PureComponent {
             });
     }
 
-    setSuggestedMovies = async (movieIds) => {
-        const suggestedMovies = await Promise.all(movieIds.map(async id => {
-            const result = await getMovieMetadataApi(id);
-            const { imdbID, Title, Year, Poster, Genre } = result;
-            const Genres = Genre.split(", ");
-
-            if (Poster === 'N/A') {
-                return null;
+    setSuggestedMovies = (movies) => {
+        const suggestedMovies = movies.filter(m => {
+            if (m.Poster === 'N/A') {
+                return false;
             }
-            
-            return {
-                imdbID,
-                Title,
-                Year,
-                Poster,
-                Genres
-            };
-        }));
+
+            return this.state.favoriteMovies.findIndex(f => {
+                return f.imdbID === m.imdbID;
+            }) === -1;
+        })
 
         this.setState({ suggestedMovies });
     }

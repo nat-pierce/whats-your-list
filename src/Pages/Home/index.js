@@ -14,7 +14,7 @@ import OverlayLogoSpinner from '../../CommonComponents/OverlayLogoSpinner';
 import Suggestions from './Suggestions';
 import { smallScreenMax } from '../../StyleExports.module.scss';
 
-const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification }) => {
+const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification, numFriends }) => {
     const history = useHistory();
     const [isMounted, setIsMounted] = useState(false);
     const [shouldShowSuggestions, setShouldShowSuggestions] = useState(false);
@@ -84,7 +84,7 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
             <div className='main-content'>
                 <div className='upper'>
                     <Profile />
-                    {shouldShowSuggestions && <Suggestions />}
+                    {shouldShowSuggestions && numFriends > 0 && <Suggestions />}
                 </div>
                 <div className='lower'>
                     <FavoriteList />
@@ -98,11 +98,12 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
 
 export default function ConnectedHome() {
     const { state, actions } = useContext(AppContext);
-    const { user, hasSentEmailVerification } = state;
+    const { user, hasSentEmailVerification, friends } = state;
     const { setHasSentEmailVerification } = actions;
 
     return <Home 
         user={user} 
+        numFriends={friends.length}
         hasSentEmailVerification={hasSentEmailVerification}
         setHasSentEmailVerification={setHasSentEmailVerification} />
 }

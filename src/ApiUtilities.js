@@ -75,23 +75,3 @@ export const getMovieMetadataApi = (imdbID) => {
         console.error(err);
     });
 }
-
-export const getSimilarMoviesApi = (imdbID) => {
-    if (!imdbID) {
-        return null;
-    }
-
-    const url = `https://movies-tvshows-data-imdb.p.rapidapi.com/?type=get-similar-movies&imdb=${imdbID}&page=1`;
-    
-    return fetch(url, {
-        "method": "GET",
-        "headers": {
-            "x-rapidapi-key": process.env.REACT_APP_MOVIE_API_KEY,
-            "x-rapidapi-host": "movies-tvshows-data-imdb.p.rapidapi.com"
-        }
-    })
-    .then(response => response.json())
-    .catch(err => {
-        console.error(err);
-    });
-}

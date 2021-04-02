@@ -1,15 +1,16 @@
 import './Suggestions.scss';
 import { memo, useContext, useState, useEffect } from 'react';
 import AppContext from '../../../AppContext';
-import { getSimilarMoviesApi } from '../../../ApiUtilities';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { smallScreenMax, mediumScreenMax } from '../../../StyleExports.module.scss';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Button } from '@material-ui/core';
+import { FirebaseContext } from '../../../Firebase';
 
-const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies, addMovieToList }) => {
+const Suggestions = memo(({ friends, suggestedMovies, setSuggestedMovies, addMovieToList }) => {
+    const firebase = useContext(FirebaseContext);
     const [isLoading, setIsLoading] = useState(false);
     const [numTries, setNumTries] = useState(0);
     const [error, setError] = useState(null);
@@ -21,47 +22,43 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies,
 
     useEffect(() => {
         if (isLoading) { return }
+        if (suggestedMovies.length > 0) { return }
+        
+        if (friends.length === numTries) { 
+            setError('No movies found');
+            return 
+        }
 
-        if (numTries > 3) {
-            setError('Unable to load suggestions');
+        if (numTries > 2) {
+            setError('Unable to load');
             return;
         }
 
-        if (suggestedMovies.length === 0 && favoriteMovies.length !== 0) {
-            setIsLoading(true);
+        setIsLoading(true);
 
-            // get similar to random movie
-            const randomIndex = getRandomInt(0, favoriteMovies.length);
-            const { imdbID } = favoriteMovies[randomIndex];
+        // Choose a random friend
+        const randomIndex = getRandomInt(0, friends.length);
+        const friend = friends[randomIndex];
 
-            console.log('fetching movies for:', favoriteMovies[randomIndex]);
+        // Get their list
+        firebase.firestore()
+            .collection('publicUserInfo')
+            .doc(friend.uid)
+            .collection('favoriteMovies')
+            .get()
+            .then(querySnapshot => {
+                if (querySnapshot.size > 0) {
+                    const randomDocs = querySnapshot.docs.sort(() => Math.random() - Math.random()).slice(0, 10);
+                    const movies = randomDocs.map(d => d.data());
 
-            getSimilarMoviesApi(imdbID).then(result => {
-                console.log('r', result);
-                if (result && result.movie_results && result.results !== 0) {
-                    const ids = result.movie_results.filter(m => {
-                        const alreadyAdded = favoriteMovies.findIndex(f => f.imdbID === m.imdb_id) > -1;
-                        const alreadyReleased = Date.parse(m.release_date) < new Date().getTime();
-
-                        return alreadyReleased && !alreadyAdded;
-                    }).map(m => m.imdb_id).slice(0, 7);
-
-                    if (ids.length) {
-                        setSuggestedMovies(ids);
-                        setNumTries(0);
-                    } else {
-                        // if request didn't work, run it again with a new random movie
-                        setNumTries(numTries + 1);
-                        setIsLoading(false);
-                    }
+                    setSuggestedMovies(movies);
+                    setNumTries(0);
                 } else {
-                    // if request didn't work, run it again with a new random movie
                     setNumTries(numTries + 1);
                     setIsLoading(false);
                 }
-            });
-        }
-    }, [suggestedMovies, setIsLoading, setSuggestedMovies, favoriteMovies, isLoading, setNumTries, numTries, setError]);
+            })
+    }, [friends, setIsLoading, setSuggestedMovies, firebase, isLoading, suggestedMovies, setNumTries, setError, numTries])
 
     useEffect(() => {
         if (suggestedMovies.length) {
@@ -71,7 +68,7 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies,
 
     if (isLoading) {
         return <div className='suggestions'>
-            <h1 className='section-title'>Suggested</h1>
+            <h1 className='section-title'>Friends' Favorites</h1>
             <div className='suggestions-overlay'>
                 <CircularProgress color="secondary" />
             </div>
@@ -80,10 +77,12 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies,
 
     if (error) {
         return <div className='suggestions'>
-            <h1 className='section-title'>Suggested</h1>
+            <h1 className='section-title'>Friends' Favorites</h1>
             <div className='suggestions-overlay'>
                 {error}
-                <Button className="try-again-button" variant="contained" color="seocndary" onClick={onTryAgain}>Try again</Button>
+                <Button className="try-again-button" variant="contained" onClick={onTryAgain}>
+                    Try again
+                </Button>
             </div>
         </div>
     }
@@ -101,9 +100,9 @@ const Suggestions = memo(({ favoriteMovies, suggestedMovies, setSuggestedMovies,
 
     return (
         <div className='suggestions'>
-            <h1 className='section-title'>Suggested</h1>
+            <h1 className='section-title'>Friends' Favorites</h1>
             <Carousel className='carousel' responsive={responsive} infinite={true}>
-                {suggestedMovies.map(movie => !!movie && (
+                {suggestedMovies.map(movie => (
                     <div className="suggestion" key={movie.imdbID} onClick={() => addMovieToList(movie)}>
                         <img 
                             className='poster' 
@@ -128,11 +127,11 @@ function getRandomInt(min, max) {
 
 export default function ConnectedSuggestions() {
     const { state, actions } = useContext(AppContext);
-    const { suggestedMovies, favoriteMovies } = state;
+    const { suggestedMovies, friends } = state;
     const { setSuggestedMovies, addMovieToList } = actions;
 
     return <Suggestions 
-        favoriteMovies={favoriteMovies} 
+        friends={friends} 
         suggestedMovies={suggestedMovies} 
         setSuggestedMovies={setSuggestedMovies} 
         addMovieToList={addMovieToList} />;
