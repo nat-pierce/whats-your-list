@@ -53,7 +53,7 @@ const FindFriends = memo(({ uid, addFriend, friends }) => {
 
     const onClickAddFriend = (id) => {
         setSentRequests([...sentRequests, id]);
-        addFriend(id);
+        addFriend(id, "Find friends");
     }
 
     useKeypress('Enter', onClickSearch);

@@ -117,7 +117,8 @@ export class AppContextProvider extends PureComponent {
 
     addMovieToList = async ({ imdbID, Title, Year, Poster, Genre }, logSource) => {
         log(EVENTS.AddMovie, { 
-            source: logSource 
+            source: logSource,
+            imdbID 
         });
 
         const OrderId = this.state.favoriteMovies.length;
@@ -158,6 +159,7 @@ export class AppContextProvider extends PureComponent {
     }
 
     removeMovieFromList = async (imdbID, indexToRemove) => {
+        log(EVENTS.RemoveMovie);
         const newList = [...this.state.favoriteMovies];
         newList.splice(indexToRemove, 1);
 
@@ -179,7 +181,11 @@ export class AppContextProvider extends PureComponent {
         this.setState({ isSettingsModalOpen: isOpen });
     }
 
-    addFriend = (id) => {
+    addFriend = (id, logSource) => {
+        log(EVENTS.AddFriend, {
+            source: logSource
+        });
+
         this.props.firebase.firestore()
             .collection('users')
             .doc(id)
@@ -192,6 +198,8 @@ export class AppContextProvider extends PureComponent {
     }
 
     removeFriend = async (id) => {
+        log(EVENTS.RemoveFriend);
+
         await this.props.firebase.firestore()
             .collection('users')
             .doc(this.state.user.uid)
@@ -212,6 +220,8 @@ export class AppContextProvider extends PureComponent {
     }
 
     acceptFriendRequest = async (friend) => {
+        log(EVENTS.AcceptRequest);
+
         await this.props.firebase.firestore()
             .collection('users')
             .doc(this.state.user.uid)
@@ -232,6 +242,8 @@ export class AppContextProvider extends PureComponent {
     }
 
     deleteFriendRequest = (id) => {
+        log(EVENTS.DeleteRequest, { id });
+
         this.props.firebase.firestore()
             .collection('users')
             .doc(this.state.user.uid)
@@ -247,17 +259,7 @@ export class AppContextProvider extends PureComponent {
             });
     }
 
-    setSuggestedMovies = (movies) => {
-        const suggestedMovies = movies.filter(m => {
-            if (m.Poster === 'N/A') {
-                return false;
-            }
-
-            return this.state.favoriteMovies.findIndex(f => {
-                return f.imdbID === m.imdbID;
-            }) === -1;
-        })
-
+    setSuggestedMovies = (suggestedMovies) => {
         this.setState({ suggestedMovies });
     }
 

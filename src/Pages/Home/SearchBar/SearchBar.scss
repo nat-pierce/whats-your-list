@@ -6,6 +6,7 @@
     height: 100px;
     width: 100%;
     font-family: 'Nunito';
+    overflow: hidden;
 
     @include smallScreen {
         font-size: 12px;

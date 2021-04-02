@@ -12,7 +12,7 @@ const ViewListProfile = memo(({ profilePicUrl, name, isSignedIn, setUser, isAlre
 
     const onClickSendRequest = () => {
         setSentRequest(true);
-        addFriend(viewId);
+        addFriend(viewId, "View list: main profile being viewed");
     };
     
     return (

@@ -12,7 +12,7 @@ const ViewListFriends = memo(({ uid, viewId, isModalOpen, onCloseModal, addFrien
 
     const onClickAddFriend = (id) => {
         setSentRequests([...sentRequests, id]);
-        addFriend(id);
+        addFriend(id, "View list: friend of a friend");
     }
 
     useEffect(() => {
