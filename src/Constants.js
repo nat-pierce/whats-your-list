@@ -13,5 +13,6 @@ export const EVENTS = {
     AddFriend: "ADD_FRIEND",
     RemoveFriend: "REMOVE_FRIEND",
     AcceptRequest: "ACCEPT_REQUEST",
-    DeleteRequest: "DELETE_REQUEST"
+    DeleteRequest: "DELETE_REQUEST",
+    ResendEmail: "RESEND_EMAIL"
 };

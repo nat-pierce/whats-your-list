@@ -1,11 +1,11 @@
 import { useContext, memo, useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Home.scss';
-import { ROUTES } from '../../Constants';
+import { EVENTS, ROUTES } from '../../Constants';
 import AppContext from '../../AppContext';
 import Header from '../../CommonComponents/Header';
 import Profile from './Profile';
-import { FirebaseContext } from '../../Firebase';
+import { FirebaseContext, log } from '../../Firebase';
 import FavoriteList from './FavoriteList';
 import Charts from './Charts';
 import Settings from './Settings';
@@ -27,6 +27,11 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
         })
         .catch((err) => console.error(err));
     }, [authUser]);
+
+    const onClickSendEmail = () => {
+        log(EVENTS.ResendEmail);
+        sendConfirmationEmail();
+    }
 
     const resizeListener = () => {
         if (window.innerWidth < parseInt(smallScreenMax)) {
@@ -70,7 +75,7 @@ const Home = memo(({ user, hasSentEmailVerification, setHasSentEmailVerification
             <div className='email-verification-page'>
                 <Header />
                 <div className='message'>Email verification sent!</div>
-                <Button color="primary" variant="contained" onClick={sendConfirmationEmail}>
+                <Button color="primary" variant="contained" onClick={onClickSendEmail}>
                     Send again
                 </Button>
                 <Settings />
