@@ -29,7 +29,8 @@ const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromLi
     useEffect(() => {
         if (favoriteMovies.length > previousNumMovies) {
             if (window.innerWidth > parseInt(smallScreenMax)) {
-                containerRef.current.scrollTo(0, containerRef.current.scrollHeight);
+                console.log(containerRef.current.scrollHeight);
+                containerRef.current.scrollTop = containerRef.current.scrollHeight;
             } else {
                 containerRef.current.scrollIntoView(false);
             }

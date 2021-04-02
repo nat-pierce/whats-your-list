@@ -30,6 +30,7 @@ const Login = memo(({ user, setUser }) => {
     }, [setIsMounted, setUser, firebase])
 
     const uiConfig = {
+        signInSuccessUrl: "/", // This is not used, instead the redirect happens in setUser
         signInOptions: [{
             requireDisplayName: true,
             provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
@@ -55,6 +56,8 @@ const Login = memo(({ user, setUser }) => {
 
                     setUser(authResult.user.uid);
                 }
+
+                return false;
             }
         }
     };
