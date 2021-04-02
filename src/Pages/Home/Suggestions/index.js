@@ -59,7 +59,7 @@ const Suggestions = memo(({ favoriteMovies, friends, suggestedMovies, setSuggest
                         }) === -1;
                     });
 
-                    if (movies.length) {
+                    if (movies.length > 0) {
                         setSuggestedMovies(movies);
                     } else {
                         setNumTries(numTries + 1);
@@ -78,6 +78,21 @@ const Suggestions = memo(({ favoriteMovies, friends, suggestedMovies, setSuggest
             setIsLoading(false);
         }
     }, [setIsLoading, suggestedMovies, setNumTries]);
+
+    useEffect(() => {
+        // This handles when favorite movies isn't loaded yet on first render
+        if (favoriteMovies.length && suggestedMovies.length) {
+            const filteredSuggestions = suggestedMovies.filter(m => {
+                return favoriteMovies.findIndex(f => {
+                    return f.imdbID === m.imdbID;
+                }) === -1;
+            });
+
+            if (filteredSuggestions.length < suggestedMovies.length) {
+                setSuggestedMovies(filteredSuggestions);
+            }
+        }
+    }, [suggestedMovies, favoriteMovies, setSuggestedMovies])
 
     if (isLoading) {
         return <div className='suggestions'>
@@ -144,7 +159,7 @@ export default function ConnectedSuggestions() {
     const { setSuggestedMovies, addMovieToList } = actions;
 
     return <Suggestions 
-        friends={friends} 
+        friends={friends}
         favoriteMovies={favoriteMovies}
         suggestedMovies={suggestedMovies} 
         setSuggestedMovies={setSuggestedMovies} 
