@@ -18,5 +18,5 @@ export const EVENTS = {
 };
 
 export const BASE_URL = process.env.NODE_ENV === 'production'
-    ? "https://whats-your-list.web.app"
+    ? "https://whatsyourlist.com"
     : "http://localhost:3000";

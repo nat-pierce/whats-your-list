@@ -2,7 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const cors = require('cors')({
     origin: process.env.NODE_ENV === 'production'
-        ? "https://whats-your-list.web.app"
+        ? "https://whatsyourlist.com"
         : "http://localhost:3000"
 });
 admin.initializeApp();
