@@ -85,7 +85,7 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
             renderInput={(params) => <TextField 
                 {...params} 
                 autoFocus={reactKey > 0} // After a movie is chosen and this is rerendered, maintain focus to easily add more movies
-                label={isDisabled ? `Max number of movies added (${maxNum})` : "Search"} 
+                label={isDisabled ? `Max movies added (${maxNum})` : "Search"} 
                 color="secondary" 
                 variant="outlined" />
             }

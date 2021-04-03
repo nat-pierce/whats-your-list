@@ -68,7 +68,9 @@ const ViewList = memo(({ uid, setUser }) => {
                 </div>
                 <div className='lower'>
                     <ViewListFavoriteMovies viewListMovies={viewListMovies} />
-                    <Charts viewListMovies={viewListMovies} />
+                    {viewListMovies && viewListMovies.length &&
+                        <Charts viewListMovies={viewListMovies} />
+                    }
                 </div>
             </div>
         </div>

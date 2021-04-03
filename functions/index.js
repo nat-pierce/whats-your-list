@@ -20,7 +20,14 @@ exports.getFriendsInfo = functions.https.onRequest((req, res) => {
         if (friendRefs.length) {
             const snapshot = await admin.firestore().getAll(...friendRefs);
 
-            snapshot.forEach(f => friends.push({ uid: f.id, ...f.data() }));
+            snapshot.forEach(f => {
+                if (f.exists) {
+                    friends.push({ uid: f.id, ...f.data() });
+                } else {
+                    // If account no longer exists, remove from friend list
+                    admin.firestore().collection('users').doc(userId).collection('friends').doc(f.id).delete();
+                }
+            });
 
             friends.sort((a, b) => {
                 const nameA = a.name.toUpperCase();
