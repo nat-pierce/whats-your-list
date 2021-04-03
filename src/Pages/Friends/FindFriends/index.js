@@ -6,7 +6,6 @@ import AppContext from '../../../AppContext';
 import Avatar from '@material-ui/core/Avatar';
 import './FindFriends.scss';
 import { useKeypress } from '../../../Hooks';
-import { getFirstAndLastName } from '../../../Utilities';
 
 const FindFriends = memo(({ uid, addFriend, friends }) => {
     const [searchValue, setSearchValue] = useState('');

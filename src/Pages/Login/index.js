@@ -1,6 +1,6 @@
 import { useEffect, useContext, memo, useState } from 'react';
 import './Login.scss';
-import { BASE_URL, ROUTES } from '../../Constants';
+import { ROUTES } from '../../Constants';
 import { FirebaseContext } from '../../Firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { useHistory } from 'react-router-dom';
