@@ -60,7 +60,7 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
                 {(Poster !== "N/A") && <img className='poster' src={Poster} />}
                 <div className='title'>{`${Title} (${Year})`}</div>
                 {existingRank > 0 && 
-                    <div className='current-rank'>Current rank: {existingRank}</div>
+                    <div className='current-rank'>Already #{existingRank}</div>
                 }
             </div>
         )

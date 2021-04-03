@@ -40,7 +40,7 @@ const ViewListFavoriteMovies = memo(({ isSignedIn, viewListMovies, favoriteMovie
                         }
                         <div>{movie.Title} ({movie.Year})</div>
                         {isSignedIn && myRank > 0 &&
-                            <div className='my-rank'>My rank: {myRank}</div>
+                            <div className='my-rank'>My #{myRank}</div>
                         }
                         {isSignedIn && myRank <= 0 &&
                             addButton(movie)
