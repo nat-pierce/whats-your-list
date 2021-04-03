@@ -34,6 +34,9 @@ export class AppContextProvider extends PureComponent {
             this.setState({ user: userDoc.data() });
         } else {
             await createAccount(user);
+
+            const newUserDoc = await db.collection('users').doc(user.uid).get();
+            this.setState({ user: newUserDoc.data() });
         }
 
         this.unsubscribeFromPublicUserInfo = db.collection('publicUserInfo').doc(user.uid).onSnapshot(snap => {

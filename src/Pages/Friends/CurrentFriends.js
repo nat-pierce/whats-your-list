@@ -39,7 +39,7 @@ const CurrentFriends = memo(({ uid, friends, removeFriend }) => {
                         <div className='name'>{friend.name}</div>
                     </div>
                     <div className='button-section'>
-                        <Button onClick={() => onClickRemove(friend.uid)}>
+                        <Button className="remove-button" onClick={() => onClickRemove(friend.uid)}>
                             Remove
                         </Button>
                         <Button className="view-button" variant="contained" color="secondary" onClick={() => onClickViewList(friend.uid)}>

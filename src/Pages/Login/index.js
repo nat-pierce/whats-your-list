@@ -1,6 +1,6 @@
 import { useEffect, useContext, memo, useState } from 'react';
 import './Login.scss';
-import { ROUTES } from '../../Constants';
+import { BASE_URL, ROUTES } from '../../Constants';
 import { FirebaseContext } from '../../Firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { useHistory } from 'react-router-dom';
@@ -12,6 +12,21 @@ const Login = memo(({ user, setUser }) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
     const [isMounted, setIsMounted] = useState(false);
+    
+    const uiConfig = {
+        signInSuccessUrl: "/", // This isn't used, we redirect in the useEffect below
+        signInOptions: [{
+            requireDisplayName: true,
+            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
+        }],
+        callbacks: {
+            signInSuccessWithAuthResult: (authResult) => {
+                setUser(authResult.user);
+
+                return false;
+            }
+        }
+    };
 
     useEffect(() => {
         if (user) {
@@ -28,20 +43,6 @@ const Login = memo(({ user, setUser }) => {
             }
         })
     }, [setIsMounted, setUser, firebase])
-
-    const uiConfig = {
-        signInOptions: [{
-            requireDisplayName: true,
-            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
-        }],
-        callbacks: {
-            signInSuccessWithAuthResult: (authResult) => {
-                setUser(authResult.user);
-
-                return false;
-            }
-        }
-    };
 
     if (!isMounted) {
         return <OverlayLogoSpinner />;
