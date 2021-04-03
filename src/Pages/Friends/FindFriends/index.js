@@ -19,15 +19,9 @@ const FindFriends = memo(({ uid, addFriend, friends }) => {
     };
 
     const onClickSearch = () => {
-        let uppercasedName = [];
-        searchValue.split(" ").forEach(word => {
-            uppercasedName.push(word[0].toUpperCase() + word.substr(1));
-        });
-        uppercasedName = uppercasedName.join(" ");
-
         firebase.firestore()
             .collection('publicUserInfo')
-            .where('name', 'in', [searchValue, uppercasedName])
+            .where('name', '>=', searchValue)
             .get()
             .then((querySnapshot) => {
                 const newSearchResults = [];
@@ -60,7 +54,7 @@ const FindFriends = memo(({ uid, addFriend, friends }) => {
 
     return (
         <div className='find-friends'>
-            <div className='instructions'>Find new friends using their full name</div>
+            <div className='instructions'>Find new friends by searching their name</div>
             <div className='upper'>
                 <TextField 
                     className='search-box'

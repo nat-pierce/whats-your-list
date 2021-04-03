@@ -51,8 +51,8 @@ const Friends = memo(({ user, numFriends, numRequests }) => {
                 textColor="secondary"
                 variant="fullWidth"
                 >
-                <Tab label="Find friends" />
                 <Tab label={`Current friends (${numFriends})`} />
+                <Tab label="Find new friends" />
                 <Tab label={
                     <Badge badgeContent={numRequests} color="primary">
                         Friend requests
@@ -60,10 +60,10 @@ const Friends = memo(({ user, numFriends, numRequests }) => {
                 } />
             </Tabs>
             <TabPanel index={0}>
-                <FindFriends />
+                <CurrentFriends />
             </TabPanel>
             <TabPanel index={1}>
-                <CurrentFriends />
+                <FindFriends />
             </TabPanel>
             <TabPanel index={2}>
                 <FriendRequests />
