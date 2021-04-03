@@ -6,7 +6,7 @@ import Modal from '../../../../CommonComponents/Modal';
 import AppContext from '../../../../AppContext';
 import Button from '@material-ui/core/Button';
 
-const ViewListFriends = memo(({ uid, viewId, isModalOpen, onCloseModal, addFriend }) => {
+const ViewListFriends = memo(({ uid, viewId, isModalOpen, onCloseModal, addFriend, friends }) => {
     const [viewListFriends, setViewListFriends] = useState([]);
     const [sentRequests, setSentRequests] = useState([]);
 
@@ -24,6 +24,10 @@ const ViewListFriends = memo(({ uid, viewId, isModalOpen, onCloseModal, addFrien
             }
         })
     }, [viewListFriends, setViewListFriends, viewId, uid]);
+
+    const shouldShowAddButton = (friend) => {
+        return (friend.uid !== uid) && (friends.findIndex(f => f.uid === friend.uid) === -1)
+    };
     
     return (
         <Modal className='view-friends-modal' modalTitle={`View friends (${viewListFriends.length})`} isOpen={isModalOpen} onCloseModal={onCloseModal}>
@@ -34,10 +38,10 @@ const ViewListFriends = memo(({ uid, viewId, isModalOpen, onCloseModal, addFrien
                             <Avatar className='profile-pic' src={friend.profilePicUrl} alt='Profile pic' />
                             <div className='name'>{friend.name}</div>
                         </div>
-                        {friend.uid !== uid && sentRequests.includes(friend.uid) &&
+                        {shouldShowAddButton(friend) && sentRequests.includes(friend.uid) &&
                             <div>Sent request</div>
                         }
-                        {friend.uid !== uid && !sentRequests.includes(friend.uid) &&
+                        {shouldShowAddButton(friend) && !sentRequests.includes(friend.uid) &&
                             <Button className='add-button' onClick={() => onClickAddFriend(friend.uid)}>
                                 Add
                             </Button>
@@ -52,7 +56,8 @@ const ViewListFriends = memo(({ uid, viewId, isModalOpen, onCloseModal, addFrien
 export default function ConnectedViewListFriends(props) {
     const { state, actions } = useContext(AppContext);
     const { addFriend } = actions;
-    const uid = state.user.uid;
+    const { friends, user } = state;
+    const uid = user.uid;
 
-    return <ViewListFriends addFriend={addFriend} uid={uid} {...props} />;
+    return <ViewListFriends friends={friends} addFriend={addFriend} uid={uid} {...props} />;
 }
