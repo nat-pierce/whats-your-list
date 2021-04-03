@@ -47,14 +47,19 @@ export class AppContextProvider extends PureComponent {
 
             querySnapshot.docChanges().forEach(change => {
                 if (change.type === 'added') {
-                    const { name, profilePicUrl } = change.doc.data();
-                    const request = {
-                        uid: change.doc.id,
-                        name,
-                        profilePicUrl
-                    };
+                    const alreadyAdded = (newRequests.findIndex(r => r.uid === change.doc.id) > -1) 
+                        || (this.state.friendRequests.findIndex(r => r.uid === change.doc.id) > -1);
 
-                    newRequests.push(request);
+                    if (!alreadyAdded) {
+                        const { name, profilePicUrl } = change.doc.data();
+                        const request = {
+                            uid: change.doc.id,
+                            name,
+                            profilePicUrl
+                        };
+
+                        newRequests.push(request);
+                    }
                 }
             });
 
