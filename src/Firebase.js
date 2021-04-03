@@ -4,6 +4,7 @@ import 'firebase/firestore';
 import 'firebase/storage'; 
 import 'firebase/analytics';
 import { createContext } from 'react';
+import { getFirstAndLastName } from './Utilities';
 
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -36,10 +37,15 @@ export const createAccount = async (user) => {
         .doc(user.uid)
         .set(userInfo);
 
+    const fullName = user.displayName;
+    const [firstName, lastName] = getFirstAndLastName(fullName);
+
     await app.firestore().collection('publicUserInfo')
         .doc(user.uid)
         .set({ 
-            name: user.displayName,
+            name: fullName,
+            firstName,
+            lastName,
             profilePicUrl: null 
         });
 }

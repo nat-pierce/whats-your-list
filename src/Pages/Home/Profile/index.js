@@ -7,6 +7,7 @@ import EditableLabel from '../../../CommonComponents/EditableLabel';
 import FriendsButton from './FriendsButton';
 import ShareButton from '../ShareButton';
 import SearchBar from '../SearchBar';
+import { getFirstAndLastName } from '../../../Utilities';
 
 const Profile = memo(({ uid, name, profilePicUrl }) => {
     const profilePicInputRef = useRef(null);
@@ -37,7 +38,13 @@ const Profile = memo(({ uid, name, profilePicUrl }) => {
     }
 
     const onConfirmName = (name) => {
-        firebase.firestore().collection('publicUserInfo').doc(uid).update({ name });
+        const [firstName, lastName] = getFirstAndLastName(name);
+
+        firebase.firestore().collection('publicUserInfo').doc(uid).update({ 
+            name,
+            firstName,
+            lastName 
+        });
         firebase.auth().currentUser.updateProfile({
             displayName: name
         });

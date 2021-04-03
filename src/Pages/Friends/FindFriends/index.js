@@ -6,6 +6,7 @@ import AppContext from '../../../AppContext';
 import Avatar from '@material-ui/core/Avatar';
 import './FindFriends.scss';
 import { useKeypress } from '../../../Hooks';
+import { getFirstAndLastName } from '../../../Utilities';
 
 const FindFriends = memo(({ uid, addFriend, friends }) => {
     const [searchValue, setSearchValue] = useState('');
@@ -18,31 +19,50 @@ const FindFriends = memo(({ uid, addFriend, friends }) => {
         setSearchValue(e.target.value);
     };
 
-    const onClickSearch = () => {
-        firebase.firestore()
-            .collection('publicUserInfo')
-            .where('name', '>=', searchValue)
-            .get()
-            .then((querySnapshot) => {
-                const newSearchResults = [];
+    const onClickSearch = async () => {
+        const newSearchResults = [];
+        let querySnapshotDocs;
 
-                querySnapshot.forEach((doc) => {
-                    if (doc.id === uid || friendIds.includes(doc.id)) { return }
-
-                    const { name, profilePicUrl } = doc.data();
-
-                    newSearchResults.push({
-                        uid: doc.id,
-                        name,
-                        profilePicUrl
-                    });
-                });
-
-                setSearchResults(newSearchResults);
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
+        if (searchValue.indexOf(" ") > -1) {
+            let uppercasedName = [];
+            searchValue.split(" ").forEach(word => {
+                uppercasedName.push(word[0].toUpperCase() + word.substr(1));
             });
+            uppercasedName = uppercasedName.join(" ");
+
+            querySnapshotDocs = await firebase.firestore()
+                .collection('publicUserInfo')
+                .where('name', "in", [searchValue, uppercasedName])
+                .get();
+        } else {
+            let uppercasedName = searchValue[0].toUpperCase() + searchValue.substr(1);
+            
+            const firstNameQuerySnapshot = await firebase.firestore()
+                .collection('publicUserInfo')
+                .where('firstName', "in", [searchValue, uppercasedName])
+                .get();
+
+            const lastNameQuerySnapshot = await firebase.firestore()
+                .collection('publicUserInfo')
+                .where('lastName', "in", [searchValue, uppercasedName])
+                .get();
+
+            querySnapshotDocs = [...firstNameQuerySnapshot.docs, ...lastNameQuerySnapshot.docs];
+        }
+
+        querySnapshotDocs.forEach((doc) => {
+            if (doc.id === uid || friendIds.includes(doc.id)) { return }
+
+            const { name, profilePicUrl } = doc.data();
+
+            newSearchResults.push({
+                uid: doc.id,
+                name,
+                profilePicUrl
+            });
+        });
+
+        setSearchResults(newSearchResults);
     }
 
     const onClickAddFriend = (id) => {

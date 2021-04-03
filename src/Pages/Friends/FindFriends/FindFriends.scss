@@ -58,6 +58,10 @@
 
             .add-button {
                 align-content: flex-end;
+
+                @include smallScreen {
+                    font-size: 12px;
+                }
             }
         }
     }
