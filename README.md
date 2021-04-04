@@ -2,6 +2,12 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## To patch a package
+
+Make the changes in the node_modules,
+then run `npx patch-package some-package`,
+then run `./node_modules/.bin/patch-package`
+
 ## To deploy
 
 Run `npm run build` followed by `firebase deploy`

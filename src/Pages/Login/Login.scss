@@ -57,3 +57,22 @@
         justify-content: flex-start;
     }
 }
+
+// Placing outside login-page for email verification page
+.firebaseui-button {
+    background: $yellow !important;
+    color: black !important;
+    font-family: 'Nunito' !important;
+
+    &.firebaseui-id-secondary-link {
+        background: $light-gray !important;
+    }
+}
+
+.firebaseui-textfield.mdl-textfield .firebaseui-label:after {
+    background-color: black !important;
+}
+
+.firebaseui-link {
+    color: black;
+}
