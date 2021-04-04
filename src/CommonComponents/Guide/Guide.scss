@@ -1,0 +1,20 @@
+@import '../../ConstantsAndMixins.scss';
+
+.guide-tooltip {
+    font-family: 'Nunito';
+    background-color: white;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+
+    .footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 100%;
+        margin-top: 1rem;
+    }
+}

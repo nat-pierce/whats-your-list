@@ -19,14 +19,14 @@ const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSe
     const [isMounted, setIsMounted] = useState(false);
     const [shouldShowSuggestions, setShouldShowSuggestions] = useState(false);
     const firebase = useContext(FirebaseContext);
-    const authUser = firebase.auth().currentUser;
 
     const sendConfirmationEmail = useCallback(() => {
+        const authUser = firebase.auth().currentUser;
         authUser.sendEmailVerification({
             url: BASE_URL
         })
         .catch((err) => console.error(err));
-    }, [authUser]);
+    }, [firebase]);
 
     const onClickSendEmail = () => {
         log(EVENTS.ResendEmail);
@@ -50,11 +50,12 @@ const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSe
     }, [user, history, setIsMounted, isMounted]);
 
     useEffect(() => {
+        const authUser = firebase.auth().currentUser;
         if (authUser && !authUser.emailVerified && !hasSentEmailVerification) {
             sendConfirmationEmail();
             setHasSentEmailVerification(true);
         }
-    }, [authUser, hasSentEmailVerification, setHasSentEmailVerification, sendConfirmationEmail]);
+    }, [firebase, hasSentEmailVerification, setHasSentEmailVerification, sendConfirmationEmail]);
 
     useEffect(() => {
         resizeListener();
@@ -63,12 +64,13 @@ const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSe
         return () => {
             window.removeEventListener('resize', resizeListener);
         }
-    }, [])
+    }, []);
 
     if (!isMounted || !user) {
         return <OverlayLogoSpinner />;
     }
 
+    const authUser = firebase.auth().currentUser;
     if (authUser && !authUser.emailVerified) {
         return (
             <div className='email-verification-page'>

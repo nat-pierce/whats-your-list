@@ -8,6 +8,7 @@ import { useContext } from 'react';
 import AppContext from '../../../AppContext';
 import './SearchBar.scss';
 import { MAX_NUM_MOVIES } from '../../../Constants';
+import Guide from '../../../CommonComponents/Guide';
 
 const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
     const [inputValue, setInputValue] = useState('');
@@ -67,29 +68,32 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
     };
 
     return (
-        <Autocomplete 
-            key={reactKey}
-            className='search'
-            disabled={isDisabled}
-            multiple={false}
-            options={options}
-            onChange={onChooseMovie}
-            onInputChange={onInputChange}
-            loading={(options.length === 0) && (inputValue !== '') && !error}
-            noOptionsText={error || 'Search for your favorite movies by title'}
-            // disable filtering on client side
-            filterOptions={(option) => option}
-            getOptionLabel={({ Title, Year }) => `${Title} (${Year})`}
-            getOptionDisabled={({ imdbID }) => existingIds.findIndex(id => id === imdbID) > -1}
-            renderOption={renderOption}
-            renderInput={(params) => <TextField 
-                {...params} 
-                autoFocus={reactKey > 0} // After a movie is chosen and this is rerendered, maintain focus to easily add more movies
-                label={isDisabled ? `Max movies added (${maxNum})` : "Search movies"} 
-                color="secondary" 
-                variant="outlined" />
-            }
-        />
+        <>
+            <Autocomplete 
+                key={reactKey}
+                className='search'
+                disabled={isDisabled}
+                multiple={false}
+                options={options}
+                onChange={onChooseMovie}
+                onInputChange={onInputChange}
+                loading={(options.length === 0) && (inputValue !== '') && !error}
+                noOptionsText={error || 'Search for your favorite movies by title'}
+                // disable filtering on client side
+                filterOptions={(option) => option}
+                getOptionLabel={({ Title, Year }) => `${Title} (${Year})`}
+                getOptionDisabled={({ imdbID }) => existingIds.findIndex(id => id === imdbID) > -1}
+                renderOption={renderOption}
+                renderInput={(params) => <TextField 
+                    {...params} 
+                    autoFocus={reactKey > 0} // After a movie is chosen and this is rerendered, maintain focus to easily add more movies
+                    label={isDisabled ? `Max movies added (${maxNum})` : "Search movies"} 
+                    color="secondary" 
+                    variant="outlined" />
+                }
+            />
+            {favoriteMovies.length === 0 && <Guide />}
+        </>
     );
 });
 
