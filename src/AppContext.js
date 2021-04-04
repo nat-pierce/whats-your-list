@@ -31,7 +31,26 @@ export class AppContextProvider extends PureComponent {
         const userDoc = await db.collection('users').doc(user.uid).get();
 
         if (userDoc.exists) {
-            this.setState({ user: userDoc.data() });
+            // retrieve movie list
+            const snapshot = await db.collection('publicUserInfo').doc(user.uid)
+                .collection('favoriteMovies')
+                .orderBy('OrderId')
+                .get();
+
+            const favoriteMovies = snapshot.docs.map(doc => doc.data());
+
+            // retrieve friends
+            const friendsResponse = await getFriendsInfo(user.uid);
+            const friends = friendsResponse
+                ? friendsResponse.friends
+                : [];
+
+            // set state
+            this.setState({ 
+                user: userDoc.data(), 
+                favoriteMovies,
+                friends 
+            });
         } else {
             await createAccount(user);
 
@@ -39,9 +58,12 @@ export class AppContextProvider extends PureComponent {
             this.setState({ user: newUserDoc.data(), shouldShowGuide: true });
         }
 
+        // subscribe to name and profile pic changes
         this.unsubscribeFromPublicUserInfo = db.collection('publicUserInfo').doc(user.uid).onSnapshot(snap => {
             snap && this.setState({ publicUserInfo: snap.data() });
         });
+
+        // subscribe to friend requests
         this.unsubscribeFromFriendRequests = db.collection('users').doc(user.uid).collection('friendRequests').onSnapshot(querySnapshot => {
             const newRequests = [];
 
@@ -65,23 +87,6 @@ export class AppContextProvider extends PureComponent {
 
             this.setState({ friendRequests: [...this.state.friendRequests, ...newRequests] });
         });
-
-        // retrieve friends
-        getFriendsInfo(user.uid).then((response) => {
-            if (response) {
-                this.setState({ friends: response.friends });
-            }
-        }).catch(err => console.log('friends error', err));
-
-        // retrieve movie list
-        const snapshot = await db.collection('publicUserInfo').doc(user.uid)
-            .collection('favoriteMovies')
-            .orderBy('OrderId')
-            .get();
-
-        const favoriteMovies = snapshot.docs.map(doc => doc.data());
-
-        this.setState({ favoriteMovies });
     }
 
     signOut = (history) => {
