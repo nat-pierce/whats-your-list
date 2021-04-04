@@ -59,6 +59,8 @@ const ViewList = memo(({ uid, setUser }) => {
         }
     }, [viewId, firebase, history, uid]);
 
+    const shouldShowCharts = !!viewListMovies && (viewListMovies.length > 0);
+
     return (
         <div className='view-list-page'>
             <Header />
@@ -68,7 +70,7 @@ const ViewList = memo(({ uid, setUser }) => {
                 </div>
                 <div className='lower'>
                     <ViewListFavoriteMovies viewListMovies={viewListMovies} />
-                    {viewListMovies && viewListMovies.length &&
+                    {shouldShowCharts &&
                         <Charts viewListMovies={viewListMovies} />
                     }
                 </div>

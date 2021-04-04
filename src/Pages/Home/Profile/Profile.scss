@@ -60,6 +60,12 @@ $profile-pic-margin: 1rem;
             
             .MuiBadge-root {
                 align-items: center;
+
+                .num-friends {
+                    margin-right: 4px;
+                    font-family: 'NunitoBlack';
+                    font-size: 18px;
+                }
             }
         }
     }

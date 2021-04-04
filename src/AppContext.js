@@ -55,7 +55,7 @@ export class AppContextProvider extends PureComponent {
             await createAccount(user);
 
             const newUserDoc = await db.collection('users').doc(user.uid).get();
-            this.setState({ user: newUserDoc.data(), shouldShowGuide: true });
+            this.setState({ user: newUserDoc.data() });
         }
 
         // subscribe to name and profile pic changes

@@ -33,6 +33,10 @@ $tab-bar-height: 30px;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+
+                @include smallScreen {
+                    font-size: 12px;
+                }
         
                 .profile-info {
                     display: flex;
@@ -45,8 +49,8 @@ $tab-bar-height: 30px;
                         width: 100px;
 
                         @include smallScreen {
-                            height: 75px;
-                            width: 75px;
+                            height: 50px;
+                            width: 50px;
                         }
                     }
                 }
@@ -63,6 +67,12 @@ $tab-bar-height: 30px;
         
                     .accept-button, .view-button {
                         margin-left: 1rem;
+
+                        @include smallScreen {
+                            font-size: 12px;
+                            padding: 5px 10px;
+                            line-height: unset;
+                        }
                     }
                 }
         
