@@ -26,4 +26,4 @@ Run `npm run build` followed by `firebase deploy`
 
 ### To run emulators
 
-Run `firebase emulators:start
+Run `firebase emulators:start`
