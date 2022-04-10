@@ -27,6 +27,10 @@ $yellow: #FFF88B;
     @include mediumScreen {
         font-size: 14px;
     }
+
+    &:not(.remove-icon), &:not(.drag-handle) {
+        user-select: none;
+    }
 }
 
 $small-screen-min: 300px;
