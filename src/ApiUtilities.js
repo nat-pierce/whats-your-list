@@ -1,16 +1,18 @@
+import { API_HOST_URL } from './Constants';
+
 export const searchMovieApi = (title, callback) => {
     if (!title) {
         return callback([]);
     }
 
     const encodedTitle = encodeURIComponent(title);
-    const url = `https://movie-database-imdb-alternative.p.rapidapi.com/?s=${encodedTitle}&page=1&r=json&type=movie`;
-    
+    const url = `https://${API_HOST_URL}/?s=${encodedTitle}&page=1&r=json&type=movie`;
+
     fetch(url, {
         "method": "GET",
         "headers": {
             "x-rapidapi-key": process.env.REACT_APP_MOVIE_API_KEY,
-            "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
+            "x-rapidapi-host": API_HOST_URL
         }
     })
     .then(response => response.json())
@@ -34,13 +36,13 @@ const getMovieByTitle = (title, callback) => {
     }
 
     const encodedTitle = encodeURIComponent(title);
-    const url = `https://movie-database-imdb-alternative.p.rapidapi.com/?t=${encodedTitle}&r=json&type=movie`;
+    const url = `https://${API_HOST_URL}/?t=${encodedTitle}&r=json&type=movie`;
 
     fetch(url, {
         "method": "GET",
         "headers": {
             "x-rapidapi-key": process.env.REACT_APP_MOVIE_API_KEY,
-            "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
+            "x-rapidapi-host": API_HOST_URL
         }
     })
     .then(response => response.json())
@@ -61,13 +63,13 @@ export const getMovieMetadataApi = (imdbID) => {
         return null;
     }
 
-    const url = `https://movie-database-imdb-alternative.p.rapidapi.com/?i=${imdbID}&r=json&type=movie`;
+    const url = `https://${API_HOST_URL}/?i=${imdbID}&r=json&type=movie`;
     
     return fetch(url, {
         "method": "GET",
         "headers": {
             "x-rapidapi-key": process.env.REACT_APP_MOVIE_API_KEY,
-            "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
+            "x-rapidapi-host": API_HOST_URL
         }
     })
     .then(response => response.json())

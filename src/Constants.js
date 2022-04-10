@@ -20,3 +20,5 @@ export const EVENTS = {
 export const BASE_URL = process.env.NODE_ENV === 'production'
     ? "https://whatsyourlist.com"
     : "http://localhost:3000";
+
+export const API_HOST_URL = 'movie-database-alternative.p.rapidapi.com';
