@@ -5,6 +5,7 @@ $home-upper-height: 120px;
 // Colors
 $light-gray: #f3f3f3; 
 $gray: #c7c7c7;
+$dark-gray: #616161;
 $red: #C60000;
 $dark-red: #9B0404;
 $yellow: #FFF88B;
@@ -12,7 +13,7 @@ $yellow: #FFF88B;
 // Mixins
 @mixin tileStyles() {
     background-color: white;
-    padding: 0.25rem 1rem;
+    padding: 0.25rem 0.5rem;
     box-sizing: border-box;
     margin-bottom: 0.5rem;
     border: solid $gray 1px;
@@ -37,9 +38,9 @@ $medium-screen-max: 1000px;
 }
 
 @mixin mediumScreen {
-    @media screen and (max-width: $medium-screen-max) and (min-width: $small-screen-max + 1px) { @content; }
+    @media screen and (max-width: $medium-screen-max) and (min-width: ($small-screen-max + 1px)) { @content; }
 }
 
 @mixin largeScreen {
-    @media screen and (min-width: $medium-screen-max + 1px) { @content; }
+    @media screen and (min-width: ($medium-screen-max + 1px)) { @content; }
 }

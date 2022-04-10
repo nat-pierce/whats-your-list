@@ -30,10 +30,20 @@
             }
         }
 
+        .drag-handle {
+            display: flex;
+            padding-right: 0.25rem;
+            color: $dark-gray;
+        }
+
         .rank {
             font-family: 'NunitoBlack';
             margin-right: 1rem;
             font-size: 20px;
+        }
+
+        .title {
+            user-select: none;
         }
 
         .poster {

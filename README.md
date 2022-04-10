@@ -10,6 +10,10 @@ The front-end is built with React, and uses React Context for state management. 
 
 ## Notes-to-self for development
 
+There are some "security vulnerabilities" in react-scripts,
+but for now just use `npm audit --production`
+(https://github.com/facebook/create-react-app/issues/11174)
+
 ### To run locally
 
 Run `npm start`

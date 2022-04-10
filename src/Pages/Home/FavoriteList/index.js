@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import AppContext from '../../../AppContext';
 import IconButton from '@material-ui/core/IconButton';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import DragHandleIcon from '@material-ui/icons/DragHandle';
 import { usePrevious } from '../../../Hooks';
 import { smallScreenMax } from '../../../StyleExports.module.scss';
 
@@ -51,7 +52,13 @@ const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromLi
                                             className='tile'
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
-                                            {...provided.dragHandleProps}>
+                                        >
+                                            <div 
+                                                className='drag-handle'
+                                                {...provided.dragHandleProps}
+                                            >
+                                                <DragHandleIcon />
+                                            </div>
                                             <div className='rank'>#{i+1}</div>
                                             {movie.Poster !== 'N/A' && 
                                                 <img 
@@ -59,7 +66,7 @@ const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromLi
                                                     src={movie.Poster} 
                                                     alt='Movie poster' />
                                             }
-                                            <div>{movie.Title} ({movie.Year})</div>
+                                            <div className='title'>{movie.Title} ({movie.Year})</div>
                                             <IconButton className='remove-icon' onClick={() => removeMovieFromList(movie.imdbID, i)}>
                                                 <RemoveCircleIcon />
                                             </IconButton>
