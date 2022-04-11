@@ -5,9 +5,9 @@ import { useContext } from 'react';
 import AppContext from '../../../AppContext';
 import IconButton from '@material-ui/core/IconButton';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import DragHandleIcon from '@material-ui/icons/DragHandle';
 import { usePrevious } from '../../../Hooks';
 import { smallScreenMax } from '../../../StyleExports.module.scss';
+import MovieTile from '../../../CommonComponents/MovieTile';
 
 const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromList }) => {
     const containerRef = useRef(null);
@@ -49,27 +49,20 @@ const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromLi
                                 <Draggable key={movie.imdbID} draggableId={`draggable-${movie.imdbID}`} index={i}>
                                     {(provided, snapshot) => (
                                         <div
-                                            className='tile'
+                                            className='tile-wrapper'
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
                                         >
-                                            <div 
-                                                className='drag-handle'
-                                                {...provided.dragHandleProps}
-                                            >
-                                                <DragHandleIcon />
-                                            </div>
-                                            <div className='rank'>#{i+1}</div>
-                                            {movie.Poster !== 'N/A' && 
-                                                <img 
-                                                    className='poster' 
-                                                    src={movie.Poster} 
-                                                    alt='Movie poster' />
-                                            }
-                                            <div className='title'>{movie.Title} ({movie.Year})</div>
-                                            <IconButton className='remove-icon' onClick={() => removeMovieFromList(movie.imdbID, i)}>
-                                                <RemoveCircleIcon />
-                                            </IconButton>
+                                            <MovieTile 
+                                                dragHandleProps={provided.dragHandleProps}
+                                                rank={i+1}
+                                                movie={movie}
+                                                actionButton={
+                                                    <IconButton className='remove-icon' onClick={() => removeMovieFromList(movie.imdbID, i)}>
+                                                        <RemoveCircleIcon />
+                                                    </IconButton>
+                                                }
+                                            />
                                         </div>
                                     )}
                                 </Draggable>

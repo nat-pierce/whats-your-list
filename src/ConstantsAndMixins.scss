@@ -28,8 +28,8 @@ $yellow: #FFF88B;
         font-size: 14px;
     }
 
-    &:not(.remove-icon), &:not(.drag-handle) {
-        user-select: none;
+    @include smallScreen {
+        font-size: 14px;
     }
 }
 
