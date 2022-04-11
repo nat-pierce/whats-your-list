@@ -111,7 +111,7 @@ const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSe
             <div className='main-content'>
                 <div className='upper'>
                     <Profile />
-                    {shouldShowSuggestions && numFriends > 0 && (numFavoriteMovies < MAX_NUM_MOVIES) &&
+                    {shouldShowSuggestions && (numFriends > 0) && (numFavoriteMovies < MAX_NUM_MOVIES) &&
                         <Suggestions />
                     }
                 </div>

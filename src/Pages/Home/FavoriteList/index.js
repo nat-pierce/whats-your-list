@@ -54,15 +54,15 @@ const FavoriteList = memo(({ favoriteMovies, reorderMovieList, removeMovieFromLi
                                             {...provided.draggableProps}
                                         >
                                             <MovieTile 
+                                                key={movie.imdbID}
                                                 dragHandleProps={provided.dragHandleProps}
                                                 rank={i+1}
                                                 movie={movie}
-                                                actionButton={
-                                                    <IconButton className='remove-icon' onClick={() => removeMovieFromList(movie.imdbID, i)}>
-                                                        <RemoveCircleIcon />
-                                                    </IconButton>
-                                                }
-                                            />
+                                            >
+                                                <IconButton className='remove-icon' onClick={() => removeMovieFromList(movie.imdbID, i)}>
+                                                    <RemoveCircleIcon />
+                                                </IconButton>
+                                            </MovieTile>
                                         </div>
                                     )}
                                 </Draggable>

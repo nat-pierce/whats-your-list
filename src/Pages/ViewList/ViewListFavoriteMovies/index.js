@@ -4,6 +4,7 @@ import { memo, useContext } from "react";
 import AppContext from "../../../AppContext";
 import './ViewListFavoriteMovies.scss';
 import { MAX_NUM_MOVIES } from "../../../Constants";
+import MovieTile from "../../../CommonComponents/MovieTile";
 
 const ViewListFavoriteMovies = memo(({ isSignedIn, viewListMovies, favoriteMovies, addMovieToList }) => {
     const atMaxMovies = favoriteMovies.length >= MAX_NUM_MOVIES;
@@ -25,27 +26,19 @@ const ViewListFavoriteMovies = memo(({ isSignedIn, viewListMovies, favoriteMovie
     };
     
     return (
-        <div className='favorite-list view-list-favorite-movies'>
+        <div className='view-list-favorite-movies'>
             {viewListMovies && viewListMovies.map((movie, i) => {
                 const myRank = favoriteMovies.findIndex(m => m.imdbID === movie.imdbID) + 1;
 
                 return (
-                    <div className='tile' key={movie.imdbID}>
-                        <div className='rank'>#{i+1}</div>
-                        {movie.Poster !== 'N/A' && 
-                            <img 
-                                className='poster' 
-                                src={movie.Poster} 
-                                alt='Movie poster' />
-                        }
-                        <div>{movie.Title} ({movie.Year})</div>
+                    <MovieTile key={movie.imdbID} rank={i+1} movie={movie}>
                         {isSignedIn && myRank > 0 &&
                             <div className='my-rank'>#{myRank} on my list</div>
                         }
                         {isSignedIn && myRank <= 0 &&
                             addButton(movie)
                         }
-                    </div>
+                    </MovieTile>
                 );
             })}
         </div>

@@ -53,18 +53,18 @@
 
         .lower {
             display: flex;
-            padding: 0 1rem;
-            box-sizing: border-box;
             background-color: $light-gray;
 
             .tabs-container, .charts {
                 width: 50%;
+                height: 100%;
             }
 
             .charts {
-                padding: 1rem 0;
+                padding-top: 1rem;
                 padding-left: 2rem;
                 box-sizing: border-box;
+                overflow: hidden;
             }
 
             @include smallScreen {

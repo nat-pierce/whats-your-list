@@ -1,6 +1,6 @@
 @import '../../ConstantsAndMixins.scss';
 
-$tab-bar-height: 30px;
+$tab-bar-height: 48px; // matches Material's min-height
 
 .tabs-container {
     .MuiTabs-root {

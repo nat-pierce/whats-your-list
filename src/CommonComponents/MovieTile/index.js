@@ -6,7 +6,7 @@ export default function MovieTile({
     dragHandleProps,
     rank,
     movie,
-    actionButton
+    children
 }) {
     return (
         <div className='movie-tile'>
@@ -18,7 +18,7 @@ export default function MovieTile({
             <div className='rank'>#{rank}</div>
             <img className='poster' src={movie.Poster} alt='Movie poster' />
             <div className='title'>{movie.Title} ({movie.Year})</div>
-            {!!actionButton && actionButton}
+            {children}
         </div>
     );
 }
