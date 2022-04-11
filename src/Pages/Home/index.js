@@ -15,6 +15,8 @@ import Suggestions from './Suggestions';
 import { smallScreenMax } from '../../StyleExports.module.scss';
 import WatchLater from './WatchLater';
 import CustomTabs from '../../CommonComponents/CustomTabs';
+import MovieFilterIcon from '@material-ui/icons/MovieFilter';
+import WatchLaterIcon from '@material-ui/icons/WatchLater';
 
 const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSentEmailVerification, numFriends }) => {
     const history = useHistory();
@@ -88,11 +90,17 @@ const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSe
 
     const tabConfigs = [
         {
-            label: 'Favorites',
+            label: <div className='home-tab-header'>
+                <MovieFilterIcon /> 
+                <span className='tab-name'>Favorites</span>
+            </div>,
             component: <FavoriteList />
         },
         {
-            label: 'Watch Later',
+            label: <div className='home-tab-header'>
+                <WatchLaterIcon /> 
+                <span className='tab-name'>Watch Later</span>
+            </div>,
             component: <WatchLater />
         }
     ];

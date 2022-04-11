@@ -80,6 +80,15 @@
                     border-top: solid 1px $gray;
                 }
             }
+
+            .home-tab-header {
+                display: flex;
+                align-items: center;
+
+                .tab-name {
+                    margin-left: 0.5rem;
+                }
+            }
         }
     }
 }
