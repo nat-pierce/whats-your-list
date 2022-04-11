@@ -1,0 +1,28 @@
+@import '../../ConstantsAndMixins.scss';
+
+$tab-bar-height: 30px;
+
+.tabs-container {
+    .MuiTabs-root {
+        height: $tab-bar-height;
+    
+        .MuiTab-wrapper {
+            @include smallScreen {
+                font-size: 12px;
+            }
+        }
+    }
+
+    .tab-panel {
+        padding: 1rem;
+        box-sizing: border-box;
+        width: 100%;
+        height: calc(100% - #{$tab-bar-height});
+        overflow: auto;
+        background-color: $light-gray;
+
+        > * {
+            width: 100%;
+        }
+    }
+}

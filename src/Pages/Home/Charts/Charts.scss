@@ -6,6 +6,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    padding-left: 1rem;
+
+    @include smallScreen {
+        padding-left: 0;
+    }
 
     .recharts-surface {
         overflow: unset;

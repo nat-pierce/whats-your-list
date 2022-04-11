@@ -57,7 +57,7 @@
             box-sizing: border-box;
             background-color: $light-gray;
 
-            .favorite-list, .charts {
+            .tabs-container, .charts {
                 width: 50%;
                 padding: 1rem 0;
             }
@@ -72,7 +72,7 @@
                 overflow: auto;
                 height: 100%;
 
-                .favorite-list, .charts {
+                .tabs-container, .charts {
                     width: 100%;
                 }
 

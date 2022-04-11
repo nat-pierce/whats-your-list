@@ -2,11 +2,9 @@
   
 .favorite-list {
     overflow: auto;
-    padding-right: 1rem;
 
     @include smallScreen {
         overflow: unset;
-        padding-right: 0;
     }
 
     .tile {

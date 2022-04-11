@@ -13,6 +13,8 @@ import Button from '@material-ui/core/Button';
 import OverlayLogoSpinner from '../../CommonComponents/OverlayLogoSpinner';
 import Suggestions from './Suggestions';
 import { smallScreenMax } from '../../StyleExports.module.scss';
+import WatchLater from './WatchLater';
+import CustomTabs from '../../CommonComponents/CustomTabs';
 
 const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSentEmailVerification, numFriends }) => {
     const history = useHistory();
@@ -84,6 +86,17 @@ const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSe
         );
     }
 
+    const tabConfigs = [
+        {
+            label: 'Favorites',
+            component: <FavoriteList />
+        },
+        {
+            label: 'Watch Later',
+            component: <WatchLater />
+        }
+    ];
+
     return (
         <div className='home-page'>
             <Header />
@@ -95,7 +108,7 @@ const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSe
                     }
                 </div>
                 <div className='lower'>
-                    <FavoriteList />
+                    <CustomTabs tabConfigs={tabConfigs} />
                     <Charts />
                 </div>
             </div>

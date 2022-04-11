@@ -1,84 +1,59 @@
 @import '../../ConstantsAndMixins.scss';
 
-$tab-bar-height: 30px;
-
 .friends-page {
     height: 100%;
     width: 100%;
     padding-top: $header-height;
     box-sizing: border-box;
 
-    .MuiTabs-root {
-        height: $tab-bar-height;
+    .request, .friend {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-        .MuiTab-wrapper {
-            @include smallScreen {
-                font-size: 12px;
+        @include smallScreen {
+            font-size: 12px;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+
+            .profile-pic {
+                margin-right: 1rem;
+                height: 100px;
+                width: 100px;
+
+                @include smallScreen {
+                    height: 50px;
+                    width: 50px;
+                }
             }
         }
-    }
 
-    .tab-panel {
-        padding: 1rem;
-        box-sizing: border-box;
-        width: 100%;
-        height: calc(100% - #{$tab-bar-height});
-        overflow: auto;
-        background-color: $light-gray;
+        .button-section {
+            display: flex;
+            align-items: center;
 
-        .friend-requests, .current-friends {
-            width: 100%;
+            .remove-button {
+                @include smallScreen {
+                    display: none;
+                }
+            }
 
-            .request, .friend {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
+            .accept-button, .view-button {
+                margin-left: 1rem;
 
                 @include smallScreen {
                     font-size: 12px;
+                    padding: 5px 10px;
+                    line-height: unset;
                 }
-        
-                .profile-info {
-                    display: flex;
-                    align-items: center;
-                    margin-right: 1rem;
-        
-                    .profile-pic {
-                        margin-right: 1rem;
-                        height: 100px;
-                        width: 100px;
-
-                        @include smallScreen {
-                            height: 50px;
-                            width: 50px;
-                        }
-                    }
-                }
-        
-                .button-section {
-                    display: flex;
-                    align-items: center;
-
-                    .remove-button {
-                        @include smallScreen {
-                            display: none;
-                        }
-                    }
-        
-                    .accept-button, .view-button {
-                        margin-left: 1rem;
-
-                        @include smallScreen {
-                            font-size: 12px;
-                            padding: 5px 10px;
-                            line-height: unset;
-                        }
-                    }
-                }
-        
-                @include tileStyles;
             }
         }
+
+        @include tileStyles;
     }
 }
 
