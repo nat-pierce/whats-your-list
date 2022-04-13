@@ -1,5 +1,14 @@
 @import '../../../ConstantsAndMixins.scss';
 
+.search-placeholder {
+    display: flex;
+    align-items: center;
+
+    .MuiSvgIcon-root {
+        margin-right: 0.25rem;
+    }
+}
+
 .search-option {
     display: flex;
     align-items: center;

@@ -15,8 +15,7 @@ import Suggestions from './Suggestions';
 import { smallScreenMax } from '../../StyleExports.module.scss';
 import WatchLater from './WatchLater';
 import CustomTabs from '../../CommonComponents/CustomTabs';
-import MovieFilterIcon from '@material-ui/icons/MovieFilter';
-import WatchLaterIcon from '@material-ui/icons/WatchLater';
+import { FavoriteListIcon, WatchLaterListIcon } from '../../CommonComponents/Icons';
 
 const Home = memo(({ 
     numFavoriteMovies, 
@@ -98,7 +97,7 @@ const Home = memo(({
     const tabConfigs = [
         {
             label: <div className='home-tab-header'>
-                <MovieFilterIcon /> 
+                {FavoriteListIcon}
                 <span className='tab-name'>Favorites</span>
             </div>,
             component: <FavoriteList />,
@@ -106,7 +105,7 @@ const Home = memo(({
         },
         {
             label: <div className='home-tab-header'>
-                <WatchLaterIcon /> 
+                {WatchLaterListIcon} 
                 <span className='tab-name'>Watch Later</span>
             </div>,
             component: <WatchLater />,

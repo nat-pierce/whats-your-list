@@ -7,8 +7,9 @@ import { searchMovieApi } from '../../../Utilities/ApiUtilities';
 import { useContext } from 'react';
 import AppContext from '../../../AppContext';
 import './SearchBar.scss';
-import { MAX_NUM_MOVIES } from '../../../Constants';
+import { HOME_TABS, MAX_NUM_MOVIES } from '../../../Constants';
 import Guide from '../../../CommonComponents/Guide';
+import { FavoriteListIcon, WatchLaterListIcon } from '../../../CommonComponents/Icons';
 
 const SearchBar = memo(({ addMovieToList, favoriteMovies, currentHomeTab }) => {
     const [inputValue, setInputValue] = useState('');
@@ -20,6 +21,10 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies, currentHomeTab }) => {
 
     const maxNum = MAX_NUM_MOVIES;
     const isDisabled = favoriteMovies.length >= maxNum;
+
+    const icon = currentHomeTab === HOME_TABS.Favorites
+            ? FavoriteListIcon
+            : WatchLaterListIcon;
 
     const onChooseMovie = (e, value) => {
         addMovieToList(value, currentHomeTab, "Search");
@@ -83,8 +88,8 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies, currentHomeTab }) => {
 
     const renderInput = (params) => {
         const label = isDisabled 
-            ? `Max movies added (${maxNum})` 
-            : "Search movies";
+            ? <span className='search-placeholder'>{icon} Max movies added ({maxNum})</span> 
+            : <span className='search-placeholder'>{icon} Search movies</span>;
 
         return (
             <TextField 
@@ -95,6 +100,8 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies, currentHomeTab }) => {
                 variant="outlined" />
         );
     }
+
+    const noOptionsText = error || 'Search for movies by title';
 
     return (
         <>
@@ -107,7 +114,7 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies, currentHomeTab }) => {
                 onChange={onChooseMovie}
                 onInputChange={onInputChange}
                 loading={loading}
-                noOptionsText={error || 'Search for your favorite movies by title'}
+                noOptionsText={noOptionsText}
                 filterOptions={filterOptions}
                 getOptionLabel={getOptionLabel}
                 getOptionDisabled={getOptionDisabled}
