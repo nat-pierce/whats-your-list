@@ -11,20 +11,22 @@ import { HOME_TABS, MAX_NUM_MOVIES } from '../../../Constants';
 import Guide from '../../../CommonComponents/Guide';
 import { FavoriteListIcon, WatchLaterListIcon } from '../../../CommonComponents/Icons';
 
-const SearchBar = memo(({ addMovieToList, favoriteMovies, currentHomeTab }) => {
+const SearchBar = memo(({ 
+    addMovieToList, 
+    favoriteMovies, 
+    watchLaterMovies,
+    currentHomeTab 
+}) => {
     const [inputValue, setInputValue] = useState('');
     const [options, setOptions] = useState([]);
     const [reactKey, setReactKey] = useState(0);
     const [error, setError] = useState(null);
     const inputRef = useRef(null);
-    const existingIds = favoriteMovies.map(m => m.imdbID);
+    const favoriteMovieIds = favoriteMovies.map(m => m.imdbID);
+    const watchLaterMovieIds = watchLaterMovies.map(m => m.imdbID);
 
     const maxNum = MAX_NUM_MOVIES;
     const isDisabled = favoriteMovies.length >= maxNum;
-
-    const icon = currentHomeTab === HOME_TABS.Favorites
-            ? FavoriteListIcon
-            : WatchLaterListIcon;
 
     const onChooseMovie = (e, value) => {
         addMovieToList(value, currentHomeTab, "Search");
@@ -59,17 +61,31 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies, currentHomeTab }) => {
     }, [inputValue, getOptionsDelayed]);
 
     const renderOption = ({ Title, Year, Poster, imdbID }) => {
-        const existingRank = existingIds.findIndex(id => id === imdbID) + 1;
+        const existingFavoriteRank = favoriteMovieIds.findIndex(id => id === imdbID) + 1;
+        const isAlreadySavedForLater = watchLaterMovieIds.some(id => id === imdbID);
+
+        let chip;
+        if (existingFavoriteRank > 0) {
+            chip = (
+                <div className='chip'>
+                    {FavoriteListIcon} Already #{existingFavoriteRank}
+                </div>
+            );
+        } else if (isAlreadySavedForLater) {
+            chip = (
+                <div className='chip'>
+                    {WatchLaterListIcon} Already saved
+                </div>
+            );
+        }
 
         return (
             <div className='search-option'>
                 {(Poster !== "N/A") && <img className='poster' src={Poster} />}
                 <div className='title'>{`${Title} (${Year})`}</div>
-                {existingRank > 0 && 
-                    <div className='current-rank'>Already #{existingRank}</div>
-                }
+                {!!chip && chip}
             </div>
-        )
+        );
     };
 
     const loading = (options.length === 0) && (inputValue !== '') && !error
@@ -83,10 +99,15 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies, currentHomeTab }) => {
     }
 
     const getOptionDisabled = ({ imdbID }) => {
-        return existingIds.findIndex(id => id === imdbID) > -1;
+        return (favoriteMovieIds.findIndex(id => id === imdbID) > -1)
+            || (watchLaterMovieIds.some(id => id === imdbID));
     }
 
     const renderInput = (params) => {
+        const icon = currentHomeTab === HOME_TABS.Favorites
+            ? FavoriteListIcon
+            : WatchLaterListIcon;
+
         const label = isDisabled 
             ? <span className='search-placeholder'>{icon} Max movies added ({maxNum})</span> 
             : <span className='search-placeholder'>{icon} Search movies</span>;
@@ -94,6 +115,7 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies, currentHomeTab }) => {
         return (
             <TextField 
                 {...params} 
+                className='search-text-field'
                 autoFocus={reactKey > 0} // After a movie is chosen and this is rerendered, maintain focus to easily add more movies
                 label={label} 
                 color="secondary" 
@@ -101,7 +123,7 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies, currentHomeTab }) => {
         );
     }
 
-    const noOptionsText = error || 'Search for movies by title';
+    const noOptionsText = error || 'Search by title';
 
     return (
         <>
@@ -128,12 +150,13 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies, currentHomeTab }) => {
 
 export default function ConnectedSearchBar() {
     const { state, actions } = useContext(AppContext);
-    const { favoriteMovies, currentHomeTab } = state;
+    const { favoriteMovies, watchLaterMovies, currentHomeTab } = state;
     const { addMovieToList } = actions;
 
     return (
         <SearchBar 
             favoriteMovies={favoriteMovies} 
+            watchLaterMovies={watchLaterMovies}
             addMovieToList={addMovieToList} 
             currentHomeTab={currentHomeTab}
         />
