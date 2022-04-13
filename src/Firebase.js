@@ -4,7 +4,7 @@ import 'firebase/firestore';
 import 'firebase/storage'; 
 import 'firebase/analytics';
 import { createContext } from 'react';
-import { getFirstAndLastName } from './Utilities';
+import { getFirstAndLastName } from './Utilities/CommonUtilities';
 
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,

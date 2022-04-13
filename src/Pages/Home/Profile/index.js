@@ -7,7 +7,7 @@ import EditableLabel from '../../../CommonComponents/EditableLabel';
 import FriendsButton from './FriendsButton';
 import ShareButton from '../ShareButton';
 import SearchBar from '../SearchBar';
-import { getFirstAndLastName } from '../../../Utilities';
+import { getFirstAndLastName } from '../../../Utilities/CommonUtilities';
 
 const Profile = memo(({ uid, name, profilePicUrl }) => {
     const profilePicInputRef = useRef(null);
