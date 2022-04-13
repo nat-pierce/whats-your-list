@@ -80,7 +80,7 @@ export const removeMovieFromCollection = async (userId, collectionName, imdbID) 
 }
 
 export const updateOrderIds = (userId, newList, listName) => {
-    const db = this.props.firebase.firestore();
+    const db = app.firestore();
     const batch = db.batch();
     const collection = db.collection('publicUserInfo')
         .doc(userId)

@@ -111,7 +111,7 @@ export class AppContextProvider extends PureComponent {
 
         this.setState({ [listName]: newListWithUpdatedOrderIds });
 
-        updateOrderIds(this.state.user.id, newListWithUpdatedOrderIds, listName);
+        updateOrderIds(this.state.user.uid, newListWithUpdatedOrderIds, listName);
     }
 
     setToastMessage = (movie, tabType) => {
@@ -184,9 +184,9 @@ export class AppContextProvider extends PureComponent {
 
         this.setState({ [listName]: newListWithUpdatedOrderIds });
 
-        await removeMovieFromCollection(this.state.user.id, listName, imdbID);
+        await removeMovieFromCollection(this.state.user.uid, listName, imdbID);
 
-        updateOrderIds(this.state.user.id, newListWithUpdatedOrderIds, listName);
+        updateOrderIds(this.state.user.uid, newListWithUpdatedOrderIds, listName);
     }
 
     setIsSettingsModalOpen = (isOpen) => {

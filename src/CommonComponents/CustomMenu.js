@@ -32,9 +32,9 @@ export default function CustomMenu({ menuOptions, movie, index }) {
                 open={isOpen}
                 onClose={onClose}
             >
-            {menuOptions.map((option, index) => (
+            {menuOptions.map((option, i) => (
                 <MenuItem 
-                    key={index} 
+                    key={i} 
                     onClick={() => onClickOption(option)}
                     disabled={option.isDisabled}
                 >
