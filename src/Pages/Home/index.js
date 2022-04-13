@@ -1,7 +1,7 @@
 import { useContext, memo, useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Home.scss';
-import { BASE_URL, EVENTS, MAX_NUM_MOVIES, ROUTES } from '../../Constants';
+import { BASE_URL, EVENTS, HOME_TABS, MAX_NUM_MOVIES, ROUTES } from '../../Constants';
 import AppContext from '../../AppContext';
 import Header from '../../CommonComponents/Header';
 import Profile from './Profile';
@@ -18,7 +18,14 @@ import CustomTabs from '../../CommonComponents/CustomTabs';
 import MovieFilterIcon from '@material-ui/icons/MovieFilter';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
 
-const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSentEmailVerification, numFriends }) => {
+const Home = memo(({ 
+    numFavoriteMovies, 
+    user, 
+    hasSentEmailVerification, 
+    setHasSentEmailVerification, 
+    numFriends,
+    changeHomeTab
+}) => {
     const history = useHistory();
     const [isMounted, setIsMounted] = useState(false);
     const [shouldShowSuggestions, setShouldShowSuggestions] = useState(false);
@@ -94,14 +101,16 @@ const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSe
                 <MovieFilterIcon /> 
                 <span className='tab-name'>Favorites</span>
             </div>,
-            component: <FavoriteList />
+            component: <FavoriteList />,
+            onTabSelected: () => changeHomeTab(HOME_TABS.Favorites)
         },
         {
             label: <div className='home-tab-header'>
                 <WatchLaterIcon /> 
                 <span className='tab-name'>Watch Later</span>
             </div>,
-            component: <WatchLater />
+            component: <WatchLater />,
+            onTabSelected: () => changeHomeTab(HOME_TABS.WatchLater)
         }
     ];
 
@@ -128,12 +137,14 @@ const Home = memo(({ numFavoriteMovies, user, hasSentEmailVerification, setHasSe
 export default function ConnectedHome() {
     const { state, actions } = useContext(AppContext);
     const { user, hasSentEmailVerification, friends, favoriteMovies } = state;
-    const { setHasSentEmailVerification } = actions;
+    const { setHasSentEmailVerification, changeHomeTab } = actions;
 
     return <Home 
         user={user} 
         numFriends={friends.length}
         numFavoriteMovies={favoriteMovies.length}
         hasSentEmailVerification={hasSentEmailVerification}
-        setHasSentEmailVerification={setHasSentEmailVerification} />
+        setHasSentEmailVerification={setHasSentEmailVerification} 
+        changeHomeTab={changeHomeTab}
+    />
 }

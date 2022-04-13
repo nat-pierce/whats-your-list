@@ -22,3 +22,8 @@ export const BASE_URL = process.env.NODE_ENV === 'production'
     : "http://localhost:3000";
 
 export const API_HOST_URL = 'movie-database-alternative.p.rapidapi.com';
+
+export const HOME_TABS = {
+    Favorites: 'FAVORITES',
+    WatchLater: 'WATCH_LATER'
+};

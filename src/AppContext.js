@@ -1,6 +1,6 @@
 import { createContext, PureComponent } from 'react';
 import { getMovieMetadataApi } from './ApiUtilities';
-import { EVENTS, ROUTES } from './Constants';
+import { EVENTS, HOME_TABS, ROUTES } from './Constants';
 import { getFriendsInfo } from './FirebaseFunctions';
 import { createAccount, log } from './Firebase';
 
@@ -14,7 +14,8 @@ const defaultState = {
     favoriteMovies: [],
     suggestedMovies: [],
     isSettingsModalOpen: false,
-    hasSentEmailVerification: false
+    hasSentEmailVerification: false,
+    currentHomeTab: HOME_TABS.Favorites
 };
 
 export class AppContextProvider extends PureComponent {
@@ -273,6 +274,10 @@ export class AppContextProvider extends PureComponent {
         this.setState({ suggestedMovies });
     }
 
+    changeHomeTab = (currentHomeTab) => {
+        this.setState({ currentHomeTab });
+    }
+
     render() {
         const contextValue = {
             state: this.state,
@@ -289,7 +294,8 @@ export class AppContextProvider extends PureComponent {
                 addFriend: this.addFriend,
                 acceptFriendRequest: this.acceptFriendRequest,
                 deleteFriendRequest: this.deleteFriendRequest,
-                removeFriend: this.removeFriend
+                removeFriend: this.removeFriend,
+                changeHomeTab: this.changeHomeTab
             }
         };
 

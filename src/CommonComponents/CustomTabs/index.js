@@ -4,14 +4,18 @@ import Tab from '@material-ui/core/Tab';
 import './CustomTabs.scss';
 
 const CustomTabs = memo(({ tabConfigs }) => {
-    const [currentTab, setCurrentTab] = useState(0);
+    const [currentTabIndex, setCurrentTabIndex] = useState(0);
 
-    const onChangeTab = (event, newTab) => {
-        setCurrentTab(newTab);
+    const onChangeTab = (event, tabIndex) => {
+        if (currentTabIndex !== tabIndex) {
+            setCurrentTabIndex(tabIndex);
+
+            tabConfigs[tabIndex].onTabSelected?.();
+        }
     };
 
     const TabPanel = ({ value, children }) => {
-        if (value !== currentTab) {
+        if (value !== currentTabIndex) {
             return null;
         }
 
@@ -25,18 +29,18 @@ const CustomTabs = memo(({ tabConfigs }) => {
     return (
         <div className='tabs-container'>
             <Tabs
-                value={currentTab}
+                value={currentTabIndex}
                 onChange={onChangeTab}
                 indicatorColor="secondary"
                 textColor="secondary"
                 variant="fullWidth"
             >
                 {tabConfigs.map((tc, index) => (
-                    <Tab label={tc.label} value={index} />
+                    <Tab key={index} label={tc.label} value={index} />
                 ))}
             </Tabs>
             {tabConfigs.map((tc, index) => (
-                <TabPanel className='tab-panel' value={index}>
+                <TabPanel key={index} className='tab-panel' value={index}>
                     {tc.component}
                 </TabPanel>
             ))}
