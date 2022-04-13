@@ -18,8 +18,8 @@ $tab-bar-height: 48px; // matches Material's min-height
         box-sizing: border-box;
         width: 100%;
         height: calc(100% - #{$tab-bar-height});
-        overflow: auto;
         background-color: $light-gray;
+        overflow: unset; // TODO check on friends tabs, but can't set here for droppable
 
         > * {
             width: 100%;

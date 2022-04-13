@@ -120,7 +120,7 @@ export class AppContextProvider extends PureComponent {
         batch.commit();
     }
 
-    reorderMovieList = (newListWithUpdatedOrderIds) => {
+    reorderMovieList = (newListWithUpdatedOrderIds, tabType) => {
         this.setState({ favoriteMovies: newListWithUpdatedOrderIds });
 
         this.updateOrderIds(newListWithUpdatedOrderIds);
@@ -186,7 +186,7 @@ export class AppContextProvider extends PureComponent {
         this.setToastMessage(movieToAdd, tabType);
     }
 
-    removeMovieFromList = async (imdbID, indexToRemove) => {
+    removeMovieFromList = async (imdbID, indexToRemove, tabType) => {
         log(EVENTS.RemoveMovie);
         const newList = [...this.state.favoriteMovies];
         newList.splice(indexToRemove, 1);

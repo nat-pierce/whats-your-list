@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "node-sass": "^5.0.0",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^4.0.3",
+    "async": ">=3.2.2"
   }
 }

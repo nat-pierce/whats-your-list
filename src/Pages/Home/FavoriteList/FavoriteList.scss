@@ -1,6 +1,6 @@
 @import '../../../ConstantsAndMixins.scss';
   
-.favorite-list {
+.favorite-list, .watch-later-list { // TODO move
     overflow: auto;
 
     @include smallScreen {

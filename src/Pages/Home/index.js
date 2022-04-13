@@ -16,14 +16,17 @@ import { smallScreenMax } from '../../StyleExports.module.scss';
 import WatchLater from './WatchLater';
 import CustomTabs from '../../CommonComponents/CustomTabs';
 import { FavoriteListIcon, WatchLaterListIcon } from '../../CommonComponents/Icons';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 const Home = memo(({ 
-    numFavoriteMovies, 
     user, 
     hasSentEmailVerification, 
     setHasSentEmailVerification, 
     numFriends,
-    changeHomeTab
+    changeHomeTab,
+    favoriteMovies,
+    watchLaterMovies,
+    reorderMovieList
 }) => {
     const history = useHistory();
     const [isMounted, setIsMounted] = useState(false);
@@ -113,18 +116,43 @@ const Home = memo(({
         }
     ];
 
+    const onDragEnd = (result) => {
+        console.log('r', result);
+
+        if (!result.destination) {
+            return;
+        }
+
+        const tabType = result.destination.droppableId;
+        const moviesList = tabType === HOME_TABS.Favorites
+            ? favoriteMovies
+            : watchLaterMovies;
+    
+        const items = [...moviesList];
+        const [reorderedItem] = items.splice(result.source.index, 1);
+    
+        items.splice(result.destination.index, 0, reorderedItem);
+        const itemsWithUpdatedOrderIds = items.map((item, i) => ({ ...item, OrderId: i }));
+    
+        reorderMovieList(itemsWithUpdatedOrderIds, tabType);
+    }
+
+    // TODO handle saving favorites for later
+
     return (
         <div className='home-page'>
             <Header />
             <div className='main-content'>
                 <div className='upper'>
                     <Profile />
-                    {shouldShowSuggestions && (numFriends > 0) && (numFavoriteMovies < MAX_NUM_MOVIES) &&
+                    {shouldShowSuggestions && (numFriends > 0) && (favoriteMovies.length < MAX_NUM_MOVIES) &&
                         <Suggestions />
                     }
                 </div>
                 <div className='lower'>
-                    <CustomTabs tabConfigs={tabConfigs} />
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <CustomTabs tabConfigs={tabConfigs} />
+                    </DragDropContext>
                     <Charts />
                 </div>
             </div>
@@ -135,15 +163,17 @@ const Home = memo(({
 
 export default function ConnectedHome() {
     const { state, actions } = useContext(AppContext);
-    const { user, hasSentEmailVerification, friends, favoriteMovies } = state;
-    const { setHasSentEmailVerification, changeHomeTab } = actions;
+    const { user, hasSentEmailVerification, friends, favoriteMovies, watchLaterMovies } = state;
+    const { setHasSentEmailVerification, changeHomeTab, reorderMovieList } = actions;
 
     return <Home 
         user={user} 
         numFriends={friends.length}
-        numFavoriteMovies={favoriteMovies.length}
+        favoriteMovies={favoriteMovies}
+        watchLaterMovies={watchLaterMovies}
         hasSentEmailVerification={hasSentEmailVerification}
         setHasSentEmailVerification={setHasSentEmailVerification} 
         changeHomeTab={changeHomeTab}
+        reorderMovieList={reorderMovieList}
     />
 }
