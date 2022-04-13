@@ -9,7 +9,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Button } from '@material-ui/core';
 import { FirebaseContext } from '../../../Firebase';
 
-const Suggestions = memo(({ favoriteMovies, friends, suggestedMovies, setSuggestedMovies, addMovieToList }) => {
+const Suggestions = memo(({ 
+    favoriteMovies, 
+    friends, 
+    suggestedMovies, 
+    setSuggestedMovies, 
+    addMovieToList,
+    currentHomeTab
+}) => {
     const firebase = useContext(FirebaseContext);
     const [isLoading, setIsLoading] = useState(false);
     const [numTries, setNumTries] = useState(0);
@@ -131,7 +138,7 @@ const Suggestions = memo(({ favoriteMovies, friends, suggestedMovies, setSuggest
             <h1 className='section-title'>Friends' Favorites</h1>
             <Carousel className='carousel' responsive={responsive} infinite={true}>
                 {suggestedMovies.map(movie => (
-                    <div className="suggestion" key={movie.imdbID} onClick={() => addMovieToList(movie, "Suggested")}>
+                    <div className="suggestion" key={movie.imdbID} onClick={() => addMovieToList(movie, currentHomeTab, "Suggested")}>
                         <img 
                             className='poster' 
                             src={movie.Poster} 
@@ -155,7 +162,7 @@ function getRandomInt(min, max) {
 
 export default function ConnectedSuggestions() {
     const { state, actions } = useContext(AppContext);
-    const { suggestedMovies, friends, favoriteMovies } = state;
+    const { suggestedMovies, friends, favoriteMovies, currentHomeTab } = state;
     const { setSuggestedMovies, addMovieToList } = actions;
 
     return <Suggestions 
@@ -163,5 +170,7 @@ export default function ConnectedSuggestions() {
         favoriteMovies={favoriteMovies}
         suggestedMovies={suggestedMovies} 
         setSuggestedMovies={setSuggestedMovies} 
-        addMovieToList={addMovieToList} />;
+        addMovieToList={addMovieToList} 
+        currentHomeTab={currentHomeTab}
+    />;
 }

@@ -10,7 +10,7 @@ import './SearchBar.scss';
 import { MAX_NUM_MOVIES } from '../../../Constants';
 import Guide from '../../../CommonComponents/Guide';
 
-const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
+const SearchBar = memo(({ addMovieToList, favoriteMovies, currentHomeTab }) => {
     const [inputValue, setInputValue] = useState('');
     const [options, setOptions] = useState([]);
     const [reactKey, setReactKey] = useState(0);
@@ -22,7 +22,7 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
     const isDisabled = favoriteMovies.length >= maxNum;
 
     const onChooseMovie = (e, value) => {
-        addMovieToList(value, "Search");
+        addMovieToList(value, currentHomeTab, "Search");
         setReactKey(reactKey+1);
         setInputValue('');
         setOptions([]);
@@ -121,13 +121,14 @@ const SearchBar = memo(({ addMovieToList, favoriteMovies }) => {
 
 export default function ConnectedSearchBar() {
     const { state, actions } = useContext(AppContext);
-    const { favoriteMovies } = state;
+    const { favoriteMovies, currentHomeTab } = state;
     const { addMovieToList } = actions;
 
     return (
         <SearchBar 
             favoriteMovies={favoriteMovies} 
             addMovieToList={addMovieToList} 
+            currentHomeTab={currentHomeTab}
         />
     );
 }

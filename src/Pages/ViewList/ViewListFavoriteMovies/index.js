@@ -3,13 +3,15 @@ import Button from "@material-ui/core/Button";
 import { memo, useContext } from "react";
 import AppContext from "../../../AppContext";
 import './ViewListFavoriteMovies.scss';
-import { MAX_NUM_MOVIES } from "../../../Constants";
+import { HOME_TABS, MAX_NUM_MOVIES } from "../../../Constants";
 import MovieTile from "../../../CommonComponents/MovieTile";
 
 const ViewListFavoriteMovies = memo(({ isSignedIn, viewListMovies, favoriteMovies, addMovieToList }) => {
     const atMaxMovies = favoriteMovies.length >= MAX_NUM_MOVIES;
 
     const addButton = (movie) => {
+        const tabType = HOME_TABS.Favorites; // TODO
+
         return atMaxMovies
             ? <Tooltip title={`Max movies already added (${MAX_NUM_MOVIES})`}>
                 <span className='add-button'>
@@ -20,7 +22,7 @@ const ViewListFavoriteMovies = memo(({ isSignedIn, viewListMovies, favoriteMovie
             </Tooltip>
             : <Button 
                 className='add-button' 
-                onClick={() => addMovieToList(movie, "View list")}>
+                onClick={() => addMovieToList(movie, tabType, "View list")}>
                 Add
             </Button>;
     };

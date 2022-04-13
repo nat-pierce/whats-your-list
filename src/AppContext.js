@@ -126,10 +126,13 @@ export class AppContextProvider extends PureComponent {
         this.updateOrderIds(newListWithUpdatedOrderIds);
     }
 
-    addMovieToList = async ({ imdbID, Title, Year, Poster, Genre }, logSource) => {
+    addMovieToList = async (movie, tabType, logSource) => {
+        const { imdbID, Title, Year, Poster, Genre } = movie;
+
         log(EVENTS.AddMovie, { 
             source: logSource,
-            imdbID 
+            imdbID,
+            tabType 
         });
 
         const OrderId = this.state.favoriteMovies.length;
