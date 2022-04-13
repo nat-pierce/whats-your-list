@@ -3,7 +3,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useState, useEffect, useCallback, memo, useRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 import debounce from 'lodash.debounce';
-import { searchMovieApi } from '../../../ApiUtilities';
+import { searchMovieApi } from '../../../Utilities/ApiUtilities';
 import { useContext } from 'react';
 import AppContext from '../../../AppContext';
 import './SearchBar.scss';

@@ -5,7 +5,7 @@ import { FirebaseContext } from "../../../Firebase";
 import AppContext from '../../../AppContext';
 import Avatar from '@material-ui/core/Avatar';
 import './FindFriends.scss';
-import { useKeypress } from '../../../Hooks';
+import { useKeypress } from '../../../Utilities/Hooks';
 
 const FindFriends = memo(({ uid, addFriend, friends }) => {
     const [searchValue, setSearchValue] = useState('');

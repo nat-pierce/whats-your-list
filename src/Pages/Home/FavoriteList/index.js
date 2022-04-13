@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import AppContext from '../../../AppContext';
 import IconButton from '@material-ui/core/IconButton';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import { usePrevious } from '../../../Hooks';
+import { usePrevious } from '../../../Utilities/Hooks';
 import { smallScreenMax } from '../../../StyleExports.module.scss';
 import MovieTile from '../../../CommonComponents/MovieTile';
 

@@ -1,8 +1,9 @@
 import { createContext, PureComponent } from 'react';
-import { getMovieMetadataApi } from './ApiUtilities';
+import { getMovieMetadataApi } from './Utilities/ApiUtilities';
 import { EVENTS, HOME_TABS, ROUTES } from './Constants';
 import { getFriendsInfo } from './FirebaseFunctions';
-import { createAccount, log } from './Firebase';
+import { addMovieToCollection, createAccount, getMovieCollection, log } from './Firebase';
+import uniqBy from 'lodash.uniqby';
 
 const AppContext = createContext({});
 
@@ -12,6 +13,7 @@ const defaultState = {
     friends: [],
     friendRequests: [],
     favoriteMovies: [],
+    watchLaterMovies: [],
     suggestedMovies: [],
     isSettingsModalOpen: false,
     hasSentEmailVerification: false,
@@ -33,13 +35,9 @@ export class AppContextProvider extends PureComponent {
         const userDoc = await db.collection('users').doc(user.uid).get();
 
         if (userDoc.exists) {
-            // retrieve movie list
-            const snapshot = await db.collection('publicUserInfo').doc(user.uid)
-                .collection('favoriteMovies')
-                .orderBy('OrderId')
-                .get();
-
-            const favoriteMovies = snapshot.docs.map(doc => doc.data());
+            // retrieve movie lists
+            const favoriteMovies = await getMovieCollection(user.uid, 'favoriteMovies');
+            const watchLaterMovies = await getMovieCollection(user.uid, 'watchLaterMovies');
 
             // retrieve friends
             const friendsResponse = await getFriendsInfo(user.uid);
@@ -51,6 +49,7 @@ export class AppContextProvider extends PureComponent {
             this.setState({ 
                 user: userDoc.data(), 
                 favoriteMovies,
+                watchLaterMovies,
                 friends 
             });
         } else {
@@ -147,8 +146,13 @@ export class AppContextProvider extends PureComponent {
             tabType 
         });
 
+        // Choose state and db property name (matches in both)
+        const listName = tabType === HOME_TABS.Favorites
+            ? 'favoriteMovies'
+            : 'watchLaterMovies';
+
         // Set OrderId to bottom of list
-        const OrderId = this.state.favoriteMovies.length;
+        const OrderId = this.state[listName].length;
 
         // If the movie doesn't have genre metadata, retrieve it
         let genreString = Genre;
@@ -157,21 +161,9 @@ export class AppContextProvider extends PureComponent {
             genreString = Metadata.Genre;
         }
 
-        // Prepare the new list of favorite movies
+        // Construct movie object
         const Genres = genreString.split(", ");
-        const newFavoriteMovies = [
-            ...this.state.favoriteMovies,
-            { imdbID, Title, Year, Poster, OrderId, Genres }
-        ];
-
-        // Remove duplicates
-        const uniqueFavoriteMovies = Array.from(new Set(newFavoriteMovies.map(m => m.imdbID)))
-            .map(id => {
-                return newFavoriteMovies.find(m => m.imdbID === id);
-            });
-        
-        // Add to state
-        this.setState({ favoriteMovies: uniqueFavoriteMovies });
+        const movieToAdd = { imdbID, Title, Year, Poster, OrderId, Genres };
 
         // If it was in the list of suggested movies, remove it
         const suggestedIndex = this.state.suggestedMovies.findIndex(m => m.imdbID === imdbID);
@@ -182,16 +174,16 @@ export class AppContextProvider extends PureComponent {
             this.setState({ suggestedMovies: newSuggestedMovies });
         }
 
-        // Persist to database
-        this.props.firebase.firestore()
-            .collection('publicUserInfo')
-            .doc(this.state.user.uid)
-            .collection('favoriteMovies')
-            .doc(imdbID)
-            .set({ imdbID, Title, Year, Poster, OrderId, Genres });
+        // Construct new list
+        const newMoviesList = [...this.state[listName], movieToAdd];
+        const uniqueMoviesList = uniqBy(newMoviesList, 'imdbID');
+        
+        // Add to state and db
+        this.setState({ [listName]: uniqueMoviesList });
+        addMovieToCollection(this.state.user.uid, listName, movieToAdd);
 
         // Notify user
-        this.setToastMessage(movie, tabType);
+        this.setToastMessage(movieToAdd, tabType);
     }
 
     removeMovieFromList = async (imdbID, indexToRemove) => {
@@ -205,7 +197,7 @@ export class AppContextProvider extends PureComponent {
 
         await this.props.firebase.firestore()
             .collection('publicUserInfo')
-            .doc(this.state.user.uid)
+            .doc(this.state.user.id)
             .collection('favoriteMovies')
             .doc(imdbID)
             .delete();

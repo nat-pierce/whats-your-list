@@ -1,4 +1,4 @@
-import { API_HOST_URL } from './Constants';
+import { API_HOST_URL } from '../Constants';
 
 export const searchMovieApi = (title, callback) => {
     if (!title) {

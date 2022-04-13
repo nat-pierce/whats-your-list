@@ -49,3 +49,23 @@ export const createAccount = async (user) => {
             profilePicUrl: null 
         });
 }
+
+export const getMovieCollection = async (userId, collectionName) => {
+    const snapshot = await app.firestore().collection('publicUserInfo')
+        .doc(userId)
+        .collection(collectionName)
+        .orderBy('OrderId')
+        .get();
+
+    const movies = snapshot.docs.map(doc => doc.data());
+
+    return movies;
+}
+
+export const addMovieToCollection = async (userId, collectionName, movie) => {
+    await app.firestore().collection('publicUserInfo')
+        .doc(userId)
+        .collection(collectionName)
+        .doc(movie.imdbID)
+        .set(movie);
+}
