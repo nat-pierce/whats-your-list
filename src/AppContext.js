@@ -15,7 +15,8 @@ const defaultState = {
     suggestedMovies: [],
     isSettingsModalOpen: false,
     hasSentEmailVerification: false,
-    currentHomeTab: HOME_TABS.Favorites
+    currentHomeTab: HOME_TABS.Favorites,
+    toastMessage: null
 };
 
 export class AppContextProvider extends PureComponent {
@@ -126,6 +127,17 @@ export class AppContextProvider extends PureComponent {
         this.updateOrderIds(newListWithUpdatedOrderIds);
     }
 
+    setToastMessage = (movie, tabType) => {
+        const { Title, Year } = movie;
+        const movieName = `${Title} (${Year})`;
+
+        const toastMessage = tabType === HOME_TABS.Favorites
+            ? `Added ${movieName} to favorites`
+            : `Saved ${movieName} for later`;
+
+        this.setState({ toastMessage });
+    }
+
     addMovieToList = async (movie, tabType, logSource) => {
         const { imdbID, Title, Year, Poster, Genre } = movie;
 
@@ -135,27 +147,33 @@ export class AppContextProvider extends PureComponent {
             tabType 
         });
 
+        // Set OrderId to bottom of list
         const OrderId = this.state.favoriteMovies.length;
 
+        // If the movie doesn't have genre metadata, retrieve it
         let genreString = Genre;
         if (!genreString) {
             const Metadata = await getMovieMetadataApi(imdbID);
             genreString = Metadata.Genre;
         }
 
+        // Prepare the new list of favorite movies
         const Genres = genreString.split(", ");
         const newFavoriteMovies = [
             ...this.state.favoriteMovies,
             { imdbID, Title, Year, Poster, OrderId, Genres }
         ];
 
+        // Remove duplicates
         const uniqueFavoriteMovies = Array.from(new Set(newFavoriteMovies.map(m => m.imdbID)))
             .map(id => {
                 return newFavoriteMovies.find(m => m.imdbID === id);
             });
         
+        // Add to state
         this.setState({ favoriteMovies: uniqueFavoriteMovies });
 
+        // If it was in the list of suggested movies, remove it
         const suggestedIndex = this.state.suggestedMovies.findIndex(m => m.imdbID === imdbID);
         if (suggestedIndex > -1) {
             const newSuggestedMovies = [...this.state.suggestedMovies];
@@ -164,12 +182,16 @@ export class AppContextProvider extends PureComponent {
             this.setState({ suggestedMovies: newSuggestedMovies });
         }
 
+        // Persist to database
         this.props.firebase.firestore()
             .collection('publicUserInfo')
             .doc(this.state.user.uid)
             .collection('favoriteMovies')
             .doc(imdbID)
             .set({ imdbID, Title, Year, Poster, OrderId, Genres });
+
+        // Notify user
+        this.setToastMessage(movie, tabType);
     }
 
     removeMovieFromList = async (imdbID, indexToRemove) => {
