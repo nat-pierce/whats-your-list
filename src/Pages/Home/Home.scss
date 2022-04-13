@@ -60,6 +60,14 @@
                 height: 100%;
             }
 
+            .movie-list {
+                overflow: auto;
+
+                @include smallScreen {
+                    overflow: unset;
+                }
+            }
+
             .charts {
                 padding-top: 1rem;
                 padding-left: 2rem;
@@ -86,7 +94,7 @@
                 align-items: center;
 
                 .tab-name {
-                    margin-left: 0.5rem;
+                    padding-left: $list-icon-padding;
                 }
             }
         }

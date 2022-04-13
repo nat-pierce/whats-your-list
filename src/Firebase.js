@@ -69,3 +69,12 @@ export const addMovieToCollection = async (userId, collectionName, movie) => {
         .doc(movie.imdbID)
         .set(movie);
 }
+
+export const removeMovieFromCollection = async (userId, collectionName, imdbID) => {
+    await app.firestore()
+            .collection('publicUserInfo')
+            .doc(userId)
+            .collection(collectionName)
+            .doc(imdbID)
+            .delete();
+}

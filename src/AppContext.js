@@ -2,8 +2,9 @@ import { createContext, PureComponent } from 'react';
 import { getMovieMetadataApi } from './Utilities/ApiUtilities';
 import { EVENTS, HOME_TABS, ROUTES } from './Constants';
 import { getFriendsInfo } from './FirebaseFunctions';
-import { addMovieToCollection, createAccount, getMovieCollection, log } from './Firebase';
+import { addMovieToCollection, createAccount, getMovieCollection, log, removeMovieFromCollection } from './Firebase';
 import uniqBy from 'lodash.uniqby';
+import { getCollectionName } from './Utilities/CommonUtilities';
 
 const AppContext = createContext({});
 
@@ -147,9 +148,7 @@ export class AppContextProvider extends PureComponent {
         });
 
         // Choose state and db property name (matches in both)
-        const listName = tabType === HOME_TABS.Favorites
-            ? 'favoriteMovies'
-            : 'watchLaterMovies';
+        const listName = getCollectionName(tabType);
 
         // Set OrderId to bottom of list
         const OrderId = this.state[listName].length;
@@ -188,19 +187,18 @@ export class AppContextProvider extends PureComponent {
 
     removeMovieFromList = async (imdbID, indexToRemove, tabType) => {
         log(EVENTS.RemoveMovie);
-        const newList = [...this.state.favoriteMovies];
+
+        const listName = getCollectionName(tabType);
+
+        const newList = [...this.state[listName]];
         newList.splice(indexToRemove, 1);
 
         const newListWithUpdatedOrderIds = newList.map((item, i) => ({ ...item, OrderId: i }));
 
-        this.setState({ favoriteMovies: newListWithUpdatedOrderIds });
+        this.setState({ [listName]: newListWithUpdatedOrderIds });
 
-        await this.props.firebase.firestore()
-            .collection('publicUserInfo')
-            .doc(this.state.user.id)
-            .collection('favoriteMovies')
-            .doc(imdbID)
-            .delete();
+
+        await removeMovieFromCollection(this.state.user.id, listName, imdbID);
 
         this.updateOrderIds(newListWithUpdatedOrderIds);
     }
