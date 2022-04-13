@@ -2,7 +2,7 @@ import { createContext, PureComponent } from 'react';
 import { getMovieMetadataApi } from './Utilities/ApiUtilities';
 import { EVENTS, HOME_TABS, ROUTES } from './Constants';
 import { getFriendsInfo } from './FirebaseFunctions';
-import { addMovieToCollection, createAccount, getMovieCollection, log, removeMovieFromCollection } from './Firebase';
+import { addMovieToCollection, createAccount, getMovieCollection, log, removeMovieFromCollection, updateOrderIds } from './Firebase';
 import uniqBy from 'lodash.uniqby';
 import { getCollectionName } from './Utilities/CommonUtilities';
 
@@ -106,25 +106,12 @@ export class AppContextProvider extends PureComponent {
         this.setState({ hasSentEmailVerification });
     }
 
-    updateOrderIds = (newListWithUpdatedOrderIds) => {
-        const db = this.props.firebase.firestore();
-        const batch = db.batch();
-        const collection = db.collection('publicUserInfo')
-            .doc(this.state.user.uid)
-            .collection('favoriteMovies');
-
-        newListWithUpdatedOrderIds.forEach(movie => {
-            const docRef = collection.doc(movie.imdbID);
-            batch.update(docRef, { OrderId: movie.OrderId });
-        });
-
-        batch.commit();
-    }
-
     reorderMovieList = (newListWithUpdatedOrderIds, tabType) => {
-        this.setState({ favoriteMovies: newListWithUpdatedOrderIds });
+        const listName = getCollectionName(tabType);
 
-        this.updateOrderIds(newListWithUpdatedOrderIds);
+        this.setState({ [listName]: newListWithUpdatedOrderIds });
+
+        updateOrderIds(this.state.user.id, newListWithUpdatedOrderIds, listName);
     }
 
     setToastMessage = (movie, tabType) => {
@@ -197,10 +184,9 @@ export class AppContextProvider extends PureComponent {
 
         this.setState({ [listName]: newListWithUpdatedOrderIds });
 
-
         await removeMovieFromCollection(this.state.user.id, listName, imdbID);
 
-        this.updateOrderIds(newListWithUpdatedOrderIds);
+        updateOrderIds(this.state.user.id, newListWithUpdatedOrderIds, listName);
     }
 
     setIsSettingsModalOpen = (isOpen) => {

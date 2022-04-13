@@ -53,7 +53,7 @@ const FavoriteList = memo(({
                                         <MovieTile 
                                             key={movie.imdbID}
                                             dragHandleProps={provided.dragHandleProps}
-                                            rank={i+1}
+                                            rank={index+1}
                                             movie={movie}
                                         >
                                             <CustomMenu 

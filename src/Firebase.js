@@ -78,3 +78,18 @@ export const removeMovieFromCollection = async (userId, collectionName, imdbID) 
             .doc(imdbID)
             .delete();
 }
+
+export const updateOrderIds = (userId, newList, listName) => {
+    const db = this.props.firebase.firestore();
+    const batch = db.batch();
+    const collection = db.collection('publicUserInfo')
+        .doc(userId)
+        .collection(listName);
+
+    newList.forEach(movie => {
+        const docRef = collection.doc(movie.imdbID);
+        batch.update(docRef, { OrderId: movie.OrderId });
+    });
+
+    batch.commit();
+}
