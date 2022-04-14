@@ -1,10 +1,11 @@
-import React, { memo, useContext, useRef } from 'react';
+import React, { memo, useContext, useRef, useState } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import AppContext from '../../../AppContext';
-import { HOME_TABS, MAX_NUM_MOVIES } from '../../../Constants';
-import { useScrollToBottom } from '../../../Utilities/Hooks';
-import MovieTile from '../../../CommonComponents/MovieTile';
-import CustomMenu from '../../../CommonComponents/CustomMenu';
+import AppContext from '../../AppContext';
+import { HOME_TABS, MAX_NUM_MOVIES, ALL_GENRES_FILTER } from '../../Constants';
+import { useScrollToBottom } from '../../Utilities/Hooks';
+import MovieTile from '../../CommonComponents/MovieTile';
+import CustomMenu from '../../CommonComponents/CustomMenu';
+import GenreFilter from '../../CommonComponents/GenreFilter';
 
 const WatchLater = memo(({ 
     watchLaterMovies, 
@@ -14,6 +15,15 @@ const WatchLater = memo(({
     addMovieToList 
 }) => {
     const containerRef = useRef(null);
+    const [genreFilter, setGenreFilter] = useState(ALL_GENRES_FILTER);
+    console.log(genreFilter);
+    console.log({ 
+        watchLaterMovies, 
+        canMoveToFavorites,
+        reorderMovieList, 
+        removeMovieFromList,
+        addMovieToList 
+    })
     
     useScrollToBottom(watchLaterMovies, containerRef);
 
@@ -36,15 +46,37 @@ const WatchLater = memo(({
         }
     ];
 
+    const getClassName = (movie) => {
+        if (genreFilter === ALL_GENRES_FILTER) {
+            return '';
+        }
+
+        if (movie.Genres.includes(genreFilter)) {
+            return 'visible-genre';
+        }
+
+        return 'hidden-genre';
+    }
+
     return (
         <div className='movie-list watch-later-list' id='watch-later-list' ref={containerRef}>
+            <GenreFilter 
+                value={genreFilter} 
+                onChange={setGenreFilter}
+                movieList={watchLaterMovies} 
+            />
             <Droppable droppableId={HOME_TABS.WatchLater}>
                 {(provided, snapshot) => (
                     <div
                         ref={provided.innerRef}
                         {...provided.droppableProps}>
                         {watchLaterMovies.map((movie, index) => (
-                            <Draggable key={movie.imdbID} draggableId={`draggable-watch-later-${movie.imdbID}`} index={index}>
+                            <Draggable 
+                                key={movie.imdbID} 
+                                draggableId={`draggable-watch-later-${movie.imdbID}`} 
+                                index={index}
+                                className={getClassName(movie)}
+                            >
                                 {(provided, snapshot) => (
                                     <div
                                         className='tile-wrapper'

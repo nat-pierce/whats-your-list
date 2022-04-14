@@ -1,7 +1,9 @@
+@import '../../ConstantsAndMixins.scss';
+
 $logo-width: 300px;
 
 .overlay {
-    background-color: white;
+    background-color: $light-gray;
     position: fixed;
     top: 0;
     right: 0;

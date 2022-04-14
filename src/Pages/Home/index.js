@@ -117,8 +117,6 @@ const Home = memo(({
     ];
 
     const onDragEnd = (result) => {
-        console.log('r', result);
-
         if (!result.destination) {
             return;
         }
