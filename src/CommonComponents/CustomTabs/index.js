@@ -20,7 +20,7 @@ const CustomTabs = memo(({ tabConfigs }) => {
 
     return (
         <div className='tabs-container'>
-            <TabContext value={currentTabIndex}>
+            <TabContext value={`${currentTabIndex}`}>
                 <TabList
                     onChange={onChangeTab}
                     indicatorColor="secondary"
@@ -28,12 +28,12 @@ const CustomTabs = memo(({ tabConfigs }) => {
                     variant="fullWidth"
                 >
                     {tabConfigs.map((tc, index) => (
-                        <Tab key={index} label={tc.label} value={index} />
+                        <Tab key={index} label={tc.label} value={`${index}`} />
                     ))}
                 </TabList>
                 {tabConfigs.map((tc, index) => {
                     console.log(tc, index);
-                    return <TabPanel key={index} className='tab-panel' value={index}>
+                    return <TabPanel key={index} className='tab-panel' value={`${index}`}>
                         {tc.component}
                     </TabPanel>
                 })}

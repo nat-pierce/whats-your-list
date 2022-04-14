@@ -21,7 +21,7 @@ const WatchLater = memo(({
         console.log('mounted')
 
         return () => {
-            console.log('unmounted')
+            console.log('unmounted') // TODO this still happens on genre change
         }
     })
     
@@ -78,11 +78,10 @@ const WatchLater = memo(({
                                 key={movie.imdbID} 
                                 draggableId={`draggable-watch-later-${movie.imdbID}`} 
                                 index={index}
-                                className={getClassName(movie)}
                             >
                                 {(provided, snapshot) => (
                                     <div
-                                        className='tile-wrapper'
+                                        className={`tile-wrapper ${getClassName(movie)}`}
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                     >
