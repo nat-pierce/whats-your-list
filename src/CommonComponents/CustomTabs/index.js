@@ -1,6 +1,8 @@
 import React, { useState, memo } from 'react';
-import Tabs from '@material-ui/core/Tabs';
+import TabList from '@material-ui/lab/TabList';
 import Tab from '@material-ui/core/Tab';
+import TabPanel from '@material-ui/lab/TabPanel';
+import TabContext from '@material-ui/lab/TabContext';
 import './CustomTabs.scss';
 
 const CustomTabs = memo(({ tabConfigs }) => {
@@ -14,36 +16,28 @@ const CustomTabs = memo(({ tabConfigs }) => {
         }
     };
 
-    const TabPanel = ({ value, children }) => {
-        if (value !== currentTabIndex) {
-            return null;
-        }
-
-        return (
-            <div className='tab-panel'>
-                {children}
-            </div>
-        );
-    }
+    console.log('configs', tabConfigs);
 
     return (
         <div className='tabs-container'>
-            <Tabs
-                value={currentTabIndex}
-                onChange={onChangeTab}
-                indicatorColor="secondary"
-                textColor="secondary"
-                variant="fullWidth"
-            >
-                {tabConfigs.map((tc, index) => (
-                    <Tab key={index} label={tc.label} value={index} />
-                ))}
-            </Tabs>
-            {tabConfigs.map((tc, index) => (
-                <TabPanel key={index} className='tab-panel' value={index}>
-                    {tc.component}
-                </TabPanel>
-            ))}
+            <TabContext value={currentTabIndex}>
+                <TabList
+                    onChange={onChangeTab}
+                    indicatorColor="secondary"
+                    textColor="secondary"
+                    variant="fullWidth"
+                >
+                    {tabConfigs.map((tc, index) => (
+                        <Tab key={index} label={tc.label} value={index} />
+                    ))}
+                </TabList>
+                {tabConfigs.map((tc, index) => {
+                    console.log(tc, index);
+                    return <TabPanel key={index} className='tab-panel' value={index}>
+                        {tc.component}
+                    </TabPanel>
+                })}
+            </TabContext>
         </div>
     )
 })

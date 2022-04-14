@@ -1,11 +1,11 @@
 import { memo, useRef } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useContext } from 'react';
-import AppContext from '../../AppContext';
-import MovieTile from '../../CommonComponents/MovieTile';
-import { HOME_TABS, MAX_NUM_MOVIES } from '../../Constants';
-import { useScrollToBottom } from '../../Utilities/Hooks';
-import CustomMenu from '../../CommonComponents/CustomMenu';
+import AppContext from '../../../AppContext';
+import MovieTile from '../../../CommonComponents/MovieTile';
+import { HOME_TABS, MAX_NUM_MOVIES } from '../../../Constants';
+import { useScrollToBottom } from '../../../Utilities/Hooks';
+import CustomMenu from '../../../CommonComponents/CustomMenu';
 
 const FavoriteList = memo(({ 
     favoriteMovies, 

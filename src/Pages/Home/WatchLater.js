@@ -1,4 +1,4 @@
-import React, { memo, useContext, useRef, useState } from 'react';
+import React, { memo, useContext, useRef, useState, useEffect } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import AppContext from '../../AppContext';
 import { HOME_TABS, MAX_NUM_MOVIES, ALL_GENRES_FILTER } from '../../Constants';
@@ -16,13 +16,13 @@ const WatchLater = memo(({
 }) => {
     const containerRef = useRef(null);
     const [genreFilter, setGenreFilter] = useState(ALL_GENRES_FILTER);
-    console.log(genreFilter);
-    console.log({ 
-        watchLaterMovies, 
-        canMoveToFavorites,
-        reorderMovieList, 
-        removeMovieFromList,
-        addMovieToList 
+    
+    useEffect(() => {
+        console.log('mounted')
+
+        return () => {
+            console.log('unmounted')
+        }
     })
     
     useScrollToBottom(watchLaterMovies, containerRef);
@@ -62,7 +62,10 @@ const WatchLater = memo(({
         <div className='movie-list watch-later-list' id='watch-later-list' ref={containerRef}>
             <GenreFilter 
                 value={genreFilter} 
-                onChange={setGenreFilter}
+                onChange={(g) => {
+                    console.log('g', g);
+                    setGenreFilter(g)
+                }}
                 movieList={watchLaterMovies} 
             />
             <Droppable droppableId={HOME_TABS.WatchLater}>
