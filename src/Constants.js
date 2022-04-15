@@ -27,5 +27,3 @@ export const HOME_TABS = {
     Favorites: 'FAVORITES',
     WatchLater: 'WATCH_LATER'
 };
-
-export const ALL_GENRES_FILTER = 'All';
