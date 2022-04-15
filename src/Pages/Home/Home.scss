@@ -39,14 +39,11 @@
             height: calc(100% - #{$home-upper-height});
 
             .tabs-container, .charts {
-                width: 50%;
-                height: 100%;
+                flex: 1;
             }
 
             .charts {
-                padding-top: 1rem;
-                padding-left: 2rem;
-                box-sizing: border-box;
+                margin: 1rem 0;
             }
 
             .home-tab-header {
@@ -58,34 +55,42 @@
                 }
             }
         }
-    }
-}
 
-@include smallScreen {
-    .upper {
-        flex-direction: column;
-        height: auto;
-
-        .profile {
-            width: 100%;
-        }
-
-        .suggestions {
-            display: none;
-        }
-    }
-
-    .lower {
-        flex-direction: column;
-        height: auto;
-
-        .tabs-container, .charts {
-            width: 100%;
+        // In small screen mode, everything is stacked and heights are auto
+        @include smallScreen {
             height: auto;
-        }
 
-        .charts {
-            border-top: solid 1px $gray;
+            .upper {
+                flex-direction: column;
+                height: auto;
+        
+                .profile {
+                    width: 100%;
+                }
+        
+                .suggestions {
+                    display: none;
+                }
+            }
+        
+            .lower {
+                flex-direction: column;
+                height: auto;
+
+                .tabs-container, .charts {
+                    flex: unset;
+                    gap: unset;
+                }
+        
+                .tabs-container {
+                    height: auto;
+                }
+        
+                .charts {
+                    border-top: solid 1px $gray;
+                    margin: 0 2rem;
+                }
+            }
         }
     }
 }

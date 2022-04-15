@@ -12,7 +12,6 @@ import Settings from './Settings';
 import Button from '@material-ui/core/Button';
 import OverlayLogoSpinner from '../../CommonComponents/OverlayLogoSpinner';
 import Suggestions from './Suggestions';
-import { smallScreenMax } from '../../StyleExports.module.scss';
 import WatchLater from './WatchLater';
 import CustomTabs from '../../CommonComponents/CustomTabs';
 import { FavoriteListIcon, WatchLaterListIcon } from '../../CommonComponents/Icons';
@@ -30,7 +29,6 @@ const Home = memo(({
 }) => {
     const history = useHistory();
     const [isMounted, setIsMounted] = useState(false);
-    const [shouldShowSuggestions, setShouldShowSuggestions] = useState(false);
     const firebase = useContext(FirebaseContext);
 
     const sendConfirmationEmail = useCallback(() => {
@@ -44,14 +42,6 @@ const Home = memo(({
     const onClickSendEmail = () => {
         log(EVENTS.ResendEmail);
         sendConfirmationEmail();
-    }
-
-    const resizeListener = () => {
-        if (window.innerWidth < parseInt(smallScreenMax)) {
-            setShouldShowSuggestions(false);
-        } else {
-            setShouldShowSuggestions(true);
-        }
     }
 
     useEffect(() => {
@@ -69,15 +59,6 @@ const Home = memo(({
             setHasSentEmailVerification(true);
         }
     }, [firebase, hasSentEmailVerification, setHasSentEmailVerification, sendConfirmationEmail]);
-
-    useEffect(() => {
-        resizeListener();
-        window.addEventListener('resize', resizeListener);
-
-        return () => {
-            window.removeEventListener('resize', resizeListener);
-        }
-    }, []);
 
     if (!isMounted || !user) {
         return <OverlayLogoSpinner />;
@@ -135,13 +116,15 @@ const Home = memo(({
         reorderMovieList(itemsWithUpdatedOrderIds, tabType);
     }
 
+    const shouldShowSuggestions = (numFriends > 0) && (favoriteMovies.length < MAX_NUM_MOVIES);
+
     return (
         <div className='home-page'>
             <Header />
             <div className='main-content'>
                 <div className='upper'>
                     <Profile />
-                    {shouldShowSuggestions && (numFriends > 0) && (favoriteMovies.length < MAX_NUM_MOVIES) &&
+                    {shouldShowSuggestions &&
                         <Suggestions />
                     }
                 </div>

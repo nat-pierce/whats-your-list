@@ -92,11 +92,12 @@ const Charts = memo(({ favoriteMovies }) => {
         return null;
     }
 
+    // Hardcoding axis width to center (https://github.com/recharts/recharts/issues/843)
     return (
         <div className='charts'>
-            <ResponsiveContainer width="100%" height="55%" className='genre-chart'>
+            <ResponsiveContainer width="100%" height="59%" className='genre-chart'>
                 <BarChart data={genreData} layout='vertical'>
-                    <YAxis dataKey="name" type="category" interval={0} tick={{ fill: 'black' }} />
+                    <YAxis dataKey="name" type="category" interval={0} tick={{ fill: 'black' }} width={120} />
                     <XAxis type="number" tick={false} height={0} />
                     <Tooltip content={<CustomTooltip />} />
                     <Bar dataKey="score" fill={colorYellow} stroke="#000000" />
@@ -104,7 +105,7 @@ const Charts = memo(({ favoriteMovies }) => {
             </ResponsiveContainer>
             <ResponsiveContainer width="100%" height="40%">
                 <BarChart data={decadeData} layout='vertical'>
-                    <YAxis dataKey="name" type="category" interval={0} tick={{ fill: 'black' }} />
+                    <YAxis dataKey="name" type="category" interval={0} tick={{ fill: 'black' }} width={120} />
                     <XAxis type="number" tick={false} height={0} />
                     <Tooltip content={<CustomTooltip />} />
                     <Bar dataKey="score" fill={colorYellow} stroke="#000000" />

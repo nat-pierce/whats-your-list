@@ -17,11 +17,12 @@ $tab-bar-height: 48px; // matches Material's min-height
         padding: 1rem 1rem 0 1rem;
         box-sizing: border-box;
         width: 100%;
-        height: calc(100% - #{$tab-bar-height});
         background-color: $light-gray;
+        height: calc(100% - #{$tab-bar-height});
         overflow: auto;
 
         @include smallScreen {
+            height: auto;
             overflow: unset;
         }
 

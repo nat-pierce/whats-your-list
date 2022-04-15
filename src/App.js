@@ -11,6 +11,7 @@ import { FirebaseContext } from './Firebase';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './Theme';
 import Toast from './CommonComponents/Toast';
+import { smallScreenMax } from './StyleExports.module.scss';
 
 function App() {
     const firebase = useContext(FirebaseContext);
@@ -18,9 +19,15 @@ function App() {
     const appRef = useRef(null);
 
     const updateWindowDimensions = () => {
-        const height = window.innerHeight;
+        const { innerHeight, innerWidth } = window;
 
-        appRef.current.style.height = `${height}px`;
+        // If we are on desktop, we need to hardcode height 
+        // so we can make only the left side (list) scrollable.
+        const height = innerWidth < parseInt(smallScreenMax)
+            ? 'auto'
+            : `${innerHeight - 4}px` // was overflowing a few pixels...
+
+        appRef.current.style.height = height;
     }
 
     useEffect(() => {

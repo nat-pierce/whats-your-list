@@ -5,8 +5,8 @@
     flex-direction: column;
     justify-content: space-around;
 
-    .recharts-surface {
-        overflow: unset;
+    @include smallScreen {
+        height: 600px;
     }
 
     .genre-chart {
