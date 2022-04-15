@@ -1,15 +1,5 @@
 @import '../../ConstantsAndMixins.scss';
 
-.home-page {
-    .upper {
-        height: $home-upper-height;
-    }
-
-    .lower {
-        height: calc(100% - #{$home-upper-height});
-    }
-}
-
 .home-page, .view-list-page {
     display: flex;
     height: 100%;
@@ -27,6 +17,7 @@
         box-sizing: border-box;
 
         .upper {
+            height: $home-upper-height;
             width: 100%;
             background-color: white;
             display: flex;
@@ -38,55 +29,24 @@
             background-color: white;
 
             .profile, .suggestions {
-                width: 50%;
-            }
-
-            @include smallScreen {
-                flex-direction: column;
-                height: auto;
-
-                .profile {
-                    width: 100%;
-                }
+                flex: 1;
             }
         }
 
         .lower {
             display: flex;
             background-color: $light-gray;
+            height: calc(100% - #{$home-upper-height});
 
             .tabs-container, .charts {
                 width: 50%;
                 height: 100%;
             }
 
-            .movie-list {
-                overflow: auto;
-
-                @include smallScreen {
-                    overflow: unset;
-                }
-            }
-
             .charts {
                 padding-top: 1rem;
                 padding-left: 2rem;
                 box-sizing: border-box;
-                overflow: hidden;
-            }
-
-            @include smallScreen {
-                flex-direction: column;
-                overflow: auto;
-                height: 100%;
-
-                .tabs-container, .charts {
-                    width: 100%;
-                }
-
-                .charts {
-                    border-top: solid 1px $gray;
-                }
             }
 
             .home-tab-header {
@@ -97,6 +57,35 @@
                     padding-left: $list-icon-padding;
                 }
             }
+        }
+    }
+}
+
+@include smallScreen {
+    .upper {
+        flex-direction: column;
+        height: auto;
+
+        .profile {
+            width: 100%;
+        }
+
+        .suggestions {
+            display: none;
+        }
+    }
+
+    .lower {
+        flex-direction: column;
+        height: auto;
+
+        .tabs-container, .charts {
+            width: 100%;
+            height: auto;
+        }
+
+        .charts {
+            border-top: solid 1px $gray;
         }
     }
 }

@@ -14,12 +14,16 @@ $tab-bar-height: 48px; // matches Material's min-height
     }
 
     .tab-panel {
-        padding: 1rem;
+        padding: 1rem 1rem 0 1rem;
         box-sizing: border-box;
         width: 100%;
         height: calc(100% - #{$tab-bar-height});
         background-color: $light-gray;
-        overflow: unset; // TODO check on friends tabs, but can't set here for droppable
+        overflow: auto;
+
+        @include smallScreen {
+            overflow: unset;
+        }
 
         > * {
             width: 100%;
