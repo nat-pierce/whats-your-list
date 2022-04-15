@@ -1,4 +1,4 @@
-import React, { memo, useContext, useRef, useEffect } from 'react';
+import React, { memo, useContext, useRef } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import AppContext from '../../AppContext';
 import { HOME_TABS, MAX_NUM_MOVIES } from '../../Constants';
@@ -15,17 +15,7 @@ const WatchLater = memo(({
 }) => {
     const containerRef = useRef(null);
     
-    useEffect(() => {
-        console.log('mounted')
-
-        return () => {
-            console.log('unmounted') // TODO this still happens on genre change
-        }
-    })
-    
     useScrollToBottom(watchLaterMovies, containerRef);
-
-    // TODO handle drag when filtering genre
 
     const menuOptions = [
         { 

@@ -135,8 +135,6 @@ const Home = memo(({
         reorderMovieList(itemsWithUpdatedOrderIds, tabType);
     }
 
-    // TODO handle saving favorites for later
-
     return (
         <div className='home-page'>
             <Header />

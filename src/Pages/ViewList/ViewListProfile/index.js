@@ -57,6 +57,8 @@ export default function ConnectedViewListProfile(props) {
     const { user, friends } = state;
 
     const isSignedIn = !!user;
+
+    console.log('f', friends)
     const isAlreadyFriends = friends.findIndex(f => f.uid === props.viewId) > -1;
 
     const { addFriend } = actions;
