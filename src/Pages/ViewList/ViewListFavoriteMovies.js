@@ -60,7 +60,7 @@ const ViewListFavoriteMovies = memo(({
     }
     
     return (
-        <div className='view-list-favorite-movies'>
+        <div className='movie-list view-list-favorite-movies'>
             {viewListMovies && viewListMovies.map((movie, i) => (
                 <MovieTile key={movie.imdbID} rank={i+1} movie={movie}>
                     {getTileActionItem(movie, i)}
