@@ -27,10 +27,6 @@
         font-size: 12px;
     }
 
-    @include mediumScreen {
-        font-size: 14px;
-    }
-
     .poster {
         max-height:100%; 
         max-width:100%;

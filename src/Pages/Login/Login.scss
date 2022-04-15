@@ -40,13 +40,6 @@
         @include loginPage($logo-width, $font-size);
     }
 
-    @include mediumScreen {
-        $logo-width: 300px;
-        $font-size: 20px;
-
-        @include loginPage($logo-width, $font-size);
-    }
-
     @include smallScreen {
         $logo-width: 300px;
         $font-size: 20px;

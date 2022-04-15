@@ -3,7 +3,7 @@ import { memo, useContext, useState, useEffect } from 'react';
 import AppContext from '../../../AppContext';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import { smallScreenMax, mediumScreenMax } from '../../../StyleExports.module.scss';
+import { smallScreenMax } from '../../../StyleExports.module.scss';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Button } from '@material-ui/core';
@@ -124,11 +124,11 @@ const Suggestions = memo(({
 
     const responsive = {
         largeScreen: {
-            breakpoint: { max: 3000, min: parseInt(mediumScreenMax) },
+            breakpoint: { max: 3000, min: parseInt(smallScreenMax) },
             items: 4
         },
-        mediumScreen: {
-            breakpoint: { max: parseInt(mediumScreenMax), min: parseInt(smallScreenMax) },
+        smallScreen: {
+            breakpoint: { max: parseInt(smallScreenMax), min: parseInt(smallScreenMax) },
             items: 3
         }
     };

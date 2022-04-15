@@ -25,27 +25,18 @@ $yellow: #FFF88B;
     margin-right: auto;
     font-size: 16px;
 
-    @include mediumScreen {
-        font-size: 14px;
-    }
-
     @include smallScreen {
         font-size: 14px;
     }
 }
 
 $small-screen-min: 300px;
-$small-screen-max: 800px;
-$medium-screen-max: 1000px;
+$small-screen-max: 900px;
 
 @mixin smallScreen {
     @media screen and (max-width: $small-screen-max) { @content; }
 }
 
-@mixin mediumScreen {
-    @media screen and (max-width: $medium-screen-max) and (min-width: ($small-screen-max + 1px)) { @content; }
-}
-
 @mixin largeScreen {
-    @media screen and (min-width: ($medium-screen-max + 1px)) { @content; }
+    @media screen and (min-width: ($small-screen-max + 1px)) { @content; }
 }
