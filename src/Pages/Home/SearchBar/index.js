@@ -86,7 +86,7 @@ const SearchBar = memo(({
     }
 
     const getOptionDisabled = ({ imdbID }) => {
-        return (favoriteMovieIds.findIndex(id => id === imdbID) > -1)
+        return (favoriteMovieIds.some(id => id === imdbID))
             || (watchLaterMovieIds.some(id => id === imdbID));
     }
 
