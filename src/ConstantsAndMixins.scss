@@ -30,6 +30,12 @@ $yellow: #FFF88B;
     }
 }
 
+@mixin disabledStyles {
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+}
+
 $small-screen-min: 300px;
 $small-screen-max: 900px;
 

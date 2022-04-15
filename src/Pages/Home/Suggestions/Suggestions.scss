@@ -8,6 +8,10 @@
     flex-direction: column;
     height: 100%;
 
+    &.disabled {
+        @include disabledStyles;
+    }
+
     .suggestions-overlay {
         height: 100%;
         display: flex;
