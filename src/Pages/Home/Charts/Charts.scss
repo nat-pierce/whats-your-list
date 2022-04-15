@@ -9,8 +9,9 @@
         height: 600px;
     }
 
-    .genre-chart {
-        margin-bottom: 1rem;
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
     }
 }
 

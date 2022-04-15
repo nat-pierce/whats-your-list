@@ -39,7 +39,7 @@
             height: calc(100% - #{$home-upper-height});
 
             .tabs-container, .charts {
-                flex: 1;
+                width: 50%;
             }
 
             .charts {
@@ -78,8 +78,7 @@
                 height: auto;
 
                 .tabs-container, .charts {
-                    flex: unset;
-                    gap: unset;
+                    width: 100%;
                 }
         
                 .tabs-container {

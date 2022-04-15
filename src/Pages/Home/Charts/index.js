@@ -4,8 +4,9 @@ import './Charts.scss';
 import { useContext } from 'react';
 import AppContext from '../../../AppContext';
 import { colorYellow } from '../../../StyleExports.module.scss';
+import { HOME_TABS } from '../../../Constants';
 
-const Charts = memo(({ favoriteMovies }) => {
+const Charts = memo(({ favoriteMovies, areChartsDisabled }) => {
     const genreData = useMemo(() => {
         const genresDict = {};
 
@@ -94,7 +95,7 @@ const Charts = memo(({ favoriteMovies }) => {
 
     // Hardcoding axis width to center (https://github.com/recharts/recharts/issues/843)
     return (
-        <div className='charts'>
+        <div className={`charts ${areChartsDisabled ? 'disabled' : ''}`}>
             <ResponsiveContainer width="100%" height="59%" className='genre-chart'>
                 <BarChart data={genreData} layout='vertical'>
                     <YAxis dataKey="name" type="category" interval={0} tick={{ fill: 'black' }} width={120} />
@@ -117,10 +118,16 @@ const Charts = memo(({ favoriteMovies }) => {
 
 export default function ConnectedCharts({ viewListMovies }) {
     const { state } = useContext(AppContext);
-    const { favoriteMovies } = state;
+    const { favoriteMovies, currentHomeTab } = state;
 
     // If passed movies from current viewList, use those
     const movies = viewListMovies || favoriteMovies;
+    const areChartsDisabled = viewListMovies
+        ? false
+        : currentHomeTab === HOME_TABS.WatchLater;
 
-    return <Charts favoriteMovies={movies} />;
+    return <Charts 
+        favoriteMovies={movies} 
+        areChartsDisabled={areChartsDisabled}
+    />;
 }
