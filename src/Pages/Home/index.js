@@ -116,8 +116,7 @@ const Home = memo(({
         reorderMovieList(itemsWithUpdatedOrderIds, tabType);
     }
 
-    // const shouldShowSuggestions = (numFriends > 0) && (favoriteMovies.length < MAX_NUM_MOVIES);
-    const shouldShowSuggestions = true; // TODO
+    const shouldShowSuggestions = (numFriends > 0) && (favoriteMovies.length < MAX_NUM_MOVIES);
 
     return (
         <div className='home-page'>

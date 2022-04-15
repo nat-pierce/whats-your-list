@@ -1,15 +1,15 @@
+import React from 'react';
 import Joyride from 'react-joyride';
 import './Guide.scss';
 import Button from '@material-ui/core/Button';
 
-export default function Guide() {
-    const steps = [
-        {
-            target: '.search',
-            content: 'Get started by adding your favorite movie here!',
-            disableBeacon: true
-        }
-    ];
+// Tough to deal with render timing issues, so taking one step at a time
+export default function Guide({ target, message }) {
+    const steps = [{
+        target,
+        content: message,
+        disableBeacon: true
+    }];
 
     const Tooltip = ({
         continuous,
@@ -49,4 +49,4 @@ export default function Guide() {
             tooltipComponent={Tooltip}
         />  
     );
-}
+};

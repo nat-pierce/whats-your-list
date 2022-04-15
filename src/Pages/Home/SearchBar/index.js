@@ -130,7 +130,12 @@ const SearchBar = memo(({
                 renderOption={renderOption}
                 renderInput={renderInput}
             />
-            {favoriteMovies.length === 0 && <Guide />}
+            {(favoriteMovieIds.length === 0) &&
+                <Guide 
+                    target='.search' 
+                    message='Search for your favorite movie here to get started' 
+                />
+            }
         </>
     );
 });
