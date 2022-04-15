@@ -26,6 +26,10 @@ const ViewListFavoriteMovies = memo(({ isSignedIn, viewListMovies, favoriteMovie
                 Add
             </Button>;
     };
+
+    const getTileActionItem = () => {
+        if (!isSignedIn) { return }
+    }
     
     return (
         <div className='view-list-favorite-movies'>
@@ -52,9 +56,11 @@ export default function ConnectedViewListFavoriteMovies(props) {
 
     const isSignedIn = !!state.user;
 
-    const favoriteMovies = isSignedIn
-        ? state.favoriteMovies
-        : [];
+    let favoriteMovies = [], watchLaterMovies = [];
+    if (isSignedIn) {
+        favoriteMovies = state.favoriteMovies;
+        watchLaterMovies = state.watchLaterMovies;
+    }
 
     const { addMovieToList } = actions;
 
@@ -63,6 +69,8 @@ export default function ConnectedViewListFavoriteMovies(props) {
             {...props} 
             isSignedIn={isSignedIn}
             favoriteMovies={favoriteMovies} 
-            addMovieToList={addMovieToList} />
+            watchLaterMovies={watchLaterMovies}
+            addMovieToList={addMovieToList} 
+        />
     );
 }

@@ -10,6 +10,7 @@ import './SearchBar.scss';
 import { HOME_TABS, MAX_NUM_MOVIES } from '../../../Constants';
 import Guide from '../../../CommonComponents/Guide';
 import { FavoriteListIcon, WatchLaterListIcon } from '../../../CommonComponents/Icons';
+import Chip from '../../../CommonComponents/Chip';
 
 const SearchBar = memo(({ 
     addMovieToList, 
@@ -61,29 +62,15 @@ const SearchBar = memo(({
     }, [inputValue, getOptionsDelayed]);
 
     const renderOption = ({ Title, Year, Poster, imdbID }) => {
-        const existingFavoriteRank = favoriteMovieIds.findIndex(id => id === imdbID) + 1;
-        const isAlreadySavedForLater = watchLaterMovieIds.some(id => id === imdbID);
-
-        let chip;
-        if (existingFavoriteRank > 0) {
-            chip = (
-                <div className='chip'>
-                    {FavoriteListIcon} Already #{existingFavoriteRank}
-                </div>
-            );
-        } else if (isAlreadySavedForLater) {
-            chip = (
-                <div className='chip'>
-                    {WatchLaterListIcon} Already saved
-                </div>
-            );
-        }
-
         return (
             <div className='search-option'>
                 {(Poster !== "N/A") && <img className='poster' src={Poster} />}
                 <div className='title'>{`${Title} (${Year})`}</div>
-                {!!chip && chip}
+                <Chip 
+                    favoriteMovieIds={favoriteMovieIds}
+                    watchLaterMovieIds={watchLaterMovieIds}
+                    imdbID={imdbID}
+                />
             </div>
         );
     };

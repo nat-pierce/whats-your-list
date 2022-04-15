@@ -1,0 +1,16 @@
+@import '../../ConstantsAndMixins.scss';
+
+.chip {
+    display: flex;
+    align-items: center;
+    background-color: $red;
+    color: white;
+    border-radius: 25px;
+    padding: 0.25rem 0.5rem;
+    white-space: nowrap;
+    margin-left: auto;
+
+    .MuiSvgIcon-root {
+        margin-right: 0.25rem;
+    }
+}
