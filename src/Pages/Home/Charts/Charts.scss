@@ -6,12 +6,16 @@
     justify-content: space-around;
     overflow: hidden; // Fixes scrollbar flickering issue
 
-    @include smallScreen {
-        height: 600px;
-    }
-
     &.disabled {
         @include disabledStyles;
+    }
+
+    @include smallScreen {
+        height: 600px;
+
+        &.disabled {
+            display: none;
+        }
     }
 }
 
