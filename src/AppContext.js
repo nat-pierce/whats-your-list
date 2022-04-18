@@ -21,7 +21,8 @@ const defaultState = {
     currentHomeTab: HOME_TABS.Favorites,
     toastMessage: null,
     // For use of react-joyride:
-    isSearchMounted: false
+    isSearchMounted: false,
+    isWatchLaterTabHeaderMounted: false
 };
 
 export class AppContextProvider extends PureComponent {
@@ -285,6 +286,10 @@ export class AppContextProvider extends PureComponent {
         this.setState({ isSearchMounted });
     }
 
+    setIsWatchLaterTabHeaderMounted = (isWatchLaterTabHeaderMounted) => {
+        this.setState({ isWatchLaterTabHeaderMounted });
+    }
+
     render() {
         const contextValue = {
             state: this.state,
@@ -303,7 +308,8 @@ export class AppContextProvider extends PureComponent {
                 deleteFriendRequest: this.deleteFriendRequest,
                 removeFriend: this.removeFriend,
                 changeHomeTab: this.changeHomeTab,
-                setIsSearchMounted: this.setIsSearchMounted
+                setIsSearchMounted: this.setIsSearchMounted,
+                setIsWatchLaterTabHeaderMounted: this.setIsWatchLaterTabHeaderMounted
             }
         };
 

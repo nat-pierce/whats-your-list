@@ -25,7 +25,8 @@ const Home = memo(({
     changeHomeTab,
     favoriteMovies,
     watchLaterMovies,
-    reorderMovieList
+    reorderMovieList,
+    setIsWatchLaterTabHeaderMounted
 }) => {
     const history = useHistory();
     const [isMounted, setIsMounted] = useState(false);
@@ -80,18 +81,26 @@ const Home = memo(({
 
     const tabConfigs = [
         {
-            label: <div className='home-tab-header'>
-                {FavoriteListIcon}
-                <span className='tab-name'>Favorites</span>
-            </div>,
+            label: (
+                <div className='home-tab-header favorites-tab-header'>
+                    {FavoriteListIcon}
+                    <span className='tab-name'>
+                        Favorites
+                    </span>
+                </div>
+            ),
             component: <FavoriteList />,
             onTabSelected: () => changeHomeTab(HOME_TABS.Favorites)
         },
         {
-            label: <div className='home-tab-header'>
-                {WatchLaterListIcon} 
-                <span className='tab-name'>Watch Later</span>
-            </div>,
+            label: (
+                <div className='home-tab-header save-later-tab-header'>
+                    {WatchLaterListIcon} 
+                    <span className='tab-name'>
+                        Watch Later
+                    </span>
+                </div>
+            ),
             component: <WatchLater />,
             onTabSelected: () => changeHomeTab(HOME_TABS.WatchLater)
         }
@@ -130,7 +139,10 @@ const Home = memo(({
                 </div>
                 <div className='lower'>
                     <DragDropContext onDragEnd={onDragEnd}>
-                        <CustomTabs tabConfigs={tabConfigs} />
+                        <CustomTabs 
+                            tabConfigs={tabConfigs} 
+                            onMount={setIsWatchLaterTabHeaderMounted}
+                        />
                     </DragDropContext>
                     <Charts />
                 </div>
@@ -143,16 +155,19 @@ const Home = memo(({
 export default function ConnectedHome() {
     const { state, actions } = useContext(AppContext);
     const { user, hasSentEmailVerification, friends, favoriteMovies, watchLaterMovies } = state;
-    const { setHasSentEmailVerification, changeHomeTab, reorderMovieList } = actions;
+    const { setHasSentEmailVerification, changeHomeTab, reorderMovieList, setIsWatchLaterTabHeaderMounted } = actions;
 
-    return <Home 
-        user={user} 
-        numFriends={friends.length}
-        favoriteMovies={favoriteMovies}
-        watchLaterMovies={watchLaterMovies}
-        hasSentEmailVerification={hasSentEmailVerification}
-        setHasSentEmailVerification={setHasSentEmailVerification} 
-        changeHomeTab={changeHomeTab}
-        reorderMovieList={reorderMovieList}
-    />
+    return (
+        <Home 
+            user={user} 
+            numFriends={friends.length}
+            favoriteMovies={favoriteMovies}
+            watchLaterMovies={watchLaterMovies}
+            hasSentEmailVerification={hasSentEmailVerification}
+            setHasSentEmailVerification={setHasSentEmailVerification} 
+            changeHomeTab={changeHomeTab}
+            reorderMovieList={reorderMovieList}
+            setIsWatchLaterTabHeaderMounted={setIsWatchLaterTabHeaderMounted}
+        />
+    );
 }

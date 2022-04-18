@@ -1,11 +1,11 @@
-import React, { useState, memo } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import TabList from '@material-ui/lab/TabList';
 import Tab from '@material-ui/core/Tab';
 import TabPanel from '@material-ui/lab/TabPanel';
 import TabContext from '@material-ui/lab/TabContext';
 import './CustomTabs.scss';
 
-const CustomTabs = memo(({ tabConfigs }) => {
+const CustomTabs = memo(({ tabConfigs, onMount }) => {
     const [currentTabIndex, setCurrentTabIndex] = useState(0);
 
     const onChangeTab = (event, tabIndex) => {
@@ -15,6 +15,16 @@ const CustomTabs = memo(({ tabConfigs }) => {
             tabConfigs[tabIndex].onTabSelected?.();
         }
     };
+
+    useEffect(() => {
+        if (!onMount) { return }
+
+        onMount(true);
+
+        return () => {
+            onMount(false);
+        }
+    }, [onMount])
 
     return (
         <div className='tabs-container'>
@@ -29,11 +39,11 @@ const CustomTabs = memo(({ tabConfigs }) => {
                         <Tab key={index} label={tc.label} value={`${index}`} />
                     ))}
                 </TabList>
-                {tabConfigs.map((tc, index) => {
-                    return <TabPanel key={index} className='tab-panel' value={`${index}`}>
+                {tabConfigs.map((tc, index) => (
+                    <TabPanel key={index} className='tab-panel' value={`${index}`}>
                         {tc.component}
                     </TabPanel>
-                })}
+                ))}
             </TabContext>
         </div>
     )

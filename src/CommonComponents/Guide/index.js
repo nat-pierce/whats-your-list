@@ -3,16 +3,43 @@ import Joyride from 'react-joyride';
 import './Guide.scss';
 import Button from '@material-ui/core/Button';
 import AppContext from '../../AppContext';
+import { HOME_TABS } from '../../Constants';
 
-// Tough to deal with render timing issues, so taking one step at a time
-const Guide = memo(({ shouldAddSearchStep }) => {
+const LocalStorageKeySearchStep = "LOCAL_STORAGE_SEARCH_STEP";
+const LocalStorageKeyWatchTabStep = "LOCAL_STORAGE_WATCH_TAB_STEP";
+const LocalStorageKeyWatchSearchStep = "LOCAL_STORAGE_WATCH_SEARCH_STEP";
+
+const Guide = memo(({ 
+    shouldAddSearchStep,
+    shouldAddSaveLaterStep,
+    shouldAddSaveLaterSecondStep
+}) => {
     const steps = [];
 
     if (shouldAddSearchStep) {
         steps.push({
             target: '.search',
-            content: 'Search for your favorite movie here to get started',
-            disableBeacon: true
+            content: 'Search for your favorite movie to get started',
+            disableBeacon: true,
+            localStorageKey: LocalStorageKeySearchStep
+        });
+    }
+
+    if (shouldAddSaveLaterStep) {
+        steps.push({
+            target: '.save-later-tab-header',
+            content: 'You can save movies to watch later, then view that list here',
+            disableBeacon: true,
+            localStorageKey: LocalStorageKeyWatchTabStep
+        });
+    }
+
+    if (shouldAddSaveLaterSecondStep) {
+        steps.push({
+            target: '.search',
+            content: 'On this tab, movies will get added to your Watch Later list',
+            disableBeacon: true,
+            localStorageKey: LocalStorageKeyWatchSearchStep
         });
     }
 
@@ -48,23 +75,43 @@ const Guide = memo(({ shouldAddSearchStep }) => {
         </div>
     );
 
+    const callback = (data) => {
+        console.log('data', data)
+        data?.step && localStorage.setItem(data.step.localStorageKey, 'true');
+    }
+
+    const filteredSteps = steps.filter(s => !localStorage.getItem(s.localStorageKey));
+    const key = filteredSteps.reduce((accumulator, step) => accumulator += step.localStorageKey, '');
+    
     return (
         <Joyride
-            steps={steps}
+            key={key}
+            steps={filteredSteps}
             tooltipComponent={Tooltip}
+            callback={callback}
         />  
     );
 });
 
 export default function ConnectedGuide() {
     const { state } = useContext(AppContext);
-    const { isSearchMounted, favoriteMovies } = state;
+    const { isSearchMounted, isWatchLaterTabHeaderMounted, favoriteMovies, watchLaterMovies, currentHomeTab } = state;
 
-    const shouldAddSearchStep = isSearchMounted && (favoriteMovies.length === 0);
+    const hasAddedFavorites = favoriteMovies.length > 0;
+    const hasAddedWatchLater = watchLaterMovies.length > 0;
+    const isViewingWatchLater = currentHomeTab === HOME_TABS.WatchLater;
+
+    console.log({isSearchMounted, isWatchLaterTabHeaderMounted, hasAddedFavorites, hasAddedWatchLater, isViewingWatchLater})
+
+    const shouldAddSearchStep = isSearchMounted && !hasAddedFavorites;
+    const shouldAddSaveLaterStep = isWatchLaterTabHeaderMounted && hasAddedFavorites && !hasAddedWatchLater && !isViewingWatchLater;
+    const shouldAddSaveLaterSecondStep = isSearchMounted && !hasAddedWatchLater && isViewingWatchLater;
 
     return (
         <Guide
             shouldAddSearchStep={shouldAddSearchStep}
+            shouldAddSaveLaterStep={shouldAddSaveLaterStep}
+            shouldAddSaveLaterSecondStep={shouldAddSaveLaterSecondStep}
         />
     );
 }
