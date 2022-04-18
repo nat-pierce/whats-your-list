@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    overflow: hidden; // Fixes scrollbar flickering issue
 
     @include smallScreen {
         height: 600px;

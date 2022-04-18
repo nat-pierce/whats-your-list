@@ -1,5 +1,7 @@
 @import '../../ConstantsAndMixins.scss';
 
+$charts-side-margin: 2rem;
+
 .home-page, .view-list-page {
     display: flex;
     height: 100%;
@@ -38,12 +40,15 @@
             background-color: $light-gray;
             height: calc(100% - #{$home-upper-height});
 
-            .tabs-container, .charts {
+            .tabs-container {
                 width: 50%;
             }
 
             .charts {
-                margin: 1rem 0;
+                width: calc(50% - #{$charts-side-margin});
+                margin-right: $charts-side-margin;
+                padding: 1rem 0;
+                box-sizing: border-box;
             }
 
             .home-tab-header {
@@ -77,17 +82,16 @@
                 flex-direction: column;
                 height: auto;
 
-                .tabs-container, .charts {
-                    width: 100%;
-                }
-        
                 .tabs-container {
                     height: auto;
+                    width: 100%;
                 }
-        
+
+                // double charts' side width and add a left margin as well
                 .charts {
                     border-top: solid 1px $gray;
-                    margin: 0 2rem;
+                    width: calc(100% - #{$charts-side-margin*2});
+                    margin-left: $charts-side-margin;
                 }
             }
         }
