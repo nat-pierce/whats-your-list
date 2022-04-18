@@ -15,8 +15,16 @@
     src: local('Bebas-Neue'), url(./Resources/Fonts/Bebas-Neue/BebasNeue-Regular.ttf) format('truetype');
 }
 
-.app {
+// Setting heights: https://stackoverflow.com/a/17555766
+html, #root {
     height: 100%;
+}
+
+body, .app {
+    min-height: 100%;
+}
+
+.app {
     width: 100%;
     font-family: 'Nunito';
 }
@@ -27,7 +35,6 @@
 
 body {
     margin: 0;
-    height: 100%;
     background-color: $light-gray;
 }
 

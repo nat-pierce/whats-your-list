@@ -6,7 +6,6 @@
     align-items: center;
     margin: auto;
     height: 100%;
-    background: radial-gradient($dark-red, black);
     padding: 1rem;
     box-sizing: border-box;
 
@@ -33,6 +32,10 @@
 }
 
 .login-page {
+    position: fixed;
+    background: radial-gradient($dark-red, black);
+    width: 100%;
+
     @include largeScreen {
         $logo-width: 575px;
         $font-size: 30px;
