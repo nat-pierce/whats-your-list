@@ -16,7 +16,8 @@ const SearchBar = memo(({
     addMovieToList, 
     favoriteMovies, 
     watchLaterMovies,
-    currentHomeTab 
+    currentHomeTab,
+    setIsSearchMounted 
 }) => {
     const [inputValue, setInputValue] = useState('');
     const [options, setOptions] = useState([]);
@@ -60,6 +61,15 @@ const SearchBar = memo(({
             }
         });
     }, [inputValue, getOptionsDelayed]);
+
+    // Tell guide search is mounted
+    useEffect(() => {
+        setIsSearchMounted(true);
+
+        return () => {
+            setIsSearchMounted(false);
+        }
+    }, [setIsSearchMounted])
 
     const renderOption = ({ Title, Year, Poster, imdbID }) => {
         return (
@@ -113,37 +123,29 @@ const SearchBar = memo(({
     const noOptionsText = error || 'Search by title';
 
     return (
-        <>
-            <Autocomplete 
-                key={reactKey}
-                className='search'
-                disabled={isDisabled}
-                multiple={false}
-                options={options}
-                onChange={onChooseMovie}
-                onInputChange={onInputChange}
-                loading={loading}
-                noOptionsText={noOptionsText}
-                filterOptions={filterOptions}
-                getOptionLabel={getOptionLabel}
-                getOptionDisabled={getOptionDisabled}
-                renderOption={renderOption}
-                renderInput={renderInput}
-            />
-            {(favoriteMovieIds.length === 0) &&
-                <Guide 
-                    target='.search' 
-                    message='Search for your favorite movie here to get started' 
-                />
-            }
-        </>
+        <Autocomplete 
+            key={reactKey}
+            className='search'
+            disabled={isDisabled}
+            multiple={false}
+            options={options}
+            onChange={onChooseMovie}
+            onInputChange={onInputChange}
+            loading={loading}
+            noOptionsText={noOptionsText}
+            filterOptions={filterOptions}
+            getOptionLabel={getOptionLabel}
+            getOptionDisabled={getOptionDisabled}
+            renderOption={renderOption}
+            renderInput={renderInput}
+        />
     );
 });
 
 export default function ConnectedSearchBar() {
     const { state, actions } = useContext(AppContext);
     const { favoriteMovies, watchLaterMovies, currentHomeTab } = state;
-    const { addMovieToList } = actions;
+    const { addMovieToList, setIsSearchMounted } = actions;
 
     return (
         <SearchBar 
@@ -151,6 +153,7 @@ export default function ConnectedSearchBar() {
             watchLaterMovies={watchLaterMovies}
             addMovieToList={addMovieToList} 
             currentHomeTab={currentHomeTab}
+            setIsSearchMounted={setIsSearchMounted}
         />
     );
 }

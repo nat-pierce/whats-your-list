@@ -19,7 +19,9 @@ const defaultState = {
     isSettingsModalOpen: false,
     hasSentEmailVerification: false,
     currentHomeTab: HOME_TABS.Favorites,
-    toastMessage: null
+    toastMessage: null,
+    // For use of react-joyride:
+    isSearchMounted: false
 };
 
 export class AppContextProvider extends PureComponent {
@@ -278,6 +280,10 @@ export class AppContextProvider extends PureComponent {
     changeHomeTab = (currentHomeTab) => {
         this.setState({ currentHomeTab });
     }
+    
+    setIsSearchMounted = (isSearchMounted) => {
+        this.setState({ isSearchMounted });
+    }
 
     render() {
         const contextValue = {
@@ -296,7 +302,8 @@ export class AppContextProvider extends PureComponent {
                 acceptFriendRequest: this.acceptFriendRequest,
                 deleteFriendRequest: this.deleteFriendRequest,
                 removeFriend: this.removeFriend,
-                changeHomeTab: this.changeHomeTab
+                changeHomeTab: this.changeHomeTab,
+                setIsSearchMounted: this.setIsSearchMounted
             }
         };
 

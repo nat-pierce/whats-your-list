@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { memo, useContext } from 'react';
 import Joyride from 'react-joyride';
 import './Guide.scss';
 import Button from '@material-ui/core/Button';
+import AppContext from '../../AppContext';
 
 // Tough to deal with render timing issues, so taking one step at a time
-export default function Guide({ target, message }) {
-    const steps = [{
-        target,
-        content: message,
-        disableBeacon: true
-    }];
+const Guide = memo(({ shouldAddSearchStep }) => {
+    const steps = [];
+
+    if (shouldAddSearchStep) {
+        steps.push({
+            target: '.search',
+            content: 'Search for your favorite movie here to get started',
+            disableBeacon: true
+        });
+    }
 
     const Tooltip = ({
         continuous,
@@ -49,4 +54,17 @@ export default function Guide({ target, message }) {
             tooltipComponent={Tooltip}
         />  
     );
-};
+});
+
+export default function ConnectedGuide() {
+    const { state } = useContext(AppContext);
+    const { isSearchMounted, favoriteMovies } = state;
+
+    const shouldAddSearchStep = isSearchMounted && (favoriteMovies.length === 0);
+
+    return (
+        <Guide
+            shouldAddSearchStep={shouldAddSearchStep}
+        />
+    );
+}

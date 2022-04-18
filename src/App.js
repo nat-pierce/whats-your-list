@@ -12,6 +12,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './Theme';
 import Toast from './CommonComponents/Toast';
 import { smallScreenMax } from './StyleExports.module.scss';
+import Guide from './CommonComponents/Guide';
 
 function App() {
     const firebase = useContext(FirebaseContext);
@@ -53,6 +54,7 @@ function App() {
                         <Route path={ROUTES.ViewList} component={ViewList} />
                         <Route path={ROUTES.Friends} component={Friends} />
                         <Toast />
+                        <Guide />
                     </div>
                 </Router>
             </AppContextProvider>
