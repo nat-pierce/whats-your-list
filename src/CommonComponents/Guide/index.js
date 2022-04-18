@@ -75,9 +75,10 @@ const Guide = memo(({
         </div>
     );
 
-    const callback = (data) => {
-        console.log('data', data)
-        data?.step && localStorage.setItem(data.step.localStorageKey, 'true');
+    const callback = ({ action, step }) => {
+        if ((action === 'close') && step) {
+            localStorage.setItem(step.localStorageKey, 'true');
+        }
     }
 
     const filteredSteps = steps.filter(s => !localStorage.getItem(s.localStorageKey));
@@ -100,8 +101,6 @@ export default function ConnectedGuide() {
     const hasAddedFavorites = favoriteMovies.length > 0;
     const hasAddedWatchLater = watchLaterMovies.length > 0;
     const isViewingWatchLater = currentHomeTab === HOME_TABS.WatchLater;
-
-    console.log({isSearchMounted, isWatchLaterTabHeaderMounted, hasAddedFavorites, hasAddedWatchLater, isViewingWatchLater})
 
     const shouldAddSearchStep = isSearchMounted && !hasAddedFavorites;
     const shouldAddSaveLaterStep = isWatchLaterTabHeaderMounted && hasAddedFavorites && !hasAddedWatchLater && !isViewingWatchLater;
