@@ -25,7 +25,11 @@ export default function OverlayLogoSpinner() {
         <div className='overlay'>
             <Logo shouldAnimate={true} animationSpeed={250} />
             {shouldShowButton &&
-                <Button onClick={onClickTryAgain}>
+                <Button 
+                    className='try-again-button' 
+                    onClick={onClickTryAgain}
+                    variant='contained'
+                >
                     Try again
                 </Button>
             }
