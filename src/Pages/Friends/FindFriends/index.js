@@ -100,7 +100,7 @@ const FindFriends = memo(({ uid, addFriend, friends }) => {
                             <div className='name'>{user.name}</div>
                         </div>
                         {sentRequests.includes(user.uid)
-                            ? <div>Sent!</div>
+                            ? <div className='sent-message'>Sent!</div>
                             : (
                                 <Button className='add-button' onClick={() => onClickAddFriend(user.uid)}>
                                     Send friend request
