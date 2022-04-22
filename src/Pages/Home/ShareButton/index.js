@@ -17,7 +17,7 @@ const ShareButton = memo(({ favoriteMovies, uid }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [hasCopiedLink, setHasCopiedLink] = useState(false);
 
-    const shareLink = `${BASE_URL}/viewList?id=${uid}` // TODO domain
+    const shareLink = `${BASE_URL}/viewList?id=${uid}`;
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
