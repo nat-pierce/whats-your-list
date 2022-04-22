@@ -15,13 +15,10 @@ but for now just use `npm audit --production`
 (https://github.com/facebook/create-react-app/issues/11174)
 
 ### To run locally
-
-Run `npm start`
+Run `firebase emulators:start`,
+then run `npm start`
 
 ### To deploy
-
 Run `npm run build` followed by `firebase deploy`
 
-### To run emulators
-
-Run `firebase emulators:start`
+Or `firebase deploy --only functions` to deploy updates to Firebase Functions
