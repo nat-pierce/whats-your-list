@@ -1,3 +1,5 @@
+@import '../../ConstantsAndMixins.scss';
+
 $view-list-upper-height: 120px;
 
 .view-list-page {
@@ -7,5 +9,9 @@ $view-list-upper-height: 120px;
 
     .lower {
         height: calc(100% - #{$view-list-upper-height});
+
+        .view-list-container {
+            @include tabPanelStyles;
+        }
     }
 }

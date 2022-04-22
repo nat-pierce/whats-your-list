@@ -7,6 +7,7 @@ import Charts from '../Home/Charts';
 import AppContext from '../../AppContext';
 import { useHistory } from 'react-router';
 import { ROUTES } from '../../Constants';
+import './ViewList.scss';
 
 const ViewList = memo(({ uid, setUser }) => {
     const history = useHistory();
@@ -68,7 +69,9 @@ const ViewList = memo(({ uid, setUser }) => {
                     <ViewListProfile profilePicUrl={profilePicUrl} name={name} viewId={viewId} />
                 </div>
                 <div className='lower'>
-                    <ViewListFavoriteMovies viewListMovies={viewListMovies} />
+                    <div className='view-list-container'>
+                        <ViewListFavoriteMovies viewListMovies={viewListMovies} />
+                    </div>
                     {shouldShowCharts &&
                         <Charts viewListMovies={viewListMovies} />
                     }

@@ -39,7 +39,7 @@ $charts-side-margin: 2rem;
             background-color: $light-gray;
             height: calc(100% - #{$home-upper-height});
 
-            .tabs-container {
+            .tabs-container, .view-list-container {
                 width: 50%;
             }
 
@@ -81,7 +81,7 @@ $charts-side-margin: 2rem;
                 flex-direction: column;
                 height: auto;
 
-                .tabs-container {
+                .tabs-container, .view-list-container {
                     height: auto;
                     width: 100%;
                 }
