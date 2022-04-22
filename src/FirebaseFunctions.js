@@ -1,5 +1,9 @@
 export const getFriendsInfo = async (userId) => {
-    const url = `https://us-central1-whats-your-list.cloudfunctions.net/getFriendsInfo?userId=${userId}`;
+    const baseUrl = process.env.NODE_ENV === 'production'
+        ? 'https://us-central1-whats-your-list.cloudfunctions.net'
+        : 'http://localhost:5001/whats-your-list/us-central1';
+
+    const url = `${baseUrl}/getFriendsInfo?userId=${userId}`;
 
     return fetch(url, {
         "method": "GET"
