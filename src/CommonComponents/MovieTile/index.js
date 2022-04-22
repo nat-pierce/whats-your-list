@@ -8,15 +8,18 @@ export default function MovieTile({
     movie,
     children
 }) {
+    const rankDisplay = rank && <div className='rank'>#{rank}</div>;
+
     return (
         <div className='movie-tile'>
-            {dragHandleProps && 
-                <div className='drag-handle'{...dragHandleProps}>
-                    <DragHandleIcon />
-                </div>
-            }
-            {rank && 
-                <div className='rank'>#{rank}</div>
+            {dragHandleProps 
+                ? ( 
+                    <div className='drag-handle'{...dragHandleProps}>
+                        <DragHandleIcon />
+                        {rankDisplay}
+                    </div>
+                )
+                : rankDisplay
             }
             <img className='poster' src={movie.Poster} alt='Movie poster' />
             <div className='title'>{movie.Title} ({movie.Year})</div>
