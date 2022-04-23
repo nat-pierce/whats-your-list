@@ -28,7 +28,9 @@ const SearchBar = memo(({
     const watchLaterMovieIds = watchLaterMovies.map(m => m.imdbID);
 
     const maxNum = MAX_NUM_MOVIES;
-    const isDisabled = favoriteMovies.length >= maxNum;
+    const isDisabled = currentHomeTab === HOME_TABS.Favorites
+        ? favoriteMovieIds.length >= maxNum
+        : watchLaterMovieIds.length >= maxNum;
 
     const onChooseMovie = (e, value) => {
         addMovieToList(value, currentHomeTab, "Search");
