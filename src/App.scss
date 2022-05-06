@@ -7,6 +7,12 @@
 
 @font-face {
     font-family: 'Nunito';
+    font-weight: 600;
+    src: local('Nunito'), url(./Resources/Fonts/Nunito/Nunito-SemiBold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Nunito';
     font-weight: bold;
     src: local('Nunito'), url(./Resources/Fonts/Nunito/Nunito-ExtraBold.ttf) format('truetype');
 }

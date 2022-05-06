@@ -7,16 +7,16 @@ $arrow-height: 1em;
 .add-to-home-popup {
     position: fixed;
     bottom: $arrow-height;
-    left: 1em;
-    right: 1em;
+    left: 1.1em;
+    right: 1.1em;
     z-index: 1;
     background-color: $light-gray;
-    padding: 1em 1.5em;
-    border-radius: 7px;
+    padding: 0.5em 2.5em 0.8em 0.8em;
+    border-radius: 10px;
     box-shadow: 2px 2px 9px 0px gray;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     font-size: $popup-font-size;
 
     .popup-arrow {
@@ -50,9 +50,14 @@ $arrow-height: 1em;
 
     .instructions {
         .title {
-            font-weight: bold;
-            font-size: 1.25 * $popup-font-size;
+            font-weight: 600;
+            font-size: 1.2 * $popup-font-size;
             font-family: 'Nunito';
+
+            .wyl {
+                font-weight: bold;
+                font-size: 1.4 * $popup-font-size;
+            }
         }
 
         .step {
@@ -66,7 +71,6 @@ $arrow-height: 1em;
             }
 
             .share-icon {
-                font-size: 1.5em;
                 margin: 0 0.2em;
             }
 
@@ -74,5 +78,11 @@ $arrow-height: 1em;
                 margin: 0 0.3em;
             }
         }
+    }
+
+    .close-icon-wrapper {
+        position: absolute;
+        top: 0.6em;
+        right: 0.8em;
     }
 }
