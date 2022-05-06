@@ -1,0 +1,39 @@
+@import '../../ConstantsAndMixins.scss';
+
+$arrow-width: 3em;
+$arrow-height: 1em;
+
+.add-to-home-popup {
+    position: fixed;
+    bottom: $arrow-height;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 1;
+    background-color: $light-gray;
+    padding: 0.5em;
+    border-radius: 7px;
+    box-shadow: 2px 2px 9px 0px gray;
+
+    .popup-arrow {
+        position: absolute;
+        font-size: 7px;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, 0);
+        margin-bottom: -0.9em;
+        width: $arrow-width;
+        height: $arrow-height;
+        z-index: 1;
+    
+        &::before {
+            content: "";
+            margin: auto;
+            display: block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 1em 1em 0 1em;
+            border-color: $light-gray transparent transparent transparent;
+        }
+    }
+}
