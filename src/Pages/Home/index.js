@@ -1,7 +1,7 @@
 import { useContext, memo, useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Home.scss';
-import { BASE_URL, EVENTS, HOME_TABS, MAX_NUM_MOVIES, ROUTES } from '../../Constants';
+import { BASE_URL, EVENTS, HOME_TABS, MAX_NUM_MOVIES, ROUTES, LOCAL_STORAGE_PWA_POPUP } from '../../Constants';
 import AppContext from '../../AppContext';
 import Header from '../../CommonComponents/Header';
 import Profile from './Profile';
@@ -17,19 +17,22 @@ import CustomTabs from '../../CommonComponents/CustomTabs';
 import { FavoriteListIcon, WatchLaterListIcon } from '../../CommonComponents/Icons';
 import { DragDropContext } from 'react-beautiful-dnd';
 import AddToHomeScreenPopup from '../../CommonComponents/AddToHomeScreenPopup';
+import { getIsIos } from '../../Utilities/EnvironmentUtilities';
 
 const Home = memo(({ 
     user, 
     hasSentEmailVerification, 
     setHasSentEmailVerification, 
-    numFriends,
     changeHomeTab,
     favoriteMovies,
     watchLaterMovies,
     reorderMovieList,
-    setIsWatchLaterTabHeaderMounted
+    setIsWatchLaterTabHeaderMounted,
+    shouldShowSuggestions,
+    shouldShowPopup
 }) => {
     const history = useHistory();
+    const [shouldShowPopupInternal, setShouldShowPopupInternal] = useState(shouldShowPopup);
     const [isMounted, setIsMounted] = useState(false);
     const firebase = useContext(FirebaseContext);
 
@@ -126,7 +129,10 @@ const Home = memo(({
         reorderMovieList(itemsWithUpdatedOrderIds, tabType);
     }
 
-    const shouldShowSuggestions = (numFriends > 0) && (favoriteMovies.length < MAX_NUM_MOVIES);
+    const onClosePopup = () => {
+        localStorage.setItem(LOCAL_STORAGE_PWA_POPUP, 'true');
+        setShouldShowPopupInternal(false);
+    }
 
     return (
         <div className='home-page'>
@@ -149,7 +155,7 @@ const Home = memo(({
                 </div>
             </div>
             <Settings />
-            <AddToHomeScreenPopup />
+            {shouldShowPopupInternal && <AddToHomeScreenPopup onClose={onClosePopup} />}
         </div>
     )
 });
@@ -159,10 +165,15 @@ export default function ConnectedHome() {
     const { user, hasSentEmailVerification, friends, favoriteMovies, watchLaterMovies } = state;
     const { setHasSentEmailVerification, changeHomeTab, reorderMovieList, setIsWatchLaterTabHeaderMounted } = actions;
 
+    const shouldShowSuggestions = (friends.length > 0) && (favoriteMovies.length < MAX_NUM_MOVIES);
+
+    const isIos = getIsIos();
+    const hasSeenPopup = localStorage.getItem(LOCAL_STORAGE_PWA_POPUP);
+    const shouldShowPopup = isIos && !hasSeenPopup;
+
     return (
         <Home 
-            user={user} 
-            numFriends={friends.length}
+            user={user}
             favoriteMovies={favoriteMovies}
             watchLaterMovies={watchLaterMovies}
             hasSentEmailVerification={hasSentEmailVerification}
@@ -170,6 +181,8 @@ export default function ConnectedHome() {
             changeHomeTab={changeHomeTab}
             reorderMovieList={reorderMovieList}
             setIsWatchLaterTabHeaderMounted={setIsWatchLaterTabHeaderMounted}
+            shouldShowSuggestions={shouldShowSuggestions}
+            shouldShowPopup={shouldShowPopup}
         />
     );
 }

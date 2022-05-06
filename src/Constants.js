@@ -27,3 +27,5 @@ export const HOME_TABS = {
     Favorites: 'FAVORITES',
     WatchLater: 'WATCH_LATER'
 };
+
+export const LOCAL_STORAGE_PWA_POPUP = 'LOCAL_STORAGE_PWA_POPUP';
