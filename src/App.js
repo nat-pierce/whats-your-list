@@ -13,7 +13,6 @@ import theme from './Theme';
 import Toast from './CommonComponents/Toast';
 import { smallScreenMax } from './StyleExports.module.scss';
 import Guide from './CommonComponents/Guide';
-import AddToHomeScreenPopup from './CommonComponents/AddToHomeScreenPopup';
 
 function App() {
     const firebase = useContext(FirebaseContext);
@@ -56,7 +55,6 @@ function App() {
                         <Route path={ROUTES.Friends} component={Friends} />
                         <Toast />
                         <Guide />
-                        <AddToHomeScreenPopup />
                     </div>
                 </Router>
             </AppContextProvider>

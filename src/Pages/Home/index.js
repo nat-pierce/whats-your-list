@@ -16,6 +16,7 @@ import WatchLater from './WatchLater';
 import CustomTabs from '../../CommonComponents/CustomTabs';
 import { FavoriteListIcon, WatchLaterListIcon } from '../../CommonComponents/Icons';
 import { DragDropContext } from 'react-beautiful-dnd';
+import AddToHomeScreenPopup from '../../CommonComponents/AddToHomeScreenPopup';
 
 const Home = memo(({ 
     user, 
@@ -148,6 +149,7 @@ const Home = memo(({
                 </div>
             </div>
             <Settings />
+            <AddToHomeScreenPopup />
         </div>
     )
 });

@@ -6,8 +6,9 @@
 }
 
 @font-face {
-    font-family: 'NunitoBlack';
-    src: local('Nunito'), url(./Resources/Fonts/Nunito/Nunito-Black.ttf) format('truetype');
+    font-family: 'Nunito';
+    font-weight: bold;
+    src: local('Nunito'), url(./Resources/Fonts/Nunito/Nunito-ExtraBold.ttf) format('truetype');
 }
 
 @font-face {
