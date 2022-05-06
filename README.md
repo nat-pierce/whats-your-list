@@ -9,16 +9,19 @@ Movie-based social networking app that allows users to rank their favorite movie
 The front-end is built with React, and uses React Context for state management. It uses a Firebase back-end with RapidAPI to retrieve film information.
 
 ## Notes-to-self for development
-
 There are some "security vulnerabilities" in react-scripts,
 but for now just use `npm audit --production`
 (https://github.com/facebook/create-react-app/issues/11174)
 
 ### To run locally
-Run `firebase emulators:start`,
-then run `npm start`
+In one terminal: `firebase emulators:start`,
+and in another terminal: `npm start`
 
-### To deploy
-Run `npm run build` followed by `firebase deploy`
+### To deploy a production build to localhost
+`npm run build && serve -s build`
 
-Or `firebase deploy --only functions` to deploy updates to Firebase Functions
+### To deploy to production
+`npm run build && firebase deploy`
+
+### To deploy only firebase functions to production
+`npm run build && firebase deploy --only functions`

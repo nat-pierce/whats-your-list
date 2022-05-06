@@ -5,7 +5,7 @@ import Logo from "../Logo";
 import './OverlayLogoSpinner.scss';
 
 export default function OverlayLogoSpinner() {
-    const [shouldShowButton, setShouldShowButton] = useState(false);
+    const [shouldShowErrorSection, setShouldShowErrorSection] = useState(false);
 
     const onClickTryAgain = () => {
         window.location.href = BASE_URL;
@@ -13,7 +13,7 @@ export default function OverlayLogoSpinner() {
 
     useEffect(() => {
         let timeoutId = setTimeout(() => {
-            setShouldShowButton(true);
+            setShouldShowErrorSection(true);
         }, 5000);
 
         return () => {
@@ -24,14 +24,17 @@ export default function OverlayLogoSpinner() {
     return (
         <div className='overlay'>
             <Logo shouldAnimate={true} animationSpeed={250} />
-            {shouldShowButton &&
-                <Button 
-                    className='try-again-button' 
-                    onClick={onClickTryAgain}
-                    variant='contained'
-                >
-                    Try again
-                </Button>
+            {shouldShowErrorSection &&
+                <div className='error-section'>
+                    Still trying to connect...
+                    <Button 
+                        className='try-again-button' 
+                        onClick={onClickTryAgain}
+                        variant='contained'
+                    >
+                        Try again
+                    </Button>
+                </div>
             }
         </div>
     );
