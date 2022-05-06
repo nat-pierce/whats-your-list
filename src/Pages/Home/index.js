@@ -17,7 +17,7 @@ import CustomTabs from '../../CommonComponents/CustomTabs';
 import { FavoriteListIcon, WatchLaterListIcon } from '../../CommonComponents/Icons';
 import { DragDropContext } from 'react-beautiful-dnd';
 import AddToHomeScreenPopup from '../../CommonComponents/AddToHomeScreenPopup';
-import { getIsIos } from '../../Utilities/EnvironmentUtilities';
+import { getIsIos, getIsStandalone } from '../../Utilities/EnvironmentUtilities';
 
 const Home = memo(({ 
     user, 
@@ -168,8 +168,9 @@ export default function ConnectedHome() {
     const shouldShowSuggestions = (friends.length > 0) && (favoriteMovies.length < MAX_NUM_MOVIES);
 
     const isIos = getIsIos();
+    const isStandalone = getIsStandalone();
     const hasSeenPopup = localStorage.getItem(LOCAL_STORAGE_PWA_POPUP);
-    const shouldShowPopup = isIos && !hasSeenPopup;
+    const shouldShowPopup = isIos && !isStandalone && !hasSeenPopup;
 
     return (
         <Home 
