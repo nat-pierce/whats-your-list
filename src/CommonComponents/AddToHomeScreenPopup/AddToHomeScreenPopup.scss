@@ -1,21 +1,23 @@
 @import '../../ConstantsAndMixins.scss';
 
-$arrow-width: 3em;
+$popup-font-size: 0.9em;
+$popup-margin: 1em;
 $arrow-height: 1em;
 
 .add-to-home-popup {
     position: fixed;
     bottom: $arrow-height;
-    left: 50%;
-    transform: translate(-50%, 0);
+    left: 1em;
+    right: 1em;
     z-index: 1;
     background-color: $light-gray;
-    padding: 0.5em;
+    padding: 1em 1.5em;
     border-radius: 7px;
     box-shadow: 2px 2px 9px 0px gray;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-size: $popup-font-size;
 
     .popup-arrow {
         position: absolute;
@@ -24,7 +26,7 @@ $arrow-height: 1em;
         left: 50%;
         transform: translate(-50%, 0);
         margin-bottom: -0.9em;
-        width: $arrow-width;
+        width: 3 * $arrow-height;
         height: $arrow-height;
         z-index: 1;
     
@@ -41,16 +43,36 @@ $arrow-height: 1em;
     }
 
     .app-icon {
-        height: 50px;
-        width: 50px;
-        margin-right: 5px;
+        height: 6 * $popup-font-size;
+        width: 6 * $popup-font-size;
+        margin-right: 1em;
     }
 
     .instructions {
         .title {
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: 1.25 * $popup-font-size;
             font-family: 'Nunito';
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5em;
+
+            .bullet-point {
+                margin-left: 0.5em;
+                margin-right: 0.2em;
+            }
+
+            .share-icon {
+                font-size: 1.5em;
+                margin: 0 0.2em;
+            }
+
+            b {
+                margin: 0 0.3em;
+            }
         }
     }
 }

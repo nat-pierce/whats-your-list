@@ -2,9 +2,11 @@ import React from 'react';
 import './AddToHomeScreenPopup.scss';
 import appIcon from '../../Resources/Images/appIcon.png';
 import CircleIcon from '@material-ui/icons/FiberManualRecord';
+import IosShareIcon from '../../Resources/Icons/IosShareIcon';
 
 export default function AddToHomeScreenPopUp() {
-    const bulletPoint = <CircleIcon fontSize='small' />
+    const bulletPoint = <CircleIcon className='bullet-point' fontSize='small' />
+    const iosShare = <IosShareIcon className='share-icon' />;
 
     return (
         <div className='add-to-home-popup'>
@@ -16,7 +18,7 @@ export default function AddToHomeScreenPopUp() {
                 </div>
                 <div className='step'>
                     {bulletPoint}
-                    Tap icon at bottom of screen
+                    Tap {iosShare} at bottom of screen
                 </div>
                 <div className='step'>
                     {bulletPoint}
