@@ -4,10 +4,10 @@ import Button from '@material-ui/core/Button';
 import './Settings.scss';
 import { FirebaseContext } from "../../../Firebase";
 import AppContext from "../../../AppContext";
-import Modal from '../../../CommonComponents/Modal';
+import Modal from '../../Modal';
 import TextField from "@material-ui/core/TextField";
 
-const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen, uid }) => {
+const Settings = memo(({ onClose, signOut, uid }) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
     const [currentPassword, setCurrentPassword] = useState('');
@@ -23,16 +23,11 @@ const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen, u
     };
 
     const onCloseModal = () => {
-        setIsSettingsModalOpen(false);
-        setCurrentPassword('');
-        setNewEmail('');
-        setIsChangingEmail(false);
-        setIsChangingPassword(false);
-        setHasError(false);
-
+        // If email or password has been changed, sign the user out
         if (successMessage) {
-            setSuccessMessage(null);
-            onSignOut(history);
+            onSignOut();
+        } else {
+            onClose();
         }
     }
 
@@ -76,11 +71,13 @@ const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen, u
             onChange={(e) => setCurrentPassword(e.target.value)} />
     );
 
+    const errorMessage = hasError 
+        ? <div className='error-message'>Please try again</div>
+        : null;
+
     let settingsContent;
     if (successMessage) {
-        settingsContent = (
-            <div>{successMessage}</div>
-        )
+        settingsContent = successMessage;
     } else if (isChangingEmail) {
         settingsContent = (
             <>
@@ -91,7 +88,7 @@ const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen, u
                     variant="outlined" 
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)} />
-                {hasError && <div className='error-message'>Please try again</div>}
+                {errorMessage}
                 <Button color="primary" variant="contained" onClick={onChangeEmail}>
                     Change email
                 </Button>
@@ -108,7 +105,7 @@ const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen, u
                     variant="outlined" 
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)} />
-                {hasError && <div className='error-message'>Please try again</div>}
+                {errorMessage}
                 <Button color="primary" variant="contained" onClick={onChangePassword}>
                     Change password
                 </Button>
@@ -130,10 +127,11 @@ const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen, u
         );
     }
 
+    // TODO disable buttons if offline
     return (
         <Modal 
             onCloseModal={onCloseModal}
-            isOpen={isSettingsModalOpen} 
+            isOpen={true} 
             modalTitle='Settings' 
             className='settings-modal'>
             <div className='settings'>
@@ -143,16 +141,16 @@ const Settings = memo(({ signOut, isSettingsModalOpen, setIsSettingsModalOpen, u
     );
 });
 
-export default function ConnectedSettings() {
+export default function ConnectedSettings({ onClose }) {
     const { state, actions } = useContext(AppContext);
-    const { isSettingsModalOpen, user } = state;
-    const { signOut, setIsSettingsModalOpen } = actions;
+    const { user } = state;
+    const { signOut } = actions;
 
     return (
         <Settings 
+            onClose={onClose}
             signOut={signOut} 
-            isSettingsModalOpen={isSettingsModalOpen}
-            setIsSettingsModalOpen={setIsSettingsModalOpen}
-            uid={user && user.uid} />
+            uid={user?.uid} 
+        />
     );
 }

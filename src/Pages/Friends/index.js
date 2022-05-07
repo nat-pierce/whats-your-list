@@ -4,7 +4,6 @@ import CurrentFriends from './CurrentFriends';
 import AppContext from '../../AppContext';
 import { useContext, memo, useEffect } from 'react';
 import './Friends.scss';
-import Header from '../../CommonComponents/Header';
 import { useHistory } from 'react-router';
 import { ROUTES } from '../../Constants';
 import Badge from '@material-ui/core/Badge';
@@ -40,7 +39,6 @@ const Friends = memo(({ user, numFriends, numRequests }) => {
 
     return (
         <div className='friends-page'>
-            <Header />
             <CustomTabs tabConfigs={tabConfigs} />
         </div>
     )

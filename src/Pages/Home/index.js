@@ -3,12 +3,11 @@ import { useHistory } from 'react-router-dom';
 import './Home.scss';
 import { BASE_URL, EVENTS, HOME_TABS, MAX_NUM_MOVIES, ROUTES, LOCAL_STORAGE_PWA_POPUP } from '../../Constants';
 import AppContext from '../../AppContext';
-import Header from '../../CommonComponents/Header';
 import Profile from './Profile';
 import { FirebaseContext, log } from '../../Firebase';
 import FavoriteList from './FavoriteList';
 import Charts from './Charts';
-import Settings from './Settings';
+import Settings from '../../CommonComponents/Header/Settings';
 import Button from '@material-ui/core/Button';
 import OverlayLogoSpinner from '../../CommonComponents/OverlayLogoSpinner';
 import Suggestions from './Suggestions';
@@ -73,7 +72,6 @@ const Home = memo(({
     if (authUser && !authUser.emailVerified) {
         return (
             <div className='email-verification-page'>
-                <Header />
                 <div className='message'>Email verification sent!</div>
                 <Button color="primary" variant="contained" onClick={onClickSendEmail}>
                     Send again
@@ -136,25 +134,21 @@ const Home = memo(({
 
     return (
         <div className='home-page'>
-            <Header />
-            <div className='main-content'>
-                <div className='upper'>
-                    <Profile />
-                    {shouldShowSuggestions &&
-                        <Suggestions />
-                    }
-                </div>
-                <div className='lower'>
-                    <DragDropContext onDragEnd={onDragEnd}>
-                        <CustomTabs 
-                            tabConfigs={tabConfigs} 
-                            onMount={setIsWatchLaterTabHeaderMounted}
-                        />
-                    </DragDropContext>
-                    <Charts />
-                </div>
+            <div className='upper'>
+                <Profile />
+                {shouldShowSuggestions &&
+                    <Suggestions />
+                }
             </div>
-            <Settings />
+            <div className='lower'>
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <CustomTabs 
+                        tabConfigs={tabConfigs} 
+                        onMount={setIsWatchLaterTabHeaderMounted}
+                    />
+                </DragDropContext>
+                <Charts />
+            </div>
             {shouldShowPopupInternal && <AddToHomeScreenPopup onClose={onClosePopup} />}
         </div>
     )

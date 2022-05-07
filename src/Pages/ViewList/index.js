@@ -1,4 +1,3 @@
-import Header from '../../CommonComponents/Header';
 import ViewListProfile from './ViewListProfile';
 import { useEffect, useContext, useState, memo } from 'react';
 import { FirebaseContext } from '../../Firebase';
@@ -63,19 +62,16 @@ const ViewList = memo(({ uid, setUser }) => {
 
     return (
         <div className='view-list-page'>
-            <Header />
-            <div className='main-content'>
-                <div className='upper'>
-                    <ViewListProfile profilePicUrl={profilePicUrl} name={name} viewId={viewId} />
+            <div className='upper'>
+                <ViewListProfile profilePicUrl={profilePicUrl} name={name} viewId={viewId} />
+            </div>
+            <div className='lower'>
+                <div className='view-list-container'>
+                    <ViewListFavoriteMovies viewListMovies={viewListMovies} />
                 </div>
-                <div className='lower'>
-                    <div className='view-list-container'>
-                        <ViewListFavoriteMovies viewListMovies={viewListMovies} />
-                    </div>
-                    {shouldShowCharts &&
-                        <Charts viewListMovies={viewListMovies} />
-                    }
-                </div>
+                {shouldShowCharts &&
+                    <Charts viewListMovies={viewListMovies} />
+                }
             </div>
         </div>
     )

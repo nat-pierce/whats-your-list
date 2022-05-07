@@ -3,7 +3,7 @@ import './ViewListProfile.scss';
 import { useContext, memo, useState } from 'react';
 import AppContext from '../../../AppContext';
 import Button from '@material-ui/core/Button';
-import Settings from '../../Home/Settings';
+import Settings from '../../../CommonComponents/Header/Settings';
 import ViewListFriends from './ViewListFriends';
 import { Tooltip } from '@material-ui/core';
 

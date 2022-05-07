@@ -6,11 +6,12 @@
     align-items: center;
     justify-content: center;
 
-    .MuiButtonBase-root, .MuiTextField-root {
+    .MuiButtonBase-root, .MuiTextField-root, .error-message {
         margin-bottom: 1rem;
     }
 
     .error-message {
         color: $red;
+        font-family: 'Nunito';
     }
 }

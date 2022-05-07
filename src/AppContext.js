@@ -16,7 +16,6 @@ const defaultState = {
     favoriteMovies: [],
     watchLaterMovies: [],
     suggestedMovies: [],
-    isSettingsModalOpen: false,
     hasSentEmailVerification: false,
     currentHomeTab: HOME_TABS.Favorites,
     toastMessage: null,
@@ -192,10 +191,6 @@ export class AppContextProvider extends PureComponent {
         updateOrderIds(this.state.user.uid, newListWithUpdatedOrderIds, listName);
     }
 
-    setIsSettingsModalOpen = (isOpen) => {
-        this.setState({ isSettingsModalOpen: isOpen });
-    }
-
     addFriend = (id, logSource) => {
         log(EVENTS.AddFriend, {
             source: logSource
@@ -301,7 +296,6 @@ export class AppContextProvider extends PureComponent {
                 reorderMovieList: this.reorderMovieList,
                 removeMovieFromList: this.removeMovieFromList,
                 setSuggestedMovies: this.setSuggestedMovies,
-                setIsSettingsModalOpen: this.setIsSettingsModalOpen,
                 setHasSentEmailVerification: this.setHasSentEmailVerification,
                 addFriend: this.addFriend,
                 acceptFriendRequest: this.acceptFriendRequest,

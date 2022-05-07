@@ -2,7 +2,7 @@ import React, { memo, useContext } from "react";
 import AppContext from "../../AppContext";
 import { HOME_TABS, MAX_NUM_MOVIES } from "../../Constants";
 import MovieTile from "../../CommonComponents/MovieTile";
-import Chip from '../../CommonComponents/Chip/index';
+import Chip from '../../CommonComponents/Chip';
 import CustomMenu from "../../CommonComponents/CustomMenu";
 
 const ViewListFavoriteMovies = memo(({ 

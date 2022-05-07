@@ -13,6 +13,7 @@ import theme from './Theme';
 import Toast from './CommonComponents/Toast';
 import { smallScreenMax } from './StyleExports.module.scss';
 import Guide from './CommonComponents/Guide';
+import Header from './CommonComponents/Header';
 
 function App() {
     const firebase = useContext(FirebaseContext);
@@ -46,6 +47,7 @@ function App() {
             <AppContextProvider firebase={firebase} history={history}>
                 <Router>
                     <div className="app" ref={appRef}>
+                        <Header />
                         <Route exact path="/">
                             <Redirect to={ROUTES.Home} />
                         </Route>

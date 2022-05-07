@@ -6,92 +6,85 @@ $charts-side-margin: 2rem;
     display: flex;
     height: 100%;
     width: 100%;
-    padding-top: $header-height;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box;
 
-    .main-content {
-        height: 100%;
+    .upper {
+        height: $home-upper-height;
         width: 100%;
-        min-height: 600px;
+        background-color: white;
         display: flex;
-        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: solid 1px $gray;
+        padding: 0.5rem 1rem;
         box-sizing: border-box;
+        background-color: white;
+
+        .profile, .suggestions {
+            flex: 1;
+        }
+    }
+
+    .lower {
+        display: flex;
+        background-color: $light-gray;
+        height: calc(100% - #{$home-upper-height});
+
+        .tabs-container, .view-list-container {
+            width: 50%;
+        }
+
+        .charts {
+            width: calc(50% - #{$charts-side-margin});
+            margin-right: $charts-side-margin;
+            padding: 1rem 0;
+            box-sizing: border-box;
+        }
+
+        .home-tab-header {
+            display: flex;
+            align-items: center;
+
+            .tab-name {
+                padding-left: $list-icon-padding;
+            }
+        }
+    }
+
+    // In small screen mode, everything is stacked and heights are auto
+    @include smallScreen {
+        height: auto;
 
         .upper {
-            height: $home-upper-height;
-            width: 100%;
-            background-color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: solid 1px $gray;
-            padding: 0.5rem 1rem;
-            box-sizing: border-box;
-            background-color: white;
-
-            .profile, .suggestions {
-                flex: 1;
+            flex-direction: column;
+            height: auto;
+    
+            .profile {
+                width: 100%;
+            }
+    
+            .suggestions {
+                display: none;
             }
         }
-
+    
         .lower {
-            display: flex;
-            background-color: $light-gray;
-            height: calc(100% - #{$home-upper-height});
-
-            .tabs-container, .view-list-container {
-                width: 50%;
-            }
-
-            .charts {
-                width: calc(50% - #{$charts-side-margin});
-                margin-right: $charts-side-margin;
-                padding: 1rem 0;
-                box-sizing: border-box;
-            }
-
-            .home-tab-header {
-                display: flex;
-                align-items: center;
-
-                .tab-name {
-                    padding-left: $list-icon-padding;
-                }
-            }
-        }
-
-        // In small screen mode, everything is stacked and heights are auto
-        @include smallScreen {
+            flex-direction: column;
             height: auto;
 
-            .upper {
-                flex-direction: column;
+            .tabs-container, .view-list-container {
                 height: auto;
-        
-                .profile {
-                    width: 100%;
-                }
-        
-                .suggestions {
-                    display: none;
-                }
+                width: 100%;
             }
-        
-            .lower {
-                flex-direction: column;
-                height: auto;
 
-                .tabs-container, .view-list-container {
-                    height: auto;
-                    width: 100%;
-                }
-
-                // double charts' side width and add a left margin as well
-                .charts {
-                    border-top: solid 1px $gray;
-                    width: calc(100% - #{$charts-side-margin*2});
-                    margin-left: $charts-side-margin;
-                }
+            // double charts' side width and add a left margin as well
+            .charts {
+                border-top: solid 1px $gray;
+                width: calc(100% - #{$charts-side-margin*2});
+                margin-left: $charts-side-margin;
             }
         }
     }
