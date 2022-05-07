@@ -21,35 +21,46 @@ const Header = memo(({ isSignedIn }) => {
         history.push(ROUTES.Login);
     };
 
-    return <>
-        <div className='header'>
-            <div className='logo-wrapper' onClick={onClickLogo}>
-                <Logo sizeScale={0.25} shouldAnimate={false} />
-            </div>
-            {isSignedIn
-                ? (
-                    <IconButton 
-                        className="settings-icon" 
-                        onClick={() => setIsSettingsModalOpen(true)}
-                    >
-                        <SettingsIcon />
-                    </IconButton>
-                )
-                : (
-                    <Button 
-                        color="primary" 
-                        variant="contained" 
-                        onClick={onClickLogin}
-                    >
-                        Create my list
-                    </Button>
-                )
-            }
+    // TODO handle viewList with no user (on login fail this still needs to be false)
+    const shouldShowOverlay = !isSignedIn;
+
+    // Loading logo or Logo-button in top-left of header
+    const logo = (
+        <div className='logo-wrapper' onClick={shouldShowOverlay ? undefined : onClickLogo}>
+            <Logo 
+                sizeScale={0.25} 
+                shouldAnimate={false} 
+            />
         </div>
-        {isSettingsModalOpen && 
-            <SettingsModal onClose={() => setIsSettingsModalOpen(false)} />
-        }
-    </>;
+    );
+
+    // Action-button in top-right of header
+    let actionButton = null;
+    if (!shouldShowOverlay && isSignedIn) {
+        actionButton = (
+            <IconButton className="action-button settings-icon" onClick={() => setIsSettingsModalOpen(true)}>
+                <SettingsIcon />
+            </IconButton>
+        );
+    } else if (!shouldShowOverlay) {
+        actionButton = (
+            <Button className='action-button create-list' color="primary" variant="contained" onClick={onClickLogin}>
+                Create my list
+            </Button>
+        );
+    }
+
+    return (
+        <>
+            <div className={`header ${shouldShowOverlay ? 'overlay-mode' : 'header-mode'}`}>
+                {logo}
+                {actionButton}
+            </div>
+            {isSettingsModalOpen && !shouldShowOverlay &&
+                <SettingsModal onClose={() => setIsSettingsModalOpen(false)} />
+            }
+        </>
+    );
 });
 
 export default function ConnectedHeader() {

@@ -4,6 +4,7 @@ import { BASE_URL } from "../../Constants";
 import Logo from "../Logo";
 import './OverlayLogoSpinner.scss';
 
+// TODO remove file?
 export default function OverlayLogoSpinner() {
     const [shouldShowErrorSection, setShouldShowErrorSection] = useState(false);
 

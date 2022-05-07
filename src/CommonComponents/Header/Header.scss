@@ -1,26 +1,69 @@
 @import '../../ConstantsAndMixins.scss';
 
+$header-padding: 1rem;
+$transition: all 1s ease-in-out;
+
+@mixin absoluteCenter() {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2);
+}
+
+@mixin absoluteTopLeft() {
+    top: 0;
+    bottom: 0;
+    left: $header-padding;
+    transform: translate(0%, 0%) scale(1);
+}
+
 .header {
+    height: 100%;
     width: 100%;
-    height: $header-height;
     position: fixed;
     top: 0;
     z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 1rem;
+    padding: 0 $header-padding;
     box-sizing: border-box;
     background-color: black;
+    transition: $transition;
 
     .logo-wrapper {
-        cursor: pointer;
+        transition: $transition;
+        position: absolute;
+        transform-origin: center;
         display: flex;
-        justify-content: center;
         align-items: center;
+
+        @include absoluteCenter();
+
+        text {
+            user-select: none;
+        }
     }
 
-    .settings-icon {
-        color: white;
+    .action-button {
+        transition: $transition;
+        transition-delay: 5s; // TODO get this working
+        display: block;
+        margin-left: auto;
+        opacity: 0;
+
+        &.settings-icon {
+            color: white;
+        }
+    }
+
+    &.header-mode {
+        height: $header-height;
+
+        .logo-wrapper {
+            cursor: pointer;
+
+            @include absoluteTopLeft();
+        }
+
+        .action-button {
+            opacity: 1;
+        }
     }
 }

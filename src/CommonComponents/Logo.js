@@ -15,6 +15,7 @@ export default class Logo extends PureComponent {
     componentDidMount() {
         if (this.props.shouldAnimate) {
             const animationSpeed = this.props.animationSpeed || 750;
+
             this.intervalId = setInterval(() => {
                 this.setState({ color1: this.state.color2, color2: this.state.color1 });
             }, animationSpeed);
