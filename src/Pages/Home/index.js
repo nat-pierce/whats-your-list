@@ -9,7 +9,6 @@ import FavoriteList from './FavoriteList';
 import Charts from './Charts';
 import Settings from '../../CommonComponents/Header/Settings';
 import Button from '@material-ui/core/Button';
-import OverlayLogoSpinner from '../../CommonComponents/OverlayLogoSpinner';
 import Suggestions from './Suggestions';
 import WatchLater from './WatchLater';
 import CustomTabs from '../../CommonComponents/CustomTabs';
@@ -65,7 +64,7 @@ const Home = memo(({
     }, [firebase, hasSentEmailVerification, setHasSentEmailVerification, sendConfirmationEmail]);
 
     if (!isMounted || !user) {
-        return <OverlayLogoSpinner />;
+        return null;
     }
 
     const authUser = firebase.auth().currentUser;
