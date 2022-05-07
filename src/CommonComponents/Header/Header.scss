@@ -1,7 +1,7 @@
 @import '../../ConstantsAndMixins.scss';
 
 $header-padding: 1rem;
-$transition: all 1s ease-in-out;
+$transition: all 1s ease-out;
 
 @mixin absoluteCenter() {
     top: 50%;
@@ -14,6 +14,16 @@ $transition: all 1s ease-in-out;
     bottom: 0;
     left: $header-padding;
     transform: translate(0%, 0%) scale(1);
+}
+
+@mixin fadeInDelayed() {
+    @keyframes fadein {
+        0% { opacity: 0; }
+        75% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    animation: fadein 1s ease-out;
 }
 
 .header {
@@ -41,18 +51,6 @@ $transition: all 1s ease-in-out;
         }
     }
 
-    .action-button {
-        transition: $transition;
-        transition-delay: 5s; // TODO get this working
-        display: block;
-        margin-left: auto;
-        opacity: 0;
-
-        &.settings-icon {
-            color: white;
-        }
-    }
-
     &.header-mode {
         height: $header-height;
 
@@ -61,9 +59,16 @@ $transition: all 1s ease-in-out;
 
             @include absoluteTopLeft();
         }
-
-        .action-button {
-            opacity: 1;
-        }
     }
+
+    .action-button {
+        display: block;
+        margin-left: auto;
+
+        @include fadeInDelayed();
+
+        &.settings-icon {
+            color: white;
+        }
+    } 
 }
