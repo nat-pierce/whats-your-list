@@ -3,7 +3,7 @@ import Joyride from 'react-joyride';
 import './Guide.scss';
 import Button from '@material-ui/core/Button';
 import AppContext from '../../AppContext';
-import { HOME_TABS } from '../../Constants';
+import { getShouldGuideStepSearch, getShouldGuideStepWatchLater, getShouldGuideStepSecondWatchLater } from '../../AppSelectors';
 
 const LocalStorageKeySearchStep = "LOCAL_STORAGE_SEARCH_STEP";
 const LocalStorageKeyWatchTabStep = "LOCAL_STORAGE_WATCH_TAB_STEP";
@@ -96,15 +96,10 @@ const Guide = memo(({
 
 export default function ConnectedGuide() {
     const { state } = useContext(AppContext);
-    const { isSearchMounted, isWatchLaterTabHeaderMounted, favoriteMovies, watchLaterMovies, currentHomeTab } = state;
 
-    const hasAddedFavorites = favoriteMovies.length > 0;
-    const hasAddedWatchLater = watchLaterMovies.length > 0;
-    const isViewingWatchLater = currentHomeTab === HOME_TABS.WatchLater;
-
-    const shouldAddSearchStep = isSearchMounted && !hasAddedFavorites;
-    const shouldAddSaveLaterStep = isWatchLaterTabHeaderMounted && hasAddedFavorites && !hasAddedWatchLater && !isViewingWatchLater;
-    const shouldAddSaveLaterSecondStep = isSearchMounted && !hasAddedWatchLater && isViewingWatchLater;
+    const shouldAddSearchStep = getShouldGuideStepSearch(state);
+    const shouldAddSaveLaterStep = getShouldGuideStepWatchLater(state);
+    const shouldAddSaveLaterSecondStep = getShouldGuideStepSecondWatchLater(state);
 
     return (
         <Guide

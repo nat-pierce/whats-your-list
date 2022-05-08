@@ -14,8 +14,7 @@ import CustomTabs from '../../CommonComponents/CustomTabs';
 import { FavoriteListIcon, WatchLaterListIcon } from '../../CommonComponents/Icons';
 import { DragDropContext } from 'react-beautiful-dnd';
 import AddToHomeScreenPopup from '../../CommonComponents/AddToHomeScreenPopup';
-import { getIsIos, getIsStandalone } from '../../Utilities/EnvironmentUtilities';
-import { getIsSignedIn } from '../../AppSelectors';
+import { getIsSignedIn, getCanShowPwaPopup } from '../../AppSelectors';
 
 const Home = memo(({ 
     user, 
@@ -28,10 +27,10 @@ const Home = memo(({
     reorderMovieList,
     setIsWatchLaterTabHeaderMounted,
     shouldShowSuggestions,
-    shouldShowPopup
+    canShowPwaPopup
 }) => {
     const history = useHistory();
-    const [shouldShowPopupInternal, setShouldShowPopupInternal] = useState(shouldShowPopup);
+    const [shouldShowPopupInternal, setShouldShowPopupInternal] = useState(false);
     const firebase = useContext(FirebaseContext);
 
     const sendConfirmationEmail = useCallback(() => {
@@ -53,6 +52,14 @@ const Home = memo(({
             history.push(ROUTES.Login);
         }
     }, [isSignedIn, history]);
+
+    useEffect(() => {
+        if (canShowPwaPopup) {
+            setTimeout(() => {
+                setShouldShowPopupInternal(true);
+            }, 2000)
+        }
+    }, [canShowPwaPopup, setShouldShowPopupInternal]);
 
     useEffect(() => {
         const authUser = firebase.auth().currentUser;
@@ -157,13 +164,8 @@ export default function ConnectedHome() {
     const { setHasSentEmailVerification, changeHomeTab, reorderMovieList, setIsWatchLaterTabHeaderMounted } = actions;
 
     const shouldShowSuggestions = (friends.length > 0) && (favoriteMovies.length < MAX_NUM_MOVIES);
-
-    const isIos = getIsIos();
-    const isStandalone = getIsStandalone();
-    const hasSeenPopup = localStorage.getItem(LOCAL_STORAGE_PWA_POPUP);
-    const shouldShowPopup = isIos && !isStandalone && !hasSeenPopup;
-
     const isSignedIn = getIsSignedIn(state);
+    const canShowPwaPopup = getCanShowPwaPopup(state);
 
     return (
         <Home 
@@ -177,7 +179,7 @@ export default function ConnectedHome() {
             reorderMovieList={reorderMovieList}
             setIsWatchLaterTabHeaderMounted={setIsWatchLaterTabHeaderMounted}
             shouldShowSuggestions={shouldShowSuggestions}
-            shouldShowPopup={shouldShowPopup}
+            canShowPwaPopup={canShowPwaPopup}
         />
     );
 }

@@ -54,6 +54,15 @@ $yellow: #FFF88B;
     user-select: none;
 }
 
+@mixin fadeInAnimation {
+    @keyframes fadein {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    animation: fadein 0.75s;
+}
+
 $small-screen-min: 300px;
 $small-screen-max: 900px;
 

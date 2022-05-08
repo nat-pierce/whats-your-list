@@ -21,6 +21,8 @@ $arrow-height: 1em;
     background-color: black;
     color: white;
 
+    @include fadeInAnimation;
+
     .popup-arrow {
         position: absolute;
         font-size: 7px;
