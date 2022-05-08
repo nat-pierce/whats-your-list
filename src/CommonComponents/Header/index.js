@@ -10,6 +10,7 @@ import { ROUTES } from '../../Constants';
 import SettingsModal from './Settings';
 import { getHasAttemptedSignIn, getIsSignedIn } from '../../AppSelectors';
 import { useLocation } from 'react-router-dom';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const Header = memo(({ 
     shouldShowOverlay, 
@@ -19,7 +20,6 @@ const Header = memo(({
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
     const { pathname } = useLocation();
-    const isOnLoginPage = pathname === ROUTES.Login;
 
     const onClickLogo = () => {
         history.push(ROUTES.Home);
@@ -30,8 +30,13 @@ const Header = memo(({
     };
 
     // Splash logo / Logo-button in top-left of header
+    const canClickHeader = !shouldShowOverlay && (pathname !== ROUTES.Login) && (pathname !== ROUTES.Home); 
     const logo = (
-        <div className='logo-wrapper' onClick={shouldShowOverlay ? undefined : onClickLogo}>
+        <div 
+            className={`logo-wrapper ${canClickHeader ? 'can-click' : ''}`}
+            onClick={canClickHeader ? onClickLogo : undefined}
+        >
+            {canClickHeader && isSignedIn && <ArrowBackIosIcon className='back-icon' />}
             <Logo 
                 sizeScale={0.25} 
                 shouldAnimate={false} 
@@ -41,7 +46,7 @@ const Header = memo(({
 
     // Action-button in top-right of header
     let actionButton = null;
-    if (!shouldShowOverlay && !isOnLoginPage) {
+    if (!shouldShowOverlay && (pathname !== ROUTES.Login)) {
         actionButton = isSignedIn
             ? (
                 <IconButton className="action-button settings-icon" onClick={() => setIsSettingsModalOpen(true)}>

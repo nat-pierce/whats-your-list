@@ -53,14 +53,16 @@ $transition: all $animation-speed $animation-curve;
         text {
             user-select: none;
         }
+
+        &.can-click {
+            cursor: pointer;
+        }
     }
 
     &.header-mode {
         height: $header-height;
 
         .logo-wrapper {
-            cursor: pointer;
-
             @include absoluteTopLeft();
         }
     }
@@ -70,9 +72,9 @@ $transition: all $animation-speed $animation-curve;
         margin-left: auto;
 
         @include fadeInDelayed();
-
-        &.settings-icon {
-            color: white;
-        }
     } 
+
+    .settings-icon, .back-icon {
+        color: white;
+    }
 }
