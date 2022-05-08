@@ -1,4 +1,4 @@
-import { useEffect, useContext, memo, useState } from 'react';
+import { useEffect, useContext, memo } from 'react';
 import './Login.scss';
 import { ROUTES } from '../../Constants';
 import { FirebaseContext } from '../../Firebase';
@@ -6,11 +6,15 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../../AppContext';
 import Logo from '../../CommonComponents/Logo';
+import { getHasAttemptedSignIn, getIsSignedIn } from '../../AppSelectors';
 
-const Login = memo(({ user, setUser }) => {
+const Login = memo(({ 
+    hasAttemptedSignIn,
+    isSignedIn, 
+    setUser
+}) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
-    const [isMounted, setIsMounted] = useState(false);
     
     const uiConfig = {
         signInSuccessUrl: "/", // This isn't used, we redirect in the useEffect below
@@ -28,22 +32,18 @@ const Login = memo(({ user, setUser }) => {
     };
 
     useEffect(() => {
-        if (user) {
+        if (isSignedIn) {
             history.push(ROUTES.Home);
         }
-    }, [user, history]);
+    }, [isSignedIn, history]);
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged(authUser => {
-            if (authUser) {
-                setUser(authUser)
-            } else {
-                setIsMounted(true);
-            }
+            setUser(authUser);
         })
-    }, [setIsMounted, setUser, firebase])
+    }, [setUser, firebase])
 
-    if (!isMounted) {
+    if (!hasAttemptedSignIn) {
         return null;
     }
 
@@ -60,8 +60,14 @@ const Login = memo(({ user, setUser }) => {
 
 export default function ConnectedLogin() {
     const { state, actions } = useContext(AppContext);
-    const { user } = state;
     const { setUser } = actions;
 
-    return <Login user={user} setUser={setUser} />
+    const hasAttemptedSignIn = getHasAttemptedSignIn(state);
+    const isSignedIn = getIsSignedIn(state);
+
+    return <Login 
+        hasAttemptedSignIn={hasAttemptedSignIn}
+        isSignedIn={isSignedIn} 
+        setUser={setUser}
+    />;
 }

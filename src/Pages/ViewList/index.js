@@ -19,9 +19,7 @@ const ViewList = memo(({ uid, setUser }) => {
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged(authUser => {
-            if (authUser) {
-                setUser(authUser)
-            }
+            setUser(authUser);
         })
     }, [setUser, firebase])
 

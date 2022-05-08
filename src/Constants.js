@@ -29,3 +29,5 @@ export const HOME_TABS = {
 };
 
 export const LOCAL_STORAGE_PWA_POPUP = 'LOCAL_STORAGE_PWA_POPUP';
+
+export const ANONYMOUS_USER_ID = 'ANONYMOUS_USER_ID';

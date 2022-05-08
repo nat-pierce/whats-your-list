@@ -1,6 +1,6 @@
 import { createContext, PureComponent } from 'react';
 import { getMovieMetadataApi } from './Utilities/ApiUtilities';
-import { EVENTS, HOME_TABS, ROUTES } from './Constants';
+import { ANONYMOUS_USER_ID, EVENTS, HOME_TABS, ROUTES } from './Constants';
 import { getFriendsInfo } from './FirebaseFunctions';
 import { addMovieToCollection, createAccount, getMovieCollection, log, removeMovieFromCollection, updateOrderIds } from './Firebase';
 import uniqBy from 'lodash.uniqby';
@@ -32,6 +32,16 @@ export class AppContextProvider extends PureComponent {
     }
 
     setUser = async (user) => {
+        if (!user) {
+            this.setState({ user: {
+                uid: ANONYMOUS_USER_ID,
+                email: null
+            }});
+
+            return;
+        }
+
+
         const db = this.props.firebase.firestore();
 
         // subscribe to user updates

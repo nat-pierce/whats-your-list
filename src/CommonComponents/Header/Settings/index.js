@@ -20,6 +20,7 @@ const Settings = memo(({ onClose, signOut, uid }) => {
     
     const onSignOut = () => {
         signOut(history);
+        onClose();
     };
 
     const onCloseModal = () => {

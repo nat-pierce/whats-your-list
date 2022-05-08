@@ -8,10 +8,18 @@ import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router';
 import { ROUTES } from '../../Constants';
 import SettingsModal from './Settings';
+import { getHasAttemptedSignIn, getIsSignedIn } from '../../AppSelectors';
+import { useLocation } from 'react-router-dom';
 
-const Header = memo(({ isSignedIn }) => {
+const Header = memo(({ 
+    shouldShowOverlay, 
+    isSignedIn 
+}) => {
     const history = useHistory();
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+
+    const { pathname } = useLocation();
+    const isOnLoginPage = pathname === ROUTES.Login;
 
     const onClickLogo = () => {
         history.push(ROUTES.Home);
@@ -20,9 +28,6 @@ const Header = memo(({ isSignedIn }) => {
     const onClickLogin = () => {
         history.push(ROUTES.Login);
     };
-
-    // TODO handle viewList with no user (on login fail this still needs to be false)
-    const shouldShowOverlay = !isSignedIn;
 
     // Splash logo / Logo-button in top-left of header
     const logo = (
@@ -36,18 +41,18 @@ const Header = memo(({ isSignedIn }) => {
 
     // Action-button in top-right of header
     let actionButton = null;
-    if (!shouldShowOverlay && isSignedIn) {
-        actionButton = (
-            <IconButton className="action-button settings-icon" onClick={() => setIsSettingsModalOpen(true)}>
-                <SettingsIcon />
-            </IconButton>
-        );
-    } else if (!shouldShowOverlay) {
-        actionButton = (
-            <Button className='action-button create-list' color="primary" variant="contained" onClick={onClickLogin}>
-                Create my list
-            </Button>
-        );
+    if (!shouldShowOverlay && !isOnLoginPage) {
+        actionButton = isSignedIn
+            ? (
+                <IconButton className="action-button settings-icon" onClick={() => setIsSettingsModalOpen(true)}>
+                    <SettingsIcon />
+                </IconButton>
+            )
+            : (
+                <Button className='action-button create-list' color="primary" variant="contained" onClick={onClickLogin}>
+                    Create my list
+                </Button>
+            );
     }
 
     return (
@@ -65,7 +70,9 @@ const Header = memo(({ isSignedIn }) => {
 
 export default function ConnectedHeader() {
     const { state } = useContext(AppContext);
-    const { user } = state;
 
-    return <Header isSignedIn={!!user} />;
+    const shouldShowOverlay = !getHasAttemptedSignIn(state);
+    const isSignedIn = getIsSignedIn(state);
+
+    return <Header shouldShowOverlay={shouldShowOverlay} isSignedIn={isSignedIn} />;
 }

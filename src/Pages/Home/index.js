@@ -15,9 +15,11 @@ import { FavoriteListIcon, WatchLaterListIcon } from '../../CommonComponents/Ico
 import { DragDropContext } from 'react-beautiful-dnd';
 import AddToHomeScreenPopup from '../../CommonComponents/AddToHomeScreenPopup';
 import { getIsIos, getIsStandalone } from '../../Utilities/EnvironmentUtilities';
+import { getIsSignedIn } from '../../AppSelectors';
 
 const Home = memo(({ 
     user, 
+    isSignedIn,
     hasSentEmailVerification, 
     setHasSentEmailVerification, 
     changeHomeTab,
@@ -30,15 +32,15 @@ const Home = memo(({
 }) => {
     const history = useHistory();
     const [shouldShowPopupInternal, setShouldShowPopupInternal] = useState(shouldShowPopup);
-    const [isMounted, setIsMounted] = useState(false);
     const firebase = useContext(FirebaseContext);
 
     const sendConfirmationEmail = useCallback(() => {
         const authUser = firebase.auth().currentUser;
-        authUser.sendEmailVerification({
-            url: BASE_URL
-        })
-        .catch((err) => console.error(err));
+
+        authUser.sendEmailVerification({ url: BASE_URL })
+            .catch((err) => {
+                console.error(err)
+            });
     }, [firebase]);
 
     const onClickSendEmail = () => {
@@ -47,12 +49,10 @@ const Home = memo(({
     }
 
     useEffect(() => {
-        if (!user && !isMounted) {
+        if (!isSignedIn) {
             history.push(ROUTES.Login);
-        } else {
-            setIsMounted(true);
         }
-    }, [user, history, setIsMounted, isMounted]);
+    }, [isSignedIn, history]);
 
     useEffect(() => {
         const authUser = firebase.auth().currentUser;
@@ -62,7 +62,7 @@ const Home = memo(({
         }
     }, [firebase, hasSentEmailVerification, setHasSentEmailVerification, sendConfirmationEmail]);
 
-    if (!isMounted || !user) {
+    if (!isSignedIn) {
         return null;
     }
 
@@ -163,9 +163,12 @@ export default function ConnectedHome() {
     const hasSeenPopup = localStorage.getItem(LOCAL_STORAGE_PWA_POPUP);
     const shouldShowPopup = isIos && !isStandalone && !hasSeenPopup;
 
+    const isSignedIn = getIsSignedIn(state);
+
     return (
         <Home 
             user={user}
+            isSignedIn={isSignedIn}
             favoriteMovies={favoriteMovies}
             watchLaterMovies={watchLaterMovies}
             hasSentEmailVerification={hasSentEmailVerification}
