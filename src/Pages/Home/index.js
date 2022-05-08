@@ -7,7 +7,6 @@ import Profile from './Profile';
 import { FirebaseContext, log } from '../../Firebase';
 import FavoriteList from './FavoriteList';
 import Charts from './Charts';
-import Settings from '../../CommonComponents/Header/Settings';
 import Button from '@material-ui/core/Button';
 import Suggestions from './Suggestions';
 import WatchLater from './WatchLater';
