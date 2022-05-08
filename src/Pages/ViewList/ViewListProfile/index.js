@@ -47,7 +47,6 @@ const ViewListProfile = memo(({ profilePicUrl, name, isSignedIn, setUser, isAlre
                     </>
                 }
             </div>
-            <Settings />
         </div>
     );
 });

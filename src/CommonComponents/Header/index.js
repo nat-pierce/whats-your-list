@@ -24,7 +24,7 @@ const Header = memo(({ isSignedIn }) => {
     // TODO handle viewList with no user (on login fail this still needs to be false)
     const shouldShowOverlay = !isSignedIn;
 
-    // Loading logo or Logo-button in top-left of header
+    // Splash logo / Logo-button in top-left of header
     const logo = (
         <div className='logo-wrapper' onClick={shouldShowOverlay ? undefined : onClickLogo}>
             <Logo 

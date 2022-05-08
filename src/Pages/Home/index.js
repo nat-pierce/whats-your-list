@@ -75,7 +75,6 @@ const Home = memo(({
                 <Button color="primary" variant="contained" onClick={onClickSendEmail}>
                     Send again
                 </Button>
-                <Settings />
             </div>
         );
     }

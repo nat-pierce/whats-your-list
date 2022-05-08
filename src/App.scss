@@ -29,11 +29,11 @@ html, #root {
 
 body, .app {
     min-height: 100%;
+    font-family: 'Nunito';
 }
 
 .app {
     width: 100%;
-    font-family: 'Nunito';
     padding-top: $header-height;
     box-sizing: border-box;
 }
