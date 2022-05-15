@@ -38,8 +38,10 @@ const Header = memo(({
         >
             {canClickHeader && isSignedIn && <ArrowBackIosIcon className='back-icon' />}
             <Logo 
+                key={`logo_key_${shouldShowOverlay}`}
                 sizeScale={0.25} 
-                shouldAnimate={false} 
+                shouldAnimate={shouldShowOverlay} 
+                animationSpeed={250}
             />
         </div>
     );

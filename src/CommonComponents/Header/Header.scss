@@ -1,8 +1,8 @@
 @import '../../ConstantsAndMixins.scss';
 
 $header-padding: 1rem;
-$animation-speed: 0.75s;
-$animation-curve: cubic-bezier(0.42, 0, 0.01, 1);
+$animation-speed: 0.8s;
+$animation-curve: cubic-bezier(0.58, 0.08, 0.26, 0.88);
 $transition: all $animation-speed $animation-curve;
 
 @mixin absoluteCenter() {
