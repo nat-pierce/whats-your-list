@@ -5,7 +5,7 @@ import TabPanel from '@material-ui/lab/TabPanel';
 import TabContext from '@material-ui/lab/TabContext';
 import './CustomTabs.scss';
 
-const CustomTabs = memo(({ tabConfigs, onMount }) => {
+const CustomTabs = memo(({ className = '', tabConfigs, onMount }) => {
     const [currentTabIndex, setCurrentTabIndex] = useState(0);
 
     const onChangeTab = (event, tabIndex) => {
@@ -30,6 +30,7 @@ const CustomTabs = memo(({ tabConfigs, onMount }) => {
         <div className='tabs-container'>
             <TabContext value={`${currentTabIndex}`}>
                 <TabList
+                    className={className}
                     onChange={onChangeTab}
                     indicatorColor="secondary"
                     textColor="secondary"

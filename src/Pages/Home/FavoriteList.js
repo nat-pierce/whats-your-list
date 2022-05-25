@@ -12,11 +12,12 @@ const FavoriteList = memo(({
     reorderMovieList, 
     removeMovieFromList,
     addMovieToList,
-    canMoveToWatchLater 
+    canMoveToWatchLater,
+    isScrolledThreshold 
 }) => {
     const containerRef = useRef(null);
 
-    useScrollToBottom(favoriteMovies, containerRef);
+    useScrollToBottom(isScrolledThreshold, favoriteMovies, containerRef);
 
     const menuOptions = [
         { 
@@ -74,7 +75,7 @@ const FavoriteList = memo(({
     );
 });
 
-export default function ConnectedFavoriteList() {
+export default function ConnectedFavoriteList(props) {
     const { state, actions } = useContext(AppContext);
     const { favoriteMovies, watchLaterMovies } = state;
     const { reorderMovieList, removeMovieFromList, addMovieToList } = actions;
@@ -83,6 +84,7 @@ export default function ConnectedFavoriteList() {
 
     return (
         <FavoriteList 
+            {...props}
             favoriteMovies={favoriteMovies} 
             reorderMovieList={reorderMovieList}
             removeMovieFromList={removeMovieFromList} 

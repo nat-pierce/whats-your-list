@@ -2,6 +2,7 @@
 
 $search-bar-height: 3.5rem;
 $search-top-padding: 1rem;
+$tabs-top: calc(#{$search-bar-height} + #{$search-top-padding});
 
 .home-page, .view-list-page {
     display: flex;
@@ -49,6 +50,7 @@ $search-top-padding: 1rem;
         }
 
         .search-wrapper {
+            position: -webkit-sticky; /* Safari */ 
             position: sticky;
             padding-top: $search-top-padding;
             top: 0;
@@ -58,8 +60,9 @@ $search-top-padding: 1rem;
         }
 
         .MuiTabs-root {
+            position: -webkit-sticky; /* Safari */ 
             position: sticky;
-            top: $search-bar-height + $search-top-padding;
+            top: $tabs-top;
             background-color: $light-gray;
             z-index: 1;
         }
@@ -102,6 +105,20 @@ $search-top-padding: 1rem;
 
             .charts {
                 border-top: solid 1px $gray;
+            }
+
+            .threshold {
+                position: fixed;
+                left: 1rem;
+                right: 1rem;
+
+                &.search-wrapper {
+                    top: $header-height;
+                }
+
+                &.MuiTabs-root {
+                    top: calc(#{$tabs-top} + #{$header-height});
+                }
             }
         }
     }

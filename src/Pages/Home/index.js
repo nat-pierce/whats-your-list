@@ -16,6 +16,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import AddToHomeScreenPopup from '../../CommonComponents/AddToHomeScreenPopup';
 import { getIsSignedIn, getCanShowPwaPopup } from '../../AppSelectors';
 import SearchBar from './SearchBar';
+import { profileHeight } from '../../StyleExports.module.scss';
 
 const Home = memo(({ 
     user, 
@@ -33,6 +34,7 @@ const Home = memo(({
     const history = useHistory();
     const [shouldShowPopupInternal, setShouldShowPopupInternal] = useState(false);
     const firebase = useContext(FirebaseContext);
+    const [isScrolledThreshold, setIsScrolledThreshold] = useState('');
 
     const sendConfirmationEmail = useCallback(() => {
         const authUser = firebase.auth().currentUser;
@@ -47,6 +49,24 @@ const Home = memo(({
         log(EVENTS.ResendEmail);
         sendConfirmationEmail();
     }
+
+    useEffect(() => {
+        const onScroll = () => {
+            const threshold = parseInt(profileHeight);
+    
+            if (!isScrolledThreshold && (window.scrollY > threshold)) {
+                setIsScrolledThreshold(true);
+            } else if (isScrolledThreshold && (window.scrollY < threshold)) {
+                setIsScrolledThreshold(false);
+            }
+        }
+
+        window.addEventListener('scroll', onScroll);
+
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+        }
+    }, [isScrolledThreshold, setIsScrolledThreshold]);
 
     useEffect(() => {
         if (!isSignedIn) {
@@ -96,7 +116,7 @@ const Home = memo(({
                     </span>
                 </div>
             ),
-            component: <FavoriteList />,
+            component: <FavoriteList isScrolledThreshold={isScrolledThreshold} />,
             onTabSelected: () => changeHomeTab(HOME_TABS.Favorites)
         },
         {
@@ -108,7 +128,7 @@ const Home = memo(({
                     </span>
                 </div>
             ),
-            component: <WatchLater />,
+            component: <WatchLater isScrolledThreshold={isScrolledThreshold} />,
             onTabSelected: () => changeHomeTab(HOME_TABS.WatchLater)
         }
     ];
@@ -147,11 +167,12 @@ const Home = memo(({
             </div>
             <div className='lower'>
                 <div className='left'>
-                    <div className='search-wrapper'>
+                    <div className={`search-wrapper ${isScrolledThreshold ? 'threshold' : ''}`}>
                         <SearchBar />
                     </div>
                     <DragDropContext onDragEnd={onDragEnd}>
                         <CustomTabs 
+                            className={isScrolledThreshold ? 'threshold' : undefined}
                             tabConfigs={tabConfigs} 
                             onMount={setIsWatchLaterTabHeaderMounted}
                         />

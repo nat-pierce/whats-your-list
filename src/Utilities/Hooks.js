@@ -26,11 +26,11 @@ export function useKeypress(key, action) {
     }, [key, action]);
 }
 
-export function useScrollToBottom(movies, containerRef) {
+export function useScrollToBottom(isScrolledThreshold, movies, containerRef) {
     const prevNumMovies = useRef();
 
     useEffect(() => {
-        if (movies.length > prevNumMovies.current) {
+        if (!isScrolledThreshold && (movies.length > prevNumMovies.current)) {
             if (window.innerWidth > parseInt(smallScreenMax)) {
                 containerRef.current.scrollTop = containerRef.current.scrollHeight;
             } else {
@@ -39,5 +39,5 @@ export function useScrollToBottom(movies, containerRef) {
         }
 
         prevNumMovies.current = movies.length;
-    }, [movies, containerRef])
+    }, [movies, containerRef, isScrolledThreshold])
 }
