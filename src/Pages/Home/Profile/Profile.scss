@@ -1,62 +1,56 @@
 @import '../../../ConstantsAndMixins.scss';
 
-$profile-pic-width: 100px;
-$profile-pic-margin: 1rem;
-
 .profile {
     display: flex;
     align-items: center;
     height: 100%;
 
-    @include smallScreen {
-        justify-content: space-between;
-    }
-
     .profile-pic-wrapper {
         cursor: pointer;
 
-        margin-right: $profile-pic-margin;
+        margin-right: 1rem;
 
         .profile-pic {
-            height: $profile-pic-width;
-            width: $profile-pic-width;
+            height: 100px;
+            width: 100px;
         }
     }
 
-    .profile-info {
+    .profile-right {
         height: 100%;
-        width: calc(100% - #{$profile-pic-width} - #{$profile-pic-margin});
         display: flex;
+        flex-grow: 1;
         flex-direction: column;
         justify-content: space-around;
 
-        .info-upper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            .name.display-mode {
-                text-align: center;
-                font-weight: bold;
-            }
-
-            .right {
-                display: flex;
-                align-items: center;
-            }
+        .name.display-mode {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
         }
 
-        .friends-button {
-            border-radius: 10px;
-            
-            .MuiBadge-root {
-                align-items: center;
+        .buttons {
+            display: flex;
+            margin-top: 4px;
+            margin-left: 1rem;
 
-                .num-friends {
-                    margin-right: 2px;
-                    font-weight: bold;
-                    font-size: 18px;
-                }
+            @include smallScreen {
+                justify-content: space-between;
+            }
+
+            button {
+                border: solid 2px black;
+                border-radius: 10px;
+                font-size: 1rem;
+                font-family: 'Nunito';
+                font-weight: bold;
+                padding: 6px 12px;
+                flex-grow: 1;
+                margin-right: 1rem;
+            }
+
+            svg {
+                margin-right: 7px;
             }
         }
     }

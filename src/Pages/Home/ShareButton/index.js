@@ -1,5 +1,4 @@
 import IconButton from '@material-ui/core/IconButton';
-import ShareIcon from '@material-ui/icons/Share';
 import { useState, memo } from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -11,6 +10,7 @@ import './ShareModal.scss';
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
 import { BASE_URL } from '../../../Constants';
+import IosShareIcon from '../../../Resources/Icons/IosShareIcon';
 
 const ShareButton = memo(({ favoriteMovies, uid }) => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -54,7 +54,8 @@ const ShareButton = memo(({ favoriteMovies, uid }) => {
     return (
         <>
             <IconButton className='share-button' color='secondary' onClick={handleClick}>
-                <ShareIcon />
+                <IosShareIcon />
+                Share list
             </IconButton>
             <Menu
                 id="simple-menu"
