@@ -9,6 +9,9 @@ export default function EditableLabel({ className = '', initialValue, onConfirm 
     const [isEditing, setIsEditing] = useState(false);
     const [value, setValue] = useState(initialValue);
 
+    // This will be false when viewing others' lists
+    const canEdit = !!onConfirm;
+
     const onChange = (e) => {
         setValue(e.target.value);
     }
@@ -27,6 +30,10 @@ export default function EditableLabel({ className = '', initialValue, onConfirm 
 
     const hasValue = value && value.trim().length
 
+    if (!canEdit) {
+        return <div className={`display-mode editable-label ${className}`}>{initialValue}</div>
+    }
+
     return isEditing
         ? <div className={'edit-mode editable-label ' + className}>
             <TextField
@@ -43,7 +50,7 @@ export default function EditableLabel({ className = '', initialValue, onConfirm 
             </IconButton>
         </div>
         : <div 
-            className={'display-mode editable-label ' + className}
+            className={`display-mode editable-label can-edit ${className}`}
             onClick={onClickLabel}>
             {value}
         </div>

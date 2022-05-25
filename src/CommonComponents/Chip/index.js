@@ -13,7 +13,7 @@ export default function Chip({
     if (existingFavoriteRank > 0) {
         return (
             <div className='chip'>
-                {FavoriteListIcon} Already #{existingFavoriteRank}
+                {FavoriteListIcon} #{existingFavoriteRank}
             </div>
         );
     } 
@@ -21,7 +21,7 @@ export default function Chip({
     if (isAlreadySavedForLater) {
         return (
             <div className='chip'>
-                {WatchLaterListIcon} Already saved
+                {WatchLaterListIcon} Saved
             </div>
         );
     }

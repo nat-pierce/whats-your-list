@@ -1,5 +1,5 @@
 import IconButton from '@material-ui/core/IconButton';
-import { useState, memo } from 'react';
+import { useState, useEffect, memo } from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useContext } from 'react';
@@ -7,7 +7,6 @@ import AppContext from '../../../AppContext';
 import { downloadToFile } from './ShareUtilities';
 import Modal from '../../../CommonComponents/Modal';
 import './ShareModal.scss';
-import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
 import { BASE_URL } from '../../../Constants';
 import IosShareIcon from '../../../Resources/Icons/IosShareIcon';
@@ -15,9 +14,14 @@ import IosShareIcon from '../../../Resources/Icons/IosShareIcon';
 const ShareButton = memo(({ favoriteMovies, uid }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [hasCopiedLink, setHasCopiedLink] = useState(false);
 
     const shareLink = `${BASE_URL}/viewList?id=${uid}`;
+
+    useEffect(() => {
+        if (isModalOpen) {
+            navigator.clipboard.writeText(shareLink);
+        }
+    }, [isModalOpen, shareLink]);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -43,12 +47,6 @@ const ShareButton = memo(({ favoriteMovies, uid }) => {
 
     const onCloseModal = () => {
         setIsModalOpen(false);
-        setHasCopiedLink(false);
-    }
-
-    const onClickCopyLink = () => {
-        navigator.clipboard.writeText(shareLink);
-        setHasCopiedLink(true);
     }
 
     return (
@@ -64,23 +62,22 @@ const ShareButton = memo(({ favoriteMovies, uid }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={onShareLink}>Get shareable link</MenuItem>
-                <MenuItem onClick={onSaveText}>Save list as text</MenuItem>
+                <MenuItem onClick={onShareLink}>
+                    <b>Share my list</b>
+                </MenuItem>
+                <MenuItem onClick={onSaveText}>
+                    Download text
+                </MenuItem>
             </Menu>
             <Modal className='share-modal' isOpen={isModalOpen} onCloseModal={onCloseModal} modalTitle='Share list'>
                 <div className='modal-content'>
-                    <Button className='copy-button' onClick={onClickCopyLink}>
-                        Copy
-                    </Button>
                     <TextField 
                         value={shareLink}
                         variant='outlined'
                         color='secondary'
                     />
                 </div>
-                {hasCopiedLink &&
-                    <div className='copy-message'>Copied to clipboard!</div>
-                }
+                <div className='copy-message'>Copied to clipboard!</div>
             </Modal>
         </>
     );

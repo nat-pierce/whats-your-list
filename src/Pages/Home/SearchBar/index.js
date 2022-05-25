@@ -108,7 +108,7 @@ const SearchBar = memo(({
             : WatchLaterListIcon;
 
         const label = isDisabled 
-            ? <span className='search-placeholder'>{icon} Max movies added ({maxNum})</span> 
+            ? <span className='search-placeholder'>{icon} Max added ({maxNum})</span> 
             : <span className='search-placeholder'>{icon} Search movies</span>;
 
         return (

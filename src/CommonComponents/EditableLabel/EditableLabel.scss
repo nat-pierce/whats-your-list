@@ -16,7 +16,6 @@
     }
 
     &.display-mode {
-        cursor: pointer;
         font-size: 18px;
         padding: 0.5rem 1rem;
         box-sizing: border-box;
@@ -27,8 +26,12 @@
         max-width: 100%;
         width: fit-content;
 
-        &:hover {
-            background-color: $light-gray;
+        &.can-edit {
+            cursor: pointer;
+
+            &:hover {
+                background-color: $light-gray;
+            }
         }
     }
 }
