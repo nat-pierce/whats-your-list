@@ -15,6 +15,7 @@ import { FavoriteListIcon, WatchLaterListIcon } from '../../CommonComponents/Ico
 import { DragDropContext } from 'react-beautiful-dnd';
 import AddToHomeScreenPopup from '../../CommonComponents/AddToHomeScreenPopup';
 import { getIsSignedIn, getCanShowPwaPopup } from '../../AppSelectors';
+import SearchBar from './SearchBar';
 
 const Home = memo(({ 
     user, 
@@ -145,13 +146,20 @@ const Home = memo(({
                 }
             </div>
             <div className='lower'>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <CustomTabs 
-                        tabConfigs={tabConfigs} 
-                        onMount={setIsWatchLaterTabHeaderMounted}
-                    />
-                </DragDropContext>
-                <Charts />
+                <div className='left'>
+                    <div className='search-wrapper'>
+                        <SearchBar />
+                    </div>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <CustomTabs 
+                            tabConfigs={tabConfigs} 
+                            onMount={setIsWatchLaterTabHeaderMounted}
+                        />
+                    </DragDropContext>
+                </div>
+                <div className='right'>
+                    <Charts />
+                </div>
             </div>
             {shouldShowPopupInternal && <AddToHomeScreenPopup onClose={onClosePopup} />}
         </div>

@@ -1,5 +1,7 @@
 @import '../../../ConstantsAndMixins.scss';
 
+$avatar-width: 100px;
+
 .profile {
     display: flex;
     align-items: center;
@@ -8,18 +10,16 @@
     .profile-pic-wrapper {
         cursor: pointer;
 
-        margin-right: 1rem;
-
         .profile-pic {
-            height: 100px;
-            width: 100px;
+            height: $avatar-width;
+            width: $avatar-width;
         }
     }
 
     .profile-right {
         height: 100%;
+        width: calc(100% - #{$avatar-width});
         display: flex;
-        flex-grow: 1;
         flex-direction: column;
         justify-content: space-around;
 

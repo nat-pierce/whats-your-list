@@ -1,6 +1,7 @@
 @import '../../ConstantsAndMixins.scss';
 
-$charts-side-margin: 2rem;
+$search-bar-height: 3.5rem;
+$search-top-padding: 1rem;
 
 .home-page, .view-list-page {
     display: flex;
@@ -33,15 +34,34 @@ $charts-side-margin: 2rem;
         background-color: $light-gray;
         height: calc(100% - #{$home-upper-height});
 
-        .tabs-container, .view-list-container {
+        .left, .right {
+            height: 100%;
             width: 50%;
+            padding: 1rem;
+            box-sizing: border-box;
+            overflow-y: auto;
+            background-color: $light-gray;
         }
 
-        .charts {
-            width: calc(50% - #{$charts-side-margin});
-            margin-right: $charts-side-margin;
-            padding: 1rem 0;
-            box-sizing: border-box;
+        // switch padding to search-wrapper to hide tiles behind div
+        .left {
+            padding-top: 0;
+        }
+
+        .search-wrapper {
+            position: sticky;
+            padding-top: $search-top-padding;
+            top: 0;
+            height: $search-bar-height;
+            background-color: $light-gray;
+            z-index: 1;
+        }
+
+        .MuiTabs-root {
+            position: sticky;
+            top: $search-bar-height + $search-top-padding;
+            background-color: $light-gray;
+            z-index: 1;
         }
 
         .home-tab-header {
@@ -75,16 +95,13 @@ $charts-side-margin: 2rem;
             flex-direction: column;
             height: auto;
 
-            .tabs-container, .view-list-container {
+            .left, .right {
                 height: auto;
                 width: 100%;
             }
 
-            // double charts' side width and add a left margin as well
             .charts {
                 border-top: solid 1px $gray;
-                width: calc(100% - #{$charts-side-margin*2});
-                margin-left: $charts-side-margin;
             }
         }
     }

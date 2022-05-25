@@ -36,7 +36,6 @@ $yellow: #FFF88B;
     width: 100%;
     background-color: $light-gray;
     height: 100%;
-    overflow: auto;
 
     @include smallScreen {
         height: auto;
