@@ -1,16 +1,20 @@
 @import '../../../ConstantsAndMixins.scss';
 
-.search-text-field {
-    .MuiInputLabel-formControl {
-        top: -4px; // Roughly centers placeholder text
-    }
-
-    .search-placeholder {
-        display: flex;
-        align-items: center;
-
-        .MuiSvgIcon-root {
-            padding-right: $list-icon-padding;
+.search {
+    background-color: white;
+    
+    .search-text-field {
+        .MuiInputLabel-formControl {
+            top: -4px; // Roughly centers placeholder text
+        }
+    
+        .search-placeholder {
+            display: flex;
+            align-items: center;
+    
+            .MuiSvgIcon-root {
+                padding-right: $list-icon-padding;
+            }
         }
     }
 }

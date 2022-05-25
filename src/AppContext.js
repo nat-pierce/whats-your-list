@@ -131,8 +131,8 @@ export class AppContextProvider extends PureComponent {
         const movieName = `${Title} (${Year})`;
 
         const toastMessage = tabType === HOME_TABS.Favorites
-            ? `Added ${movieName} to favorites`
-            : `Saved ${movieName} for later`;
+            ? `Added ${movieName} to Favorites`
+            : `Added ${movieName} to Watch Later`;
 
         this.setState({ toastMessage });
     }
