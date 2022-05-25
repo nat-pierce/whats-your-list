@@ -90,7 +90,17 @@ const SearchBar = memo(({
     const loading = (options.length === 0) && (inputValue !== '') && !error
 
     const filterOptions = (options) => {
-        return options.filter(o => o.Poster !== 'N/A');
+        const retOptions = [];
+
+        options.forEach(o => {
+            const i = retOptions.findIndex(ro => ro.imdbID === o.imdbID);
+
+            if ((i === -1) && (o.Poster !== 'N/A')) {
+                retOptions.push(o);
+            }
+        })
+
+        return retOptions;
     }
 
     const getOptionLabel = ({ Title, Year }) => {
