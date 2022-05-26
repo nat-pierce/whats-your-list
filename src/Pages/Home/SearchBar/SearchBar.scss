@@ -8,13 +8,22 @@
             top: -4px; // Roughly centers placeholder text
         }
     
+        .MuiOutlinedInput-notchedOutline {
+            border-color: black;
+        }
+
         .search-placeholder {
             display: flex;
             align-items: center;
+            color: black;
     
             .MuiSvgIcon-root {
                 padding-right: $list-icon-padding;
             }
+        }
+
+        .MuiButtonBase-root {
+            color: black;
         }
     }
 }

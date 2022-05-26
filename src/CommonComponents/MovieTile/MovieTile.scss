@@ -37,5 +37,9 @@
 
     .custom-menu {
         margin-left: auto;
+
+        .MuiIconButton-root {
+            color: black;
+        }
     }
 }
