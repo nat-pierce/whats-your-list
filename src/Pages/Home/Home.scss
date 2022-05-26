@@ -132,6 +132,11 @@ $tabs-top: calc(#{$search-bar-height} + #{$search-top-padding});
     align-items: center;
 
     .message {
-        margin: 1rem 0;
+        margin-top: 2rem;
+    }
+
+    .email-address {
+        font-weight: bold;
+        margin-bottom: 1rem;
     }
 }

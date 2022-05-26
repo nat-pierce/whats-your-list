@@ -94,10 +94,11 @@ const Home = memo(({
     }
 
     const authUser = firebase.auth().currentUser;
-    if (authUser && !authUser.emailVerified) {
+    if (authUser && authUser.email && !authUser.emailVerified) {
         return (
             <div className='email-verification-page'>
-                <div className='message'>Email verification sent!</div>
+                <div className='message'>Email verification sent to</div>
+                <div className='email-address'>{authUser.email}</div>
                 <Button color="primary" variant="contained" onClick={onClickSendEmail}>
                     Send again
                 </Button>
