@@ -7,7 +7,6 @@ import Profile from './Profile';
 import { FirebaseContext, log } from '../../Firebase';
 import FavoriteList from './FavoriteList';
 import Charts from './Charts';
-import Button from '@material-ui/core/Button';
 import Suggestions from './Suggestions';
 import WatchLater from './WatchLater';
 import CustomTabs from '../../CommonComponents/CustomTabs';
@@ -17,6 +16,7 @@ import AddToHomeScreenPopup from '../../CommonComponents/AddToHomeScreenPopup';
 import { getIsSignedIn, getCanShowPwaPopup } from '../../AppSelectors';
 import SearchBar from './SearchBar';
 import { profileHeight } from '../../StyleExports.module.scss';
+import { EmailVerification } from './EmailVerification';
 
 const Home = memo(({ 
     isSignedIn,
@@ -34,7 +34,6 @@ const Home = memo(({
     const firebase = useContext(FirebaseContext);
     const [shouldShowPopupInternal, setShouldShowPopupInternal] = useState(false);
     const [isScrolledThreshold, setIsScrolledThreshold] = useState(false);
-    const [hasClickedSendAgain, setHasClickedSendAgain] = useState(false);
 
     const sendConfirmationEmail = useCallback(() => {
         const authUser = firebase.auth().currentUser;
@@ -47,7 +46,6 @@ const Home = memo(({
 
     const onClickSendEmail = () => {
         log(EVENTS.ResendEmail);
-        setHasClickedSendAgain(true);
         sendConfirmationEmail();
     }
 
@@ -97,36 +95,10 @@ const Home = memo(({
 
     const authUser = firebase.auth().currentUser;
     if (authUser && authUser.email && !authUser.emailVerified) {
-        return (
-            <div className='email-verification-page'>
-                <div className='message'>Email verification sent to</div>
-                <div className='email-address'>{authUser.email}</div>
-                <div className='send-again-wrapper'>
-                    {hasClickedSendAgain
-                        ? <>
-                            <Button 
-                                color="primary" 
-                                variant="contained" 
-                                disabled={true}
-                                onClick={undefined}
-                            >
-                                Sent
-                            </Button>
-                            <div className='spam-warning'>
-                                Make sure to check your spam folder!
-                            </div>
-                        </>
-                        : <Button 
-                            color="primary" 
-                            variant="contained" 
-                            onClick={onClickSendEmail}
-                        >
-                            Send again
-                        </Button>
-                    }
-                </div>
-            </div>
-        );
+        return <EmailVerification 
+            email={authUser.email}
+            onClickSendEmail={onClickSendEmail}
+        />;
     }
 
     const tabConfigs = [

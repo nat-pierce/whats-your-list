@@ -9,13 +9,18 @@ import TextField from "@material-ui/core/TextField";
 import Avatar from '@material-ui/core/Avatar';
 import ProfilePic from '../../../Resources/Images/natProfilePic.jpg';
 
-const Settings = memo(({ onClose, signOut, uid }) => {
+const Settings = memo(({ 
+    shouldUseAboutIntro, 
+    onClose, 
+    signOut, 
+    uid 
+}) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [newEmail, setNewEmail] = useState('');
-    const [isViewingAbout, setIsViewingAbout] = useState(false);
+    const [isViewingAbout, setIsViewingAbout] = useState(shouldUseAboutIntro);
     const [isChangingEmail, setIsChangingEmail] = useState(false);
     const [isChangingPassword, setIsChangingPassword] = useState(false);
     const [hasError, setHasError] = useState(false);
@@ -161,13 +166,13 @@ function About() {
                 <b>What's Your List?</b><br />is a passion project.
             </div>
             <div className='about-section'>
-                If you're a fellow movie-lover, list-maker,<br />
+                If you're a movie-lover, list-maker,<br />
                 data-nerd, or all of the above (like me),<br />
                 then this is the place for you.
             </div>
             <div className='about-section'>
-                I hope you have as much fun using<br />
-                this as I did making it. <span role="img">😊</span>
+                I hope you have as much fun<br />
+                using this as I did making it. <span role="img">😊</span>
             </div>
             <div className='about-section'>
                 And if you have suggestions for <br />
@@ -183,13 +188,14 @@ function About() {
     );
 }
 
-export default function ConnectedSettings({ onClose }) {
+export default function ConnectedSettings({ shouldUseAboutIntro, onClose }) {
     const { state, actions } = useContext(AppContext);
     const { user } = state;
     const { signOut } = actions;
 
     return (
         <Settings 
+            shouldUseAboutIntro={shouldUseAboutIntro}
             onClose={onClose}
             signOut={signOut} 
             uid={user?.uid} 

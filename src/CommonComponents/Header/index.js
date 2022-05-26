@@ -1,26 +1,33 @@
 import './Header.scss';
-import { useContext, useState, memo } from 'react';
+import { useContext, useState, memo, useEffect } from 'react';
 import AppContext from '../../AppContext';
 import Logo from '../Logo';
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router';
-import { ROUTES } from '../../Constants';
+import { LOCAL_STORAGE_ABOUT_INTRO, ROUTES } from '../../Constants';
 import SettingsModal from './Settings';
 import { getHasAttemptedSignIn, getIsSignedIn } from '../../AppSelectors';
 import { useLocation } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import Guide from '../Guide';
 
 const Header = memo(({ 
     shouldShowOverlay, 
     isSignedIn,
-    isNewUser 
+    shouldUseAboutIntro
 }) => {
     const history = useHistory();
-    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(isNewUser);
-
     const { pathname } = useLocation();
+    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+    const [shouldShowGuide, setShouldShowGuide] = useState(!shouldUseAboutIntro);
+
+    useEffect(() => {
+        if (!shouldShowOverlay && shouldUseAboutIntro) {
+            setIsSettingsModalOpen(true);
+        }
+    }, [shouldShowOverlay, shouldUseAboutIntro, setIsSettingsModalOpen])
 
     const onClickLogo = () => {
         history.push(ROUTES.Home);
@@ -70,8 +77,19 @@ const Header = memo(({
                 {actionButton}
             </div>
             {isSettingsModalOpen && !shouldShowOverlay &&
-                <SettingsModal onClose={() => setIsSettingsModalOpen(false)} />
+                <SettingsModal 
+                    shouldUseAboutIntro={shouldUseAboutIntro}
+                    onClose={() => {
+                        if (shouldUseAboutIntro) {
+                            localStorage.setItem(LOCAL_STORAGE_ABOUT_INTRO, 'true');
+                            setShouldShowGuide(true);
+                        }
+
+                        setIsSettingsModalOpen(false)
+                    }}
+                />
             }
+            {shouldShowGuide && <Guide />}
         </>
     );
 });
@@ -79,13 +97,14 @@ const Header = memo(({
 export default function ConnectedHeader() {
     const { state } = useContext(AppContext);
 
-    const { isNewUser } = state;
     const shouldShowOverlay = !getHasAttemptedSignIn(state);
     const isSignedIn = getIsSignedIn(state);
 
+    const shouldUseAboutIntro = !localStorage.getItem(LOCAL_STORAGE_ABOUT_INTRO);
+
     return <Header 
         shouldShowOverlay={shouldShowOverlay} 
-        isSignedIn={isSignedIn} 
-        isNewUser={isNewUser}
+        isSignedIn={isSignedIn}
+        shouldUseAboutIntro={shouldUseAboutIntro}
     />;
 }
