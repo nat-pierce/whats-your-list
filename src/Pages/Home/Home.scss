@@ -75,6 +75,16 @@ $tabs-top: calc(#{$search-bar-height} + #{$search-top-padding});
                 padding-left: $list-icon-padding;
             }
         }
+
+        .watch-later-list {
+            .movie-tile {
+                padding-left: $smaller-left-content-width;
+    
+                .left-content {
+                    width: $smaller-left-content-width;
+                }
+            }
+        }
     }
 
     // In small screen mode, everything is stacked and heights are auto

@@ -38,7 +38,7 @@ export function getShouldGuideStepSecondWatchLater({
 }) {
     return isSearchMounted 
         && !watchLaterMovies.length 
-        && (currentHomeTab !== HOME_TABS.WatchLater);
+        && (currentHomeTab === HOME_TABS.WatchLater);
 }
 
 function getIsShowingGuide(state) {

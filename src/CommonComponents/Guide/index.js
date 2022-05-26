@@ -68,7 +68,7 @@ const Guide = memo(({
                 )}
                 {!continuous && (
                     <Button {...closeProps} className='action-button' variant="contained" color="primary">
-                        Okay
+                        Got it
                     </Button>
                 )}
             </div>
