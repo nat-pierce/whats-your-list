@@ -9,12 +9,6 @@
     display: flex;
     align-items: center;
     height: 80px;
-    border-left: solid 0.5rem transparent;
-
-    // Give top 10 movies a special left border color
-    &.top-ten {
-        border-left-color: $yellow;
-    }
 
     // Give single digit ranks the biggest font size
     &.single .rank {
@@ -41,6 +35,8 @@
         padding-right: 1rem; // need to account for left border width to be symmetrical
         box-sizing: border-box;
         text-align: center;
+        border-left: solid 0.5rem transparent;
+        border-radius: 10px;
 
         > div {
             display: flex;
@@ -49,6 +45,11 @@
             height: 100%;
             width: 100%;
         }
+    }
+
+    // Give top 10 movies a special left border color
+    &.top-ten .left-content {
+        border-left-color: $yellow;
     }
 
     .rank, .poster, .title {
