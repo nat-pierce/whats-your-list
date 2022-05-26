@@ -22,18 +22,14 @@
 }
 
 .custom-tooltip {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     border: solid 2px black;
     border-radius: 5px;
-    font-size: 12px;
     padding: 5px;
-
-    @include smallScreen {
-        font-size: 10px;
-    }
+    font-size: 1rem;
 
     .genre-name {
         font-weight: bold;
-        font-size: 14px;
+        font-size: 1.1rem;
     }
 }

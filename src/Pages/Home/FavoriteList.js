@@ -21,7 +21,7 @@ const FavoriteList = memo(({
 
     const menuOptions = [
         { 
-            label: 'Save to watch later', 
+            label: <span>Move to <b>Watch Later</b></span>, 
             onClick: (movie, index) => {
                 removeMovieFromList(movie.imdbID, index, HOME_TABS.Favorites)
                 addMovieToList(movie, HOME_TABS.WatchLater, 'Favorites');

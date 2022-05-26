@@ -35,14 +35,14 @@ const ViewListFavoriteMovies = memo(({
 
         const menuOptions = [
             { 
-                label: 'Add to favorites', 
+                label: <span>Add to <b>Favorites</b></span>, 
                 onClick: (movie) => {
                     addMovieToList(movie, HOME_TABS.Favorites, 'View Profile List');
                 }, 
                 isDisabled: favoriteMovieIds.length >= MAX_NUM_MOVIES
             },
             { 
-                label: 'Save for later', 
+                label: <span>Add to <b>Watch Later</b></span>, 
                 onClick: (movie) => {
                     addMovieToList(movie, HOME_TABS.WatchLater, 'View Profile List');
                 },
