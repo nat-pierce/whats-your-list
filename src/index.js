@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import firebase, { FirebaseContext } from './Firebase';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import './Fonts.css';
 
 // import reportWebVitals from './reportWebVitals';
 

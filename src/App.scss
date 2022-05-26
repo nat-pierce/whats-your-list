@@ -1,27 +1,5 @@
 @import './ConstantsAndMixins.scss';
 
-@font-face {
-    font-family: 'Nunito';
-    src: local('Nunito'), url(./Resources/Fonts/Nunito/Nunito-Regular.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'Nunito';
-    font-weight: 600;
-    src: local('Nunito'), url(./Resources/Fonts/Nunito/Nunito-SemiBold.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'Nunito';
-    font-weight: bold;
-    src: local('Nunito'), url(./Resources/Fonts/Nunito/Nunito-ExtraBold.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'BebasNeue-Regular';
-    src: local('Bebas-Neue'), url(./Resources/Fonts/Bebas-Neue/BebasNeue-Regular.ttf) format('truetype');
-}
-
 // Setting heights: https://stackoverflow.com/a/17555766
 html, #root {
     height: 100%;
