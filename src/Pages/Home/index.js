@@ -31,9 +31,10 @@ const Home = memo(({
     canShowPwaPopup
 }) => {
     const history = useHistory();
-    const [shouldShowPopupInternal, setShouldShowPopupInternal] = useState(false);
     const firebase = useContext(FirebaseContext);
-    const [isScrolledThreshold, setIsScrolledThreshold] = useState('');
+    const [shouldShowPopupInternal, setShouldShowPopupInternal] = useState(false);
+    const [isScrolledThreshold, setIsScrolledThreshold] = useState(false);
+    const [hasClickedSendAgain, setHasClickedSendAgain] = useState(false);
 
     const sendConfirmationEmail = useCallback(() => {
         const authUser = firebase.auth().currentUser;
@@ -46,6 +47,7 @@ const Home = memo(({
 
     const onClickSendEmail = () => {
         log(EVENTS.ResendEmail);
+        setHasClickedSendAgain(true);
         sendConfirmationEmail();
     }
 
@@ -99,9 +101,30 @@ const Home = memo(({
             <div className='email-verification-page'>
                 <div className='message'>Email verification sent to</div>
                 <div className='email-address'>{authUser.email}</div>
-                <Button color="primary" variant="contained" onClick={onClickSendEmail}>
-                    Send again
-                </Button>
+                <div className='send-again-wrapper'>
+                    {hasClickedSendAgain
+                        ? <>
+                            <Button 
+                                color="primary" 
+                                variant="contained" 
+                                disabled={true}
+                                onClick={undefined}
+                            >
+                                Sent
+                            </Button>
+                            <div className='spam-warning'>
+                                Make sure to check your spam folder!
+                            </div>
+                        </>
+                        : <Button 
+                            color="primary" 
+                            variant="contained" 
+                            onClick={onClickSendEmail}
+                        >
+                            Send again
+                        </Button>
+                    }
+                </div>
             </div>
         );
     }

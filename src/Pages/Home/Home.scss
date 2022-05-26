@@ -139,4 +139,19 @@ $tabs-top: calc(#{$search-bar-height} + #{$search-top-padding});
         font-weight: bold;
         margin-bottom: 1rem;
     }
+
+    .send-again-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        button {
+            width: 8rem;
+        }
+
+        .spam-warning {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+    }
 }
