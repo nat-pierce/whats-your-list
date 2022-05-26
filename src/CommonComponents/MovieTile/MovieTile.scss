@@ -56,6 +56,10 @@
         user-select: none;
     }
 
+    .title.long {
+        font-size: 0.8rem;
+    }
+
     .drag-handle svg {
         padding-right: 0.25rem;
         color: $dark-gray;

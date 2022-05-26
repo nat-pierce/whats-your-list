@@ -10,6 +10,7 @@ const AppContext = createContext({});
 
 const defaultState = {
     user: null,
+    isNewUser: false,
     publicUserInfo: null,
     friends: [],
     friendRequests: [],
@@ -69,7 +70,10 @@ export class AppContextProvider extends PureComponent {
             await createAccount(user);
 
             const newUserDoc = await db.collection('users').doc(user.uid).get();
-            this.setState({ user: newUserDoc.data() });
+            this.setState({ 
+                user: newUserDoc.data(),
+                isNewUser: true
+            });
         }
 
         // subscribe to name and profile pic changes

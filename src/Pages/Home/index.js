@@ -19,7 +19,6 @@ import SearchBar from './SearchBar';
 import { profileHeight } from '../../StyleExports.module.scss';
 
 const Home = memo(({ 
-    user, 
     isSignedIn,
     hasSentEmailVerification, 
     setHasSentEmailVerification, 
@@ -189,7 +188,7 @@ const Home = memo(({
 
 export default function ConnectedHome() {
     const { state, actions } = useContext(AppContext);
-    const { user, hasSentEmailVerification, friends, favoriteMovies, watchLaterMovies } = state;
+    const { hasSentEmailVerification, friends, favoriteMovies, watchLaterMovies } = state;
     const { setHasSentEmailVerification, changeHomeTab, reorderMovieList, setIsWatchLaterTabHeaderMounted } = actions;
 
     const shouldShowSuggestions = (friends.length > 0) && (favoriteMovies.length < MAX_NUM_MOVIES);
@@ -198,7 +197,6 @@ export default function ConnectedHome() {
 
     return (
         <Home 
-            user={user}
             isSignedIn={isSignedIn}
             favoriteMovies={favoriteMovies}
             watchLaterMovies={watchLaterMovies}

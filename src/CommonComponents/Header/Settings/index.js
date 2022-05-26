@@ -141,7 +141,6 @@ const Settings = memo(({ onClose, signOut, uid }) => {
         );
     }
 
-    // TODO disable buttons if offline
     return (
         <Modal 
             onCloseModal={onCloseModal}
@@ -155,12 +154,11 @@ const Settings = memo(({ onClose, signOut, uid }) => {
     );
 });
 
-// TODO move to separate area
 function About() {
     return (
         <div className='about'>
             <div className='about-section'>
-                <b>What's Your List?</b> is a passion project.
+                <b>What's Your List?</b><br />is a passion project.
             </div>
             <div className='about-section'>
                 If you're a fellow movie-lover, list-maker,<br />

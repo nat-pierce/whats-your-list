@@ -22,6 +22,10 @@ export default function MovieTile({
         isTripleDigit ? 'triple' : ''
     ];
 
+    const titleClassName = movie.Title.length > 40
+        ? 'long'
+        : '';
+
     return (
         <div className={classNames.join(' ')}>
             <div className='left-content'>
@@ -36,7 +40,7 @@ export default function MovieTile({
                 }
             </div>
             <img className='poster' src={movie.Poster} alt='Movie poster' />
-            <div className='title'>{movie.Title} ({movie.Year})</div>
+            <div className={`title ${titleClassName}`}>{movie.Title} ({movie.Year})</div>
             {children}
         </div>
     );

@@ -14,10 +14,11 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const Header = memo(({ 
     shouldShowOverlay, 
-    isSignedIn 
+    isSignedIn,
+    isNewUser 
 }) => {
     const history = useHistory();
-    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(isNewUser);
 
     const { pathname } = useLocation();
 
@@ -78,8 +79,13 @@ const Header = memo(({
 export default function ConnectedHeader() {
     const { state } = useContext(AppContext);
 
+    const { isNewUser } = state;
     const shouldShowOverlay = !getHasAttemptedSignIn(state);
     const isSignedIn = getIsSignedIn(state);
 
-    return <Header shouldShowOverlay={shouldShowOverlay} isSignedIn={isSignedIn} />;
+    return <Header 
+        shouldShowOverlay={shouldShowOverlay} 
+        isSignedIn={isSignedIn} 
+        isNewUser={isNewUser}
+    />;
 }

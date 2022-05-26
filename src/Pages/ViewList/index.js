@@ -64,12 +64,14 @@ const ViewList = memo(({ uid, setUser }) => {
                 <ViewListProfile profilePicUrl={profilePicUrl} name={name} viewId={viewId} />
             </div>
             <div className='lower'>
-                <div className='view-list-container'>
-                    <ViewListFavoriteMovies viewListMovies={viewListMovies} />
+                <div className='left'>
+                    <div className='view-list-container'>
+                        <ViewListFavoriteMovies viewListMovies={viewListMovies} />
+                    </div>
                 </div>
-                {shouldShowCharts &&
-                    <Charts viewListMovies={viewListMovies} />
-                }
+                <div className='right'>
+                    {shouldShowCharts && <Charts viewListMovies={viewListMovies} />}
+                </div>
             </div>
         </div>
     )
