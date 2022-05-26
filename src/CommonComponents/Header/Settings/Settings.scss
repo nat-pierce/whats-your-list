@@ -1,17 +1,52 @@
 @import '../../../ConstantsAndMixins.scss';
 
-.settings {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.settings-modal {
+    min-width: 200px;
+    max-width: 400px;
 
-    .MuiButtonBase-root, .MuiTextField-root, .error-message {
-        margin-bottom: 1rem;
-    }
+    .settings {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
 
-    .error-message {
-        color: $red;
-        font-family: 'Nunito';
+        @include fadeInAnimation;
+
+        .MuiButtonBase-root, .MuiTextField-root, .error-message {
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            color: $red;
+            font-family: 'Nunito';
+        }
+
+        .about {
+            text-align: center;
+
+            .about-section {
+                margin-bottom: 1rem;
+
+                &:first-child {
+                    font-size: 1.15rem;
+                }
+            }
+
+            .signature {
+                margin-top: 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                font-weight: bold;
+                font-size: 1.25rem;
+
+                .profile-pic {
+                    height: 100px;
+                    width: 100px;
+                    margin-left: 1rem;
+                }
+            }
+        }
     }
 }

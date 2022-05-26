@@ -6,6 +6,8 @@ import { FirebaseContext } from "../../../Firebase";
 import AppContext from "../../../AppContext";
 import Modal from '../../Modal';
 import TextField from "@material-ui/core/TextField";
+import Avatar from '@material-ui/core/Avatar';
+import ProfilePic from '../../../Resources/Images/natProfilePic.jpg';
 
 const Settings = memo(({ onClose, signOut, uid }) => {
     const history = useHistory();
@@ -13,6 +15,7 @@ const Settings = memo(({ onClose, signOut, uid }) => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [newEmail, setNewEmail] = useState('');
+    const [isViewingAbout, setIsViewingAbout] = useState(false);
     const [isChangingEmail, setIsChangingEmail] = useState(false);
     const [isChangingPassword, setIsChangingPassword] = useState(false);
     const [hasError, setHasError] = useState(false);
@@ -43,7 +46,7 @@ const Settings = memo(({ onClose, signOut, uid }) => {
         reauthenticate(currentPassword).then(() => {
             const user = firebase.auth().currentUser;
             user.updateEmail(newEmail).then(() => {
-                setSuccessMessage('Email changed!');
+                setSuccessMessage('Email set successfully');
 
                 firebase.firestore()
                     .collection('users')
@@ -57,7 +60,7 @@ const Settings = memo(({ onClose, signOut, uid }) => {
         reauthenticate(currentPassword).then(() => {
             const user = firebase.auth().currentUser;
             user.updatePassword(newPassword).then(() => {
-                setSuccessMessage('Password changed!');
+                setSuccessMessage('Password set successfully');
             }).catch((error) => { console.log(error); setHasError(true) });
         }).catch((error) => { console.log(error); setHasError(true) });
     };
@@ -76,10 +79,15 @@ const Settings = memo(({ onClose, signOut, uid }) => {
         ? <div className='error-message'>Please try again</div>
         : null;
 
-    let settingsContent;
+    let settingsContent, modalTitle;
     if (successMessage) {
+        modalTitle = 'Success';
         settingsContent = successMessage;
+    } else if (isViewingAbout) {
+        modalTitle = 'About';
+        settingsContent = <About />;
     } else if (isChangingEmail) {
+        modalTitle = 'Change Email';
         settingsContent = (
             <>
                 {currentPasswordInput}
@@ -96,6 +104,7 @@ const Settings = memo(({ onClose, signOut, uid }) => {
             </>
         );
     } else if (isChangingPassword) {
+        modalTitle = 'Change Password';
         settingsContent = (
             <>
                 {currentPasswordInput}
@@ -113,8 +122,12 @@ const Settings = memo(({ onClose, signOut, uid }) => {
             </>
         );
     } else {
+        modalTitle = 'Settings';
         settingsContent = (
             <>
+                <Button color="secondary" onClick={() => setIsViewingAbout(true)}>
+                    About
+                </Button>
                 <Button color="secondary" onClick={() => setIsChangingEmail(true)}>
                     Change email
                 </Button>
@@ -133,14 +146,44 @@ const Settings = memo(({ onClose, signOut, uid }) => {
         <Modal 
             onCloseModal={onCloseModal}
             isOpen={true} 
-            modalTitle='Settings' 
+            modalTitle={modalTitle} 
             className='settings-modal'>
-            <div className='settings'>
+            <div className='settings' key={modalTitle}>
                 {settingsContent}
             </div>
         </Modal>
     );
 });
+
+// TODO move to separate area
+function About() {
+    return (
+        <div className='about'>
+            <div className='about-section'>
+                <b>What's Your List?</b> is a passion project.
+            </div>
+            <div className='about-section'>
+                If you're a fellow movie-lover, list-maker,<br />
+                data-nerd, or all of the above (like me),<br />
+                then this is the place for you.
+            </div>
+            <div className='about-section'>
+                I hope you have as much fun using<br />
+                this as I did making it. <span role="img">😊</span>
+            </div>
+            <div className='about-section'>
+                And if you have suggestions for <br />
+                how to improve <b>What's Your List?</b><br />
+                don't hesitate to reach out to me at:
+            </div>
+            <a href={'mailto:nat@whatsyourlist.com'}>nat@whatsyourlist.com</a>
+            <div className='signature'>
+                -Nat
+                <Avatar className='profile-pic' src={ProfilePic} />
+            </div>
+        </div>
+    );
+}
 
 export default function ConnectedSettings({ onClose }) {
     const { state, actions } = useContext(AppContext);
