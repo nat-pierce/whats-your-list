@@ -1,12 +1,10 @@
 @import '../../ConstantsAndMixins.scss';
 
-$left-content-width: 5.5rem;
-
 .movie-tile {
     @include tileStyles;
 
     position: relative;
-    padding-left: $left-content-width;
+    padding-left: $tile-left-content-width;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -38,26 +36,28 @@ $left-content-width: 5.5rem;
         top: 0;
         left: 0;
         height: 100%;
-        width: $left-content-width;
+        width: $tile-left-content-width;
         padding-left: 0.5rem;
         padding-right: 1rem; // need to account for left border width to be symmetrical
         box-sizing: border-box;
+        text-align: center;
+
+        > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
     }
 
     .rank, .poster, .title {
         user-select: none;
     }
 
-    .drag-handle {
-        display: flex;
-        align-items: center;
-        height: 100%;
-        width: 100%;
-
-        svg {
-            padding-right: 0.25rem;
-            color: $dark-gray;
-        }
+    .drag-handle svg {
+        padding-right: 0.25rem;
+        color: $dark-gray;
     }
 
     .rank {
@@ -78,6 +78,7 @@ $left-content-width: 5.5rem;
 
         .MuiIconButton-root {
             color: black;
+            padding: 4px;
         }
     }
 }
