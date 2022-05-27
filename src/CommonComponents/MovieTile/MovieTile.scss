@@ -81,6 +81,13 @@
     .custom-menu {
         margin-left: auto;
 
+        .MuiButton-root {
+            border: solid 2px black;
+            border-radius: 10px;
+            padding: 0.25rem 0.5rem;
+            font-weight: bold;
+        }
+
         .MuiIconButton-root {
             color: black;
             padding: 4px;

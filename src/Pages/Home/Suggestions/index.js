@@ -8,15 +8,15 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Button } from '@material-ui/core';
 import { FirebaseContext } from '../../../Firebase';
-import { HOME_TABS } from '../../../Constants';
 
 const Suggestions = memo(({ 
     favoriteMovies, 
+    watchLaterMovies,
     friends, 
     suggestedMovies, 
     setSuggestedMovies, 
     addMovieToList,
-    shouldDisableSuggestions
+    currentHomeTab
 }) => {
     const firebase = useContext(FirebaseContext);
     const [isLoading, setIsLoading] = useState(false);
@@ -61,10 +61,16 @@ const Suggestions = memo(({
                         if (m.Poster === 'N/A') {
                             return false;
                         }
+
+                        if (favoriteMovies.findIndex(f =>  f.imdbID === m.imdbID) > -1) {
+                            return false;
+                        }
+
+                        if (watchLaterMovies.findIndex(f =>  f.imdbID === m.imdbID) > -1) {
+                            return false;
+                        }
             
-                        return favoriteMovies.findIndex(f => {
-                            return f.imdbID === m.imdbID;
-                        }) === -1;
+                        return true;
                     });
 
                     if (movies.length > 0) {
@@ -78,7 +84,19 @@ const Suggestions = memo(({
                     setIsLoading(false);
                 }
             })
-    }, [favoriteMovies, friends, setIsLoading, setSuggestedMovies, firebase, isLoading, suggestedMovies, setNumTries, setError, numTries])
+    }, [
+        favoriteMovies, 
+        watchLaterMovies,
+        friends, 
+        setIsLoading, 
+        setSuggestedMovies, 
+        firebase, 
+        isLoading, 
+        suggestedMovies, 
+        setNumTries, 
+        setError, 
+        numTries
+    ])
 
     useEffect(() => {
         if (suggestedMovies.length) {
@@ -135,11 +153,16 @@ const Suggestions = memo(({
     };
 
     return (
-        <div className={`suggestions ${shouldDisableSuggestions ? 'disabled' : ''}`}>
+        <div className='suggestions'>
             <h1 className='section-title'>Friends' Favorites</h1>
-            <Carousel className='carousel' responsive={responsive} infinite={true}>
+            <Carousel 
+                className='carousel' 
+                responsive={responsive} 
+                infinite={true}
+                shouldResetAutoplay={false} // otherwise just starts autoplay on click
+            >
                 {suggestedMovies.map(movie => (
-                    <div className="suggestion" key={movie.imdbID} onClick={() => addMovieToList(movie, HOME_TABS.Favorites, "Suggested")}>
+                    <div className="suggestion" key={movie.imdbID} onClick={() => addMovieToList(movie, currentHomeTab, "Suggested")}>
                         <img 
                             className='poster' 
                             src={movie.Poster} 
@@ -163,17 +186,16 @@ function getRandomInt(min, max) {
 
 export default function ConnectedSuggestions() {
     const { state, actions } = useContext(AppContext);
-    const { suggestedMovies, friends, favoriteMovies, currentHomeTab } = state;
+    const { suggestedMovies, friends, favoriteMovies, watchLaterMovies, currentHomeTab } = state;
     const { setSuggestedMovies, addMovieToList } = actions;
-
-    const shouldDisableSuggestions = (currentHomeTab === HOME_TABS.WatchLater);
 
     return <Suggestions 
         friends={friends}
         favoriteMovies={favoriteMovies}
+        watchLaterMovies={watchLaterMovies}
         suggestedMovies={suggestedMovies} 
         setSuggestedMovies={setSuggestedMovies} 
-        addMovieToList={addMovieToList} 
-        shouldDisableSuggestions={shouldDisableSuggestions}
+        addMovieToList={addMovieToList}
+        currentHomeTab={currentHomeTab}
     />;
 }

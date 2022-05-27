@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import IconButton from '@material-ui/core/IconButton';
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 
-export default function CustomMenu({ menuOptions, movie, index }) {
+export default function CustomMenu({ menuOptions, menuButtonText, movie, index }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const isOpen = !!anchorEl;
 
@@ -24,9 +25,10 @@ export default function CustomMenu({ menuOptions, movie, index }) {
   
     return (
         <div className='custom-menu'>
-            <IconButton onClick={onClickOpen}>
-                <MoreHoriz />
-            </IconButton>
+            {menuButtonText
+                ? <Button onClick={onClickOpen}>{menuButtonText}</Button>
+                : <IconButton onClick={onClickOpen}><MoreHoriz /></IconButton>
+            }
             <Menu
                 anchorEl={anchorEl}
                 open={isOpen}

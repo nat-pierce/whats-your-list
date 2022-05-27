@@ -53,6 +53,7 @@ const ViewListFavoriteMovies = memo(({
         return (
             <CustomMenu 
                 menuOptions={menuOptions}
+                menuButtonText='Add'
                 movie={movie}
                 index={index} 
             />
