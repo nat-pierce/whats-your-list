@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/functions';
 import 'firebase/firestore';
 import 'firebase/storage'; 
 import 'firebase/analytics';
@@ -21,6 +22,7 @@ app.initializeApp(config);
 
 if (window.location.hostname === "localhost") {
     app.auth().useEmulator("http://localhost:9099");
+    app.functions().useEmulator("localhost", 5001);
     app.firestore().settings({
         host: "localhost:8080",
         ssl: false

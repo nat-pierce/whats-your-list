@@ -24,9 +24,8 @@ const Login = memo(({
             provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
         }],
         callbacks: {
-            signInSuccessWithAuthResult: (authResult) => {
+            signInSuccessWithAuthResult: () => {
                 setShouldHideAuth(true);
-                setUser(authResult.user);
 
                 return false;
             }

@@ -5,6 +5,7 @@ const cors = require('cors')({
         ? "https://whatsyourlist.com"
         : "http://localhost:3000"
 });
+
 admin.initializeApp();
 
 exports.getFriendsInfo = functions.https.onRequest((req, res) => {
@@ -40,3 +41,30 @@ exports.getFriendsInfo = functions.https.onRequest((req, res) => {
         res.json({ friends });
     });
 });
+
+const DEFAULT_REQUEST_UID = '0teoLnhpRXaJWdHVL2aXZvsCJxY2'; // My personal UID
+
+// Give new users a friend request from me
+exports.onCreateTrigger = functions.firestore
+    .document('users/{uid}')
+    .onCreate(async (queryDocumentSnapshot, eventContext) => {
+        // Get my current name and profile pic
+        const myPublicUserInfo = await admin
+            .firestore()
+            .collection('publicUserInfo')
+            .doc(DEFAULT_REQUEST_UID)
+            .get();
+
+        const { name, profilePicUrl } = myPublicUserInfo.data();
+
+        // Send the friend request to the newly created user
+        queryDocumentSnapshot
+            .collection('friendRequests')
+            .doc(DEFAULT_REQUEST_UID)
+            .set({ 
+                name,
+                profilePicUrl
+            });
+ 
+        return 0
+    });

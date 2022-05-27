@@ -31,7 +31,10 @@ const FriendsButton = memo(({ numRequests, numFriends }) => {
             >
                 <GroupIcon />
             </Badge>
-            {numFriends} Friends
+            {numFriends === 1
+                ? '1 Friend'
+                : `${numFriends} Friends`
+            }
         </IconButton>
     );
 });
