@@ -30,12 +30,15 @@ const Friends = memo(({ user, numFriends, numRequests }) => {
         {
             label: "Find new friends",
             component: <FindFriends />
-        },
-        {
-            label: <Badge badgeContent={numRequests} color="primary">Friend requests</Badge>,
-            component: <FriendRequests />
         }
     ];
+
+    if (numRequests > 0) {
+        tabConfigs.unshift({
+            label: <Badge badgeContent={numRequests} color="primary">Friend requests</Badge>,
+            component: <FriendRequests />
+        });
+    }
 
     return (
         <div className='friends-page'>

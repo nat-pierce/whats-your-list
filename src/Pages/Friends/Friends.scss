@@ -53,6 +53,10 @@
 
         @include tileStyles;
     }
+
+    .MuiBadge-badge {
+        font-weight: bold;
+    }
 }
 
 .remove-modal {

@@ -76,7 +76,7 @@ const Header = memo(({
                 {logo}
                 {actionButton}
             </div>
-            {isSettingsModalOpen && !shouldShowOverlay &&
+            {isSettingsModalOpen && !shouldShowOverlay && (pathname !== ROUTES.Login) &&
                 <SettingsModal 
                     shouldUseAboutIntro={shouldUseAboutIntro}
                     onClose={() => {

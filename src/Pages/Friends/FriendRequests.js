@@ -14,7 +14,7 @@ const FriendRequests = memo(({ uid, friendRequests, deleteFriendRequest, acceptF
                     </div>
                     <div className='button-section'>
                         <Button onClick={() => deleteFriendRequest(request.uid)}>
-                            Delete
+                            Ignore
                         </Button>
                         <Button onClick={() => acceptFriendRequest(request)} className="accept-button" variant="contained" color="secondary">
                             Accept
