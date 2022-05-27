@@ -1,4 +1,4 @@
-import { useEffect, useContext, memo } from 'react';
+import { useEffect, useContext, memo, useState } from 'react';
 import './Login.scss';
 import { ROUTES } from '../../Constants';
 import { FirebaseContext } from '../../Firebase';
@@ -15,6 +15,7 @@ const Login = memo(({
 }) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
+    const [shouldHideAuth, setShouldHideAuth] = useState(false);
     
     const uiConfig = {
         signInSuccessUrl: "/", // This isn't used, we redirect in the useEffect below
@@ -24,6 +25,7 @@ const Login = memo(({
         }],
         callbacks: {
             signInSuccessWithAuthResult: (authResult) => {
+                setShouldHideAuth(true);
                 setUser(authResult.user);
 
                 return false;
@@ -48,7 +50,7 @@ const Login = memo(({
     }
 
     return (
-        <div className="login-page">
+        <div className={`login-page ${shouldHideAuth ? 'hide' : ''}`}>
             <div className='landing-header'>
                 <Logo shouldAnimate={true} />
                 <h2>Share and compare your favorite movies with friends</h2>

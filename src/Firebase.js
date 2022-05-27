@@ -18,6 +18,14 @@ const config = {
 };
 
 app.initializeApp(config);
+
+if (window.location.hostname === "localhost") {
+    app.auth().useEmulator("http://localhost:9099");
+    app.firestore().settings({
+        host: "localhost:8080",
+        ssl: false
+    });
+  }
  
 export default app;
 

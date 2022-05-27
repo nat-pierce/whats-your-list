@@ -9,6 +9,12 @@
     padding: 1rem;
     box-sizing: border-box;
 
+    &.hide {
+        #firebaseui_container {
+            display: none;
+        }
+    }
+
     .landing-header {
         display: flex;
         flex-direction: column;
