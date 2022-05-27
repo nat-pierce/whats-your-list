@@ -58,6 +58,7 @@ const WatchLater = memo(({
                                             key={movie.imdbID}
                                             dragHandleProps={provided.dragHandleProps}
                                             movie={movie}
+                                            tabType={HOME_TABS.WatchLater}
                                         >
                                             <CustomMenu 
                                                 menuOptions={menuOptions}

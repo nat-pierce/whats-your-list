@@ -165,7 +165,7 @@ export class AppContextProvider extends PureComponent {
         this.setState({ toastMessage });
     }
 
-    addMovieToList = async (movie, tabType, logSource) => {
+    addMovieToList = async (movie, tabType, logSource, orderId = undefined) => {
         const { imdbID, Title, Year, Poster, Genre } = movie;
 
         log(EVENTS.AddMovie, { 
@@ -177,7 +177,7 @@ export class AppContextProvider extends PureComponent {
         // Choose state and db property name (matches in both)
         const listName = getCollectionName(tabType);
 
-        // Set OrderId to bottom of list
+        // Set OrderId to bottom of list or specified override
         const OrderId = this.state[listName].length;
 
         // If the movie doesn't have genre metadata, retrieve it
@@ -227,6 +227,33 @@ export class AppContextProvider extends PureComponent {
         await removeMovieFromCollection(this.state.user.uid, listName, imdbID);
 
         updateOrderIds(this.state.user.uid, newListWithUpdatedOrderIds, listName);
+    }
+
+    // If a poster doesn't load for a user, make an attempt to replace it
+    replaceMoviePoster = async (movie, tabType) => {
+        const { Poster } = await getMovieMetadataApi(movie.imdbID);
+
+        const movieToReplace = { ...movie, Poster };
+        const listName = getCollectionName(tabType);
+
+        // replace in db
+        addMovieToCollection(
+            this.state.user.uid, 
+            listName, 
+            movieToReplace
+        );
+
+        // replace in state
+        const newList = this.state[listName].map(m => {
+            if (m.imdbID === movieToReplace.imdbID) {
+                return movieToReplace;
+            }
+
+            return m;
+        });
+
+        this.setState({ [listName]: newList });
+        
     }
 
     addFriend = (id, logSource) => {
@@ -339,6 +366,7 @@ export class AppContextProvider extends PureComponent {
                 addMovieToList: this.addMovieToList,
                 reorderMovieList: this.reorderMovieList,
                 removeMovieFromList: this.removeMovieFromList,
+                replaceMoviePoster: this.replaceMoviePoster,
                 setSuggestedMovies: this.setSuggestedMovies,
                 setHasSentEmailVerification: this.setHasSentEmailVerification,
                 addFriend: this.addFriend,

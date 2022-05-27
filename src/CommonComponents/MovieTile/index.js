@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { memo, useContext, useState } from 'react';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import './MovieTile.scss';
+import AppContext from '../../AppContext';
 
-export default function MovieTile({
+const MovieTile = memo(({
     dragHandleProps,
     rank,
     movie,
+    tabType,
+    replaceMoviePoster,
     children
-}) {
+}) => {
+    const [hasAttemptedReplace, setHasAttemptedReplace] = useState(false);
+
     const rankDisplay = rank && <div className='rank'>#{rank}</div>;
     const isTopTen = rank <= 10;
     const isSingleDigit = rank <= 9;
@@ -26,6 +31,13 @@ export default function MovieTile({
         ? 'long'
         : '';
 
+    const onErrorPoster = () => {
+        if (hasAttemptedReplace || !tabType) { return }
+
+        setHasAttemptedReplace(true);
+        replaceMoviePoster(movie, tabType);
+    }
+
     return (
         <div className={classNames.join(' ')}>
             <div className='left-content'>
@@ -39,9 +51,26 @@ export default function MovieTile({
                     : rankDisplay
                 }
             </div>
-            <img className='poster' src={movie.Poster} alt='Movie poster' />
+            <img 
+                className='poster' 
+                src={movie.Poster} 
+                alt='Movie poster' 
+                onError={onErrorPoster}
+            />
             <div className={`title ${titleClassName}`}>{movie.Title} ({movie.Year})</div>
             {children}
         </div>
+    );
+});
+
+export default function ConnectedMovieTile(props) {
+    const { actions } = useContext(AppContext);
+    const { replaceMoviePoster } = actions;
+
+    return (
+        <MovieTile
+            {...props}
+            replaceMoviePoster={replaceMoviePoster}
+        />
     );
 }

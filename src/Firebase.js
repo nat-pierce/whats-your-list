@@ -70,6 +70,7 @@ export const getMovieCollection = async (userId, collectionName) => {
     return movies;
 }
 
+// Adds OR replaces doc in collection
 export const addMovieToCollection = async (userId, collectionName, movie) => {
     await app.firestore().collection('publicUserInfo')
         .doc(userId)

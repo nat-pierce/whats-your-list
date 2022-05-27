@@ -56,6 +56,7 @@ const FavoriteList = memo(({
                                             dragHandleProps={provided.dragHandleProps}
                                             rank={index+1}
                                             movie={movie}
+                                            tabType={HOME_TABS.Favorites}
                                         >
                                             <CustomMenu 
                                                 menuOptions={menuOptions}
