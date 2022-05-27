@@ -11,7 +11,12 @@ admin.initializeApp();
 exports.getFriendsInfo = functions.https.onRequest((req, res) => {
     cors(req, res, async () => {
         const userId = req.query.userId;
-        const querySnapshot = await admin.firestore().collection('users').doc(userId).collection('friends').get();
+        const querySnapshot = await admin
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('friends')
+            .get();
         const friendRefs = querySnapshot.docs.map(doc => {
             return admin.firestore().collection('publicUserInfo').doc(doc.id);
         });
@@ -47,20 +52,24 @@ const DEFAULT_REQUEST_UID = '0teoLnhpRXaJWdHVL2aXZvsCJxY2'; // My personal UID
 // Give new users a friend request from me
 exports.onCreateTrigger = functions.firestore
     .document('users/{uid}')
-    .onCreate(async (queryDocumentSnapshot, eventContext) => {
+    .onCreate(async (_, eventContext) => {
         // Get my current name and profile pic
-        const myPublicUserInfo = await admin
+        const myPublicUserInfoDoc = await admin
             .firestore()
-            .collection('publicUserInfo')
-            .doc(DEFAULT_REQUEST_UID)
+            .doc(`publicUserInfo/${DEFAULT_REQUEST_UID}`)
             .get();
+        
+        if (!myPublicUserInfoDoc.exists) {
+            console.error('myPublicUserInfo doc not found');
+            return;
+        }
 
-        const { name, profilePicUrl } = myPublicUserInfo.data();
+        const { name, profilePicUrl } = myPublicUserInfoDoc.data();
 
         // Send the friend request to the newly created user
-        queryDocumentSnapshot
-            .collection('friendRequests')
-            .doc(DEFAULT_REQUEST_UID)
+        await admin
+            .firestore()
+            .doc(`users/${eventContext.params.uid}/friendRequests/${DEFAULT_REQUEST_UID}`)
             .set({ 
                 name,
                 profilePicUrl
