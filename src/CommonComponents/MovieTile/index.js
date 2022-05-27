@@ -54,7 +54,10 @@ const MovieTile = memo(({
             <img 
                 className='poster' 
                 src={movie.Poster} 
-                alt='Movie poster' 
+                alt={hasAttemptedReplace 
+                    ? 'Try removing this movie and adding it again'
+                    : '...'
+                } 
                 onError={onErrorPoster}
             />
             <div className={`title ${titleClassName}`}>{movie.Title} ({movie.Year})</div>
