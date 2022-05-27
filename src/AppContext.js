@@ -1,7 +1,6 @@
 import { createContext, PureComponent } from 'react';
 import { getMovieMetadataApi } from './Utilities/ApiUtilities';
 import { ANONYMOUS_USER_ID, EVENTS, HOME_TABS, ROUTES } from './Constants';
-import { getFriendsInfo } from './FirebaseFunctions';
 import { addMovieToCollection, createAccount, getMovieCollection, log, removeMovieFromCollection, updateOrderIds } from './Firebase';
 import uniqBy from 'lodash.uniqby';
 import { getCollectionName } from './Utilities/CommonUtilities';
@@ -52,18 +51,11 @@ export class AppContextProvider extends PureComponent {
             const favoriteMovies = await getMovieCollection(user.uid, 'favoriteMovies');
             const watchLaterMovies = await getMovieCollection(user.uid, 'watchLaterMovies');
 
-            // retrieve friends
-            const friendsResponse = await getFriendsInfo(user.uid);
-            const friends = friendsResponse
-                ? friendsResponse.friends
-                : [];
-
             // set state
             this.setState({ 
                 user: userDoc.data(), 
                 favoriteMovies,
-                watchLaterMovies,
-                friends 
+                watchLaterMovies
             });
         } else {
             await createAccount(user);
@@ -80,33 +72,68 @@ export class AppContextProvider extends PureComponent {
 
         // subscribe to friend requests
         this.unsubscribeFromFriendRequests = db.collection('users').doc(user.uid).collection('friendRequests').onSnapshot(querySnapshot => {
-            const newRequests = [];
+            const friendRequests = [...this.state.friendRequests];
 
             querySnapshot.docChanges().forEach(change => {
-                if (change.type === 'added') {
-                    const alreadyAdded = (newRequests.findIndex(r => r.uid === change.doc.id) > -1) 
-                        || (this.state.friendRequests.findIndex(r => r.uid === change.doc.id) > -1);
+                const changeType = change.type;
+                const changeDocId = change.doc.id;
+                const changeDocIndex = friendRequests.findIndex(r => r.uid === changeDocId);
 
-                    if (!alreadyAdded) {
-                        const { name, profilePicUrl } = change.doc.data();
-                        const request = {
-                            uid: change.doc.id,
-                            name,
-                            profilePicUrl
-                        };
+                if ((changeType === 'added') && (changeDocIndex === -1)) {
+                    const { name, profilePicUrl } = change.doc.data();
 
-                        newRequests.push(request);
-                    }
+                    const request = {
+                        uid: change.doc.id,
+                        name,
+                        profilePicUrl
+                    };
+
+                    friendRequests.unshift(request);
+                } else if ((change.type === 'removed') && (changeDocIndex >= 0)) {
+                    friendRequests.splice(changeDocIndex, 1);
                 }
             });
+            
+            this.setState({ friendRequests });
+        });
 
-            this.setState({ friendRequests: [...this.state.friendRequests, ...newRequests] });
+        // subscribe to friends list (to show accepted requests in real-time)
+        this.unsubscribeFromFriends = await db.collection('users').doc(user.uid).collection('friends').onSnapshot(async querySnapshot => {
+            const friends = [...this.state.friends];
+
+            const changes = await querySnapshot.docChanges();
+            for (let i = 0; i < changes.length; i++) {
+                const change = changes[i];
+                const changeType = change.type;
+                const changeDocId = change.doc.id;
+                const changeDocIndex = friends.findIndex(r => r.uid === changeDocId);
+
+                if ((changeType === 'added') && (changeDocIndex === -1)) {
+                    // Instead of storing name and profilePic on friend object, 
+                    // we access it here to make sure it's up to date
+                    const friendDoc = await db.collection('publicUserInfo').doc(change.doc.id).get();
+                    const { name, profilePicUrl } = friendDoc.data();
+
+                    const friend = { 
+                        uid: change.doc.id,
+                        name,
+                        profilePicUrl
+                    };
+
+                    friends.unshift(friend);
+                } else if ((change.type === 'removed') && (changeDocIndex >= 0)) {
+                    friends.splice(changeDocIndex, 1);
+                }
+            }
+            
+            this.setState({ friends });
         });
     }
 
     signOut = (history) => {
         this.unsubscribeFromPublicUserInfo && this.unsubscribeFromPublicUserInfo();
         this.unsubscribeFromFriendRequests && this.unsubscribeFromFriendRequests();
+        this.unsubscribeFromFriends && this.unsubscribeFromFriends();
 
         this.props.firebase.auth().signOut().then(() => {
             this.setState(defaultState, () => {
@@ -248,18 +275,24 @@ export class AppContextProvider extends PureComponent {
             .doc(this.state.user.uid)
             .collection('friends')
             .doc(friend.uid)
-            .set({});
+            .set({
+                uid: this.state.user.uid,
+                name: this.state.publicUserInfo.name,
+                profilePicUrl: this.state.publicUserInfo.profilePicUrl
+            });
 
         await this.props.firebase.firestore()
             .collection('users')
             .doc(friend.uid)
             .collection('friends')
             .doc(this.state.user.uid)
-            .set({});
+            .set({
+                uid: friend.uid,
+                name: friend.name,
+                profilePicUrl: friend.profilePicUrl
+            });
 
         this.deleteFriendRequest(friend.uid);
-
-        this.setState({ friends: [...this.state.friends, friend] });
     }
 
     deleteFriendRequest = (id) => {
