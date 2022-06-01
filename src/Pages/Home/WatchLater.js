@@ -49,6 +49,7 @@ const WatchLater = memo(({
                                 key={movie.imdbID} 
                                 draggableId={`draggable-watch-later-${movie.imdbID}`} 
                                 index={index}
+                                isDragDisabled={!isOnline}
                             >
                                 {(provided, snapshot) => (
                                     <div

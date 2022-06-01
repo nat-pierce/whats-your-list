@@ -180,7 +180,8 @@ const Home = memo(({
                     </div>
                     <DragDropContext 
                         onDragStart={onDragStart}
-                        onDragEnd={onDragEnd}>
+                        onDragEnd={onDragEnd}
+                    >
                         <CustomTabs 
                             className={isScrolledThreshold ? 'threshold' : undefined}
                             tabConfigs={tabConfigs} 

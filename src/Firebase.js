@@ -38,70 +38,100 @@ export const log = process.env.NODE_ENV === 'production'
     ? app.analytics().logEvent
     : console.log;
 
-export const createAccount = async (user) => {
+export const createAccount = async (user, onError) => {
     const userInfo = {
         uid: user.uid,
         email: user.email
     };
 
-    await app.firestore().collection('users')
-        .doc(user.uid)
-        .set(userInfo);
+    try {
+        await app.firestore().collection('users')
+            .doc(user.uid)
+            .set(userInfo);
 
-    const fullName = user.displayName;
-    const [firstName, lastName] = getFirstAndLastName(fullName);
+        const fullName = user.displayName;
+        const [firstName, lastName] = getFirstAndLastName(fullName);
 
-    await app.firestore().collection('publicUserInfo')
-        .doc(user.uid)
-        .set({ 
-            name: fullName,
-            firstName,
-            lastName,
-            profilePicUrl: null 
-        });
+        await app.firestore().collection('publicUserInfo')
+            .doc(user.uid)
+            .set({ 
+                name: fullName,
+                firstName,
+                lastName,
+                profilePicUrl: null 
+            });
+    } catch (error) {
+        console.error(error);
+
+        onError();
+    }
 }
 
-export const getMovieCollection = async (userId, collectionName) => {
-    const snapshot = await app.firestore().collection('publicUserInfo')
-        .doc(userId)
-        .collection(collectionName)
-        .orderBy('OrderId')
-        .get();
+export const getMovieCollection = async (userId, collectionName, onError) => {
+    try {
+        const snapshot = await app.firestore().collection('publicUserInfo')
+            .doc(userId)
+            .collection(collectionName)
+            .orderBy('OrderId')
+            .get();
 
-    const movies = snapshot.docs.map(doc => doc.data());
+        const movies = snapshot.docs.map(doc => doc.data());
 
-    return movies;
+        return movies;
+    } catch (error) {
+        console.error(error);
+        
+        onError();
+    }
 }
 
 // Adds OR replaces doc in collection
-export const addMovieToCollection = async (userId, collectionName, movie) => {
-    await app.firestore().collection('publicUserInfo')
-        .doc(userId)
-        .collection(collectionName)
-        .doc(movie.imdbID)
-        .set(movie);
-}
-
-export const removeMovieFromCollection = async (userId, collectionName, imdbID) => {
-    await app.firestore()
-            .collection('publicUserInfo')
+export const addMovieToCollection = async (userId, collectionName, movie, onError) => {
+    try {
+        await app.firestore().collection('publicUserInfo')
             .doc(userId)
             .collection(collectionName)
-            .doc(imdbID)
-            .delete();
+            .doc(movie.imdbID)
+            .set(movie); 
+    } catch (error) {
+        console.error(error);
+        
+        onError();
+    }
 }
 
-export const updateOrderIds = (userId, newList, listName) => {
-    const db = app.firestore();
-    const batch = db.batch();
-    const collection = db.collection('publicUserInfo')
-        .doc(userId)
-        .collection(listName);
+export const removeMovieFromCollection = async (userId, collectionName, imdbID, onError) => {
+    try {
+        await app.firestore()
+                .collection('publicUserInfo')
+                .doc(userId)
+                .collection(collectionName)
+                .doc(imdbID)
+                .delete();
+    }  catch (error) {
+        console.error(error);
+        
+        onError();
+    }
+}
 
-    newList.forEach(movie => {
-        const docRef = collection.doc(movie.imdbID);
-        batch.update(docRef, { OrderId: movie.OrderId });
-    });
+export const updateOrderIds = (userId, newList, listName, onError) => {
+    try {
+        const db = app.firestore();
+        const batch = db.batch();
+        const collection = db.collection('publicUserInfo')
+            .doc(userId)
+            .collection(listName);
 
-    batch.commit();
+        newList.forEach(movie => {
+            const docRef = collection.doc(movie.imdbID);
+            batch.update(docRef, { OrderId: movie.OrderId });
+        });
+
+        batch.commit();
+    } catch (error) {
+        console.error(error);
+        
+        onError();
+    }
 }

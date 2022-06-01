@@ -48,8 +48,8 @@ export class AppContextProvider extends PureComponent {
 
         if (userDoc.exists) {
             // retrieve movie lists
-            const favoriteMovies = await getMovieCollection(user.uid, 'favoriteMovies');
-            const watchLaterMovies = await getMovieCollection(user.uid, 'watchLaterMovies');
+            const favoriteMovies = await getMovieCollection(user.uid, 'favoriteMovies', this.onErrorFirebase);
+            const watchLaterMovies = await getMovieCollection(user.uid, 'watchLaterMovies', this.onErrorFirebase);
 
             // set state
             this.setState({ 
@@ -58,7 +58,7 @@ export class AppContextProvider extends PureComponent {
                 watchLaterMovies
             });
         } else {
-            await createAccount(user);
+            await createAccount(user, this.onErrorFirebase);
 
             const newUserDoc = await db.collection('users').doc(user.uid).get();
             
@@ -136,14 +136,14 @@ export class AppContextProvider extends PureComponent {
         });
     }
 
-    signOut = (history) => {
+    signOut = () => {
         this.unsubscribeFromPublicUserInfo && this.unsubscribeFromPublicUserInfo();
         this.unsubscribeFromFriendRequests && this.unsubscribeFromFriendRequests();
         this.unsubscribeFromFriends && this.unsubscribeFromFriends();
 
         this.props.firebase.auth().signOut().then(() => {
             this.setState(defaultState, () => {
-                history.push(ROUTES.Login);
+                this.props.history.push(ROUTES.Login);
             });
         });
     }
@@ -157,7 +157,7 @@ export class AppContextProvider extends PureComponent {
 
         this.setState({ [listName]: newListWithUpdatedOrderIds });
 
-        updateOrderIds(this.state.user.uid, newListWithUpdatedOrderIds, listName);
+        updateOrderIds(this.state.user.uid, newListWithUpdatedOrderIds, listName, this.onErrorFirebase);
     }
 
     setToastMessage = (movie, tabType) => {
@@ -212,7 +212,7 @@ export class AppContextProvider extends PureComponent {
         
         // Add to state and db
         this.setState({ [listName]: uniqueMoviesList });
-        addMovieToCollection(this.state.user.uid, listName, movieToAdd);
+        addMovieToCollection(this.state.user.uid, listName, movieToAdd, this.onErrorFirebase);
 
         // Notify user
         this.setToastMessage(movieToAdd, tabType);
@@ -230,9 +230,9 @@ export class AppContextProvider extends PureComponent {
 
         this.setState({ [listName]: newListWithUpdatedOrderIds });
 
-        await removeMovieFromCollection(this.state.user.uid, listName, imdbID);
+        await removeMovieFromCollection(this.state.user.uid, listName, imdbID, this.onErrorFirebase);
 
-        updateOrderIds(this.state.user.uid, newListWithUpdatedOrderIds, listName);
+        updateOrderIds(this.state.user.uid, newListWithUpdatedOrderIds, listName, this.onErrorFirebase);
     }
 
     // If a poster doesn't load for a user, make an attempt to replace it
@@ -246,7 +246,8 @@ export class AppContextProvider extends PureComponent {
         addMovieToCollection(
             this.state.user.uid, 
             listName, 
-            movieToReplace
+            movieToReplace,
+            this.onErrorFirebase
         );
 
         // replace in state
@@ -352,6 +353,10 @@ export class AppContextProvider extends PureComponent {
 
     setIsWatchLaterTabHeaderMounted = (isWatchLaterTabHeaderMounted) => {
         this.setState({ isWatchLaterTabHeaderMounted });
+    }
+
+    onErrorFirebase = () => {
+        this.props.history.go(0);
     }
 
     render() {

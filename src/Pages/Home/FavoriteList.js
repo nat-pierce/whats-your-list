@@ -46,7 +46,12 @@ const FavoriteList = memo(({
                         ref={provided.innerRef}
                         {...provided.droppableProps}>
                         {favoriteMovies.map((movie, index) => (
-                            <Draggable key={movie.imdbID} draggableId={`draggable-favorite-${movie.imdbID}`} index={index}>
+                            <Draggable 
+                                key={movie.imdbID} 
+                                draggableId={`draggable-favorite-${movie.imdbID}`} 
+                                index={index} 
+                                isDragDisabled={!isOnline}
+                            >
                                 {(provided) => (
                                     <div
                                         className='tile-wrapper'
