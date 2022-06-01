@@ -5,8 +5,9 @@ import Badge from '@material-ui/core/Badge';
 import { useHistory } from 'react-router';
 import { ROUTES } from '../../../Constants';
 import AppContext from '../../../AppContext';
+import { getIsOnline } from '../../../Utilities/EnvironmentUtilities';
 
-const FriendsButton = memo(({ numRequests, numFriends }) => {
+const FriendsButton = memo(({ numRequests, numFriends, isDisabled }) => {
     const history = useHistory();
 
     const onClick = () => {
@@ -15,10 +16,11 @@ const FriendsButton = memo(({ numRequests, numFriends }) => {
 
     return (
         <IconButton 
-            className='friends-button' 
+            className={`friends-button ${isDisabled ? 'disabled' : ''}`} 
             variant="outlined" 
             color="secondary" 
             onClick={onClick}
+            disabled={isDisabled}
         >
             <Badge 
                 badgeContent={numRequests} 
@@ -43,5 +45,11 @@ export default function ConnectedFriendsButton() {
     const { state } = useContext(AppContext);
     const { friendRequests, friends } = state;
 
-    return <FriendsButton numRequests={friendRequests.length} numFriends={friends.length} />;
+    const isOnline = getIsOnline();
+
+    return <FriendsButton 
+        isDisabled={!isOnline}
+        numRequests={friendRequests.length} 
+        numFriends={friends.length} 
+    />;
 }

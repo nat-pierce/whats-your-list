@@ -6,14 +6,15 @@ import MovieTile from '../../CommonComponents/MovieTile';
 import { HOME_TABS, MAX_NUM_MOVIES } from '../../Constants';
 import { useScrollToBottom } from '../../Utilities/Hooks';
 import CustomMenu from '../../CommonComponents/CustomMenu';
+import { getIsOnline } from '../../Utilities/EnvironmentUtilities';
 
 const FavoriteList = memo(({ 
-    favoriteMovies, 
-    reorderMovieList, 
+    favoriteMovies,
     removeMovieFromList,
     addMovieToList,
     canMoveToWatchLater,
-    isScrolledThreshold 
+    isScrolledThreshold,
+    isOnline 
 }) => {
     const containerRef = useRef(null);
 
@@ -26,13 +27,14 @@ const FavoriteList = memo(({
                 removeMovieFromList(movie.imdbID, index, HOME_TABS.Favorites)
                 addMovieToList(movie, HOME_TABS.WatchLater, 'Favorites');
             }, 
-            isDisabled: !canMoveToWatchLater
+            isDisabled: !canMoveToWatchLater || !isOnline
         },
         { 
             label: 'Remove', 
             onClick: (movie, index) => {
                 removeMovieFromList(movie.imdbID, index, HOME_TABS.Favorites)
-            }
+            },
+            isDisabled: !isOnline
         }
     ];
 
@@ -45,7 +47,7 @@ const FavoriteList = memo(({
                         {...provided.droppableProps}>
                         {favoriteMovies.map((movie, index) => (
                             <Draggable key={movie.imdbID} draggableId={`draggable-favorite-${movie.imdbID}`} index={index}>
-                                {(provided, snapshot) => (
+                                {(provided) => (
                                     <div
                                         className='tile-wrapper'
                                         ref={provided.innerRef}
@@ -82,6 +84,7 @@ export default function ConnectedFavoriteList(props) {
     const { reorderMovieList, removeMovieFromList, addMovieToList } = actions;
 
     const canMoveToWatchLater = watchLaterMovies.length < MAX_NUM_MOVIES;
+    const isOnline = getIsOnline();
 
     return (
         <FavoriteList 
@@ -91,6 +94,7 @@ export default function ConnectedFavoriteList(props) {
             removeMovieFromList={removeMovieFromList} 
             addMovieToList={addMovieToList}
             canMoveToWatchLater={canMoveToWatchLater}
+            isOnline={isOnline}
         />
     );
 }

@@ -2,6 +2,7 @@ import React, { memo, useContext, useState } from 'react';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import './MovieTile.scss';
 import AppContext from '../../AppContext';
+import { getIsOnline } from '../../Utilities/EnvironmentUtilities';
 
 const MovieTile = memo(({
     dragHandleProps,
@@ -9,6 +10,7 @@ const MovieTile = memo(({
     movie,
     tabType,
     replaceMoviePoster,
+    isOnline,
     children
 }) => {
     const [hasAttemptedReplace, setHasAttemptedReplace] = useState(false);
@@ -41,9 +43,9 @@ const MovieTile = memo(({
     return (
         <div className={classNames.join(' ')}>
             <div className='left-content'>
-                {dragHandleProps 
+                {dragHandleProps
                     ? ( 
-                        <div className='drag-handle'{...dragHandleProps}>
+                        <div className={`drag-handle ${isOnline ? '' : 'hidden'}`} {...dragHandleProps}>
                             <DragHandleIcon />
                             {rankDisplay}
                         </div>
@@ -69,11 +71,13 @@ const MovieTile = memo(({
 export default function ConnectedMovieTile(props) {
     const { actions } = useContext(AppContext);
     const { replaceMoviePoster } = actions;
+    const isOnline = getIsOnline();
 
     return (
         <MovieTile
             {...props}
             replaceMoviePoster={replaceMoviePoster}
+            isOnline={isOnline}
         />
     );
 }

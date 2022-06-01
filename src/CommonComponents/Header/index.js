@@ -99,7 +99,6 @@ export default function ConnectedHeader() {
 
     const shouldShowOverlay = !getHasAttemptedSignIn(state);
     const isSignedIn = getIsSignedIn(state);
-
     const shouldUseAboutIntro = !localStorage.getItem(LOCAL_STORAGE_ABOUT_INTRO);
 
     return <Header 

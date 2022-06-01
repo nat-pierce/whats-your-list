@@ -10,8 +10,9 @@ import './ShareModal.scss';
 import { TextField } from '@material-ui/core';
 import { BASE_URL } from '../../../Constants';
 import IosShareIcon from '../../../Resources/Icons/IosShareIcon';
+import { getIsOnline } from '../../../Utilities/EnvironmentUtilities';
 
-const ShareButton = memo(({ favoriteMovies, uid }) => {
+const ShareButton = memo(({ favoriteMovies, uid, isDisabled }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -51,7 +52,12 @@ const ShareButton = memo(({ favoriteMovies, uid }) => {
 
     return (
         <>
-            <IconButton className='share-button' color='secondary' onClick={handleClick}>
+            <IconButton 
+                className={`share-button ${isDisabled ? 'disabled' : ''}`} 
+                color='secondary' 
+                onClick={handleClick}
+                disabled={isDisabled}
+            >
                 <IosShareIcon />
                 Share list
             </IconButton>
@@ -87,6 +93,11 @@ export default function ConnectedShareButton() {
     const { state } = useContext(AppContext);
     const { favoriteMovies, user } = state;
     const { uid } = user;
+    const isOnline = getIsOnline();
 
-    return <ShareButton favoriteMovies={favoriteMovies} uid={uid} />;
+    return <ShareButton 
+        favoriteMovies={favoriteMovies} 
+        uid={uid} 
+        isDisabled={!isOnline}
+    />;
 }

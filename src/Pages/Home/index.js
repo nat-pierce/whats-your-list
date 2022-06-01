@@ -21,6 +21,7 @@ import { getIsOnline } from '../../Utilities/EnvironmentUtilities';
 
 const Home = memo(({ 
     isSignedIn,
+    isOnline,
     hasSentEmailVerification, 
     setHasSentEmailVerification, 
     changeHomeTab,
@@ -89,11 +90,11 @@ const Home = memo(({
 
     useEffect(() => {
         const authUser = firebase.auth().currentUser;
-        if (authUser && !authUser.emailVerified && !hasSentEmailVerification) {
+        if (authUser && !authUser.emailVerified && !hasSentEmailVerification && isOnline) {
             sendConfirmationEmail();
             setHasSentEmailVerification(true);
         }
-    }, [firebase, hasSentEmailVerification, setHasSentEmailVerification, sendConfirmationEmail]);
+    }, [firebase, hasSentEmailVerification, setHasSentEmailVerification, sendConfirmationEmail, isOnline]);
     //#endregion
 
     if (!isSignedIn) {
@@ -105,6 +106,7 @@ const Home = memo(({
         return <EmailVerification 
             email={authUser.email}
             onClickSendEmail={onClickSendEmail}
+            isOnline={isOnline}
         />;
     }
 

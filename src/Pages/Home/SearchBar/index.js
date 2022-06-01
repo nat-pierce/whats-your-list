@@ -10,13 +10,15 @@ import './SearchBar.scss';
 import { HOME_TABS, MAX_NUM_MOVIES } from '../../../Constants';
 import { FavoriteListIcon, WatchLaterListIcon } from '../../../CommonComponents/Icons';
 import Chip from '../../../CommonComponents/Chip';
+import { getIsOnline } from '../../../Utilities/EnvironmentUtilities';
 
 const SearchBar = memo(forwardRef(({ 
     addMovieToList, 
     favoriteMovies, 
     watchLaterMovies,
     currentHomeTab,
-    setIsSearchMounted 
+    setIsSearchMounted,
+    isOnline 
 }, inputRef) => {
     const [inputValue, setInputValue] = useState('');
     const [options, setOptions] = useState([]);
@@ -26,7 +28,7 @@ const SearchBar = memo(forwardRef(({
     const watchLaterMovieIds = watchLaterMovies.map(m => m.imdbID);
 
     const maxNum = MAX_NUM_MOVIES;
-    const isDisabled = currentHomeTab === HOME_TABS.Favorites
+    const isAtMax = currentHomeTab === HOME_TABS.Favorites
         ? favoriteMovieIds.length >= maxNum
         : watchLaterMovieIds.length >= maxNum;
 
@@ -115,9 +117,14 @@ const SearchBar = memo(forwardRef(({
             ? FavoriteListIcon
             : WatchLaterListIcon;
 
-        const label = isDisabled 
-            ? <span className='search-placeholder'>{icon} Max added ({maxNum})</span> 
-            : <span className='search-placeholder'>{icon} Search movies</span>;
+        let label;
+        if (isAtMax) {
+            label = <span className='search-placeholder'>{icon} Max added ({maxNum})</span>;
+        } else if (!isOnline) {
+            label = <span className='search-placeholder'>You are currently offline.</span>;
+        } else {
+            label = <span className='search-placeholder'>{icon} Search movies</span>;
+        }
 
         return (
             <TextField 
@@ -127,7 +134,9 @@ const SearchBar = memo(forwardRef(({
                 autoFocus={reactKey > 0} // After a movie is chosen and this is rerendered, maintain focus to easily add more movies
                 label={label} 
                 color="secondary" 
-                variant="outlined" />
+                variant="outlined" 
+                margin="dense"
+            />
         );
     }
 
@@ -137,7 +146,7 @@ const SearchBar = memo(forwardRef(({
         <Autocomplete 
             key={reactKey}
             className='search'
-            disabled={isDisabled}
+            disabled={isAtMax || !isOnline}
             multiple={false}
             options={options}
             onChange={onChooseMovie}
@@ -158,6 +167,8 @@ const ConnectedSearch = forwardRef((_, inputRef) => {
     const { favoriteMovies, watchLaterMovies, currentHomeTab } = state;
     const { addMovieToList, setIsSearchMounted } = actions;
 
+    const isOnline = getIsOnline();
+
     return (
         <SearchBar 
             ref={inputRef}
@@ -166,6 +177,7 @@ const ConnectedSearch = forwardRef((_, inputRef) => {
             addMovieToList={addMovieToList} 
             currentHomeTab={currentHomeTab}
             setIsSearchMounted={setIsSearchMounted}
+            isOnline={isOnline}
         />
     );
 });

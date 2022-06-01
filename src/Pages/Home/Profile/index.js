@@ -7,8 +7,14 @@ import EditableLabel from '../../../CommonComponents/EditableLabel';
 import FriendsButton from './FriendsButton';
 import ShareButton from '../ShareButton';
 import { getFirstAndLastName } from '../../../Utilities/CommonUtilities';
+import { getIsOnline } from '../../../Utilities/EnvironmentUtilities';
 
-const Profile = memo(({ uid, name, profilePicUrl }) => {
+const Profile = memo(({ 
+    uid, 
+    name, 
+    profilePicUrl,
+    isOnline 
+}) => {
     const profilePicInputRef = useRef(null);
     const firebase = useContext(FirebaseContext);
 
@@ -53,24 +59,31 @@ const Profile = memo(({ uid, name, profilePicUrl }) => {
         return null; // need to make sure EditableLabel doesn't get an initial null value
     }
 
+    const avatar = <Avatar className='profile-pic' src={profilePicUrl} alt='Profile pic' />;
+
     return (
         <div className='profile'>
-            <div className='profile-pic-wrapper' onClick={onClickProfilePic}>
-                <Avatar className='profile-pic' src={profilePicUrl} alt='Profile pic' />
-                <input 
-                    ref={profilePicInputRef} 
-                    type="file"
-                    accept="image/*"
-                    multiple={false}
-                    onChange={onProfilePicChange} 
-                    style={{ display: 'none' }}
-                />
-            </div>
+            {isOnline
+                ? (
+                    <div className='profile-pic-wrapper' onClick={onClickProfilePic}>
+                        {avatar}
+                        <input 
+                            ref={profilePicInputRef} 
+                            type="file"
+                            accept="image/*"
+                            multiple={false}
+                            onChange={onProfilePicChange} 
+                            style={{ display: 'none' }}
+                        />
+                    </div>
+                )
+                : avatar
+            }
             <div className='profile-right'>
                 <EditableLabel 
                     className='name'
                     initialValue={name}
-                    onConfirm={onConfirmName}
+                    onConfirm={isOnline ? onConfirmName : undefined}
                 />
                 <div className='buttons'>
                     <FriendsButton />
@@ -84,9 +97,15 @@ const Profile = memo(({ uid, name, profilePicUrl }) => {
 export default function ConnectedProfile() {
     const { state } = useContext(AppContext);
     const { user, publicUserInfo } = state;
-    const uid = user && user.uid;
-    const name = publicUserInfo && publicUserInfo.name;
-    const profilePicUrl = publicUserInfo && publicUserInfo.profilePicUrl;
+    const uid = user?.uid;
+    const name = publicUserInfo?.name;
+    const profilePicUrl = publicUserInfo?.profilePicUrl;
+    const isOnline = getIsOnline();
 
-    return <Profile uid={uid} name={name} profilePicUrl={profilePicUrl} />
+    return <Profile 
+        uid={uid} 
+        name={name} 
+        profilePicUrl={profilePicUrl} 
+        isOnline={isOnline}
+    />
 }

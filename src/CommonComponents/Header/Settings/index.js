@@ -8,12 +8,14 @@ import Modal from '../../Modal';
 import TextField from "@material-ui/core/TextField";
 import Avatar from '@material-ui/core/Avatar';
 import ProfilePic from '../../../Resources/Images/natProfilePic.jpg';
+import { getIsOnline } from "../../../Utilities/EnvironmentUtilities";
 
 const Settings = memo(({ 
     shouldUseAboutIntro, 
     onClose, 
     signOut, 
-    uid 
+    uid,
+    isOnline 
 }) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
@@ -103,7 +105,7 @@ const Settings = memo(({
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)} />
                 {errorMessage}
-                <Button color="primary" variant="contained" onClick={onChangeEmail}>
+                <Button color="primary" variant="contained" onClick={onChangeEmail} disabled={!isOnline}>
                     Change email
                 </Button>
             </>
@@ -121,7 +123,7 @@ const Settings = memo(({
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)} />
                 {errorMessage}
-                <Button color="primary" variant="contained" onClick={onChangePassword}>
+                <Button color="primary" variant="contained" onClick={onChangePassword} disabled={!isOnline}>
                     Change password
                 </Button>
             </>
@@ -194,6 +196,8 @@ export default function ConnectedSettings({ shouldUseAboutIntro, onClose }) {
     const { state, actions } = useContext(AppContext);
     const { user } = state;
     const { signOut } = actions;
+    
+    const isOnline = getIsOnline();
 
     return (
         <Settings 
@@ -201,6 +205,7 @@ export default function ConnectedSettings({ shouldUseAboutIntro, onClose }) {
             onClose={onClose}
             signOut={signOut} 
             uid={user?.uid} 
+            isOnline={isOnline}
         />
     );
 }

@@ -1,13 +1,7 @@
 @import '../../../ConstantsAndMixins.scss';
 
 .search {
-    background-color: white;
-    
-    .search-text-field {
-        .MuiInputLabel-formControl {
-            top: -4px; // Roughly centers placeholder text
-        }
-    
+    .search-text-field {    
         .MuiOutlinedInput-notchedOutline {
             border-color: black;
         }
@@ -19,11 +13,23 @@
     
             .MuiSvgIcon-root {
                 padding-right: $list-icon-padding;
+                height: 1rem;
+                width: 1rem;
             }
         }
 
         .MuiButtonBase-root {
             color: black;
+        }
+
+        .MuiInputBase-root {
+            background-color: white;
+        }
+
+        .Mui-disabled {
+            .search-placeholder, .MuiSvgIcon-root {
+                color: $gray;
+            }
         }
     }
 }

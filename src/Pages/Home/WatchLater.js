@@ -5,14 +5,15 @@ import { HOME_TABS, MAX_NUM_MOVIES } from '../../Constants';
 import { useScrollToBottom } from '../../Utilities/Hooks';
 import MovieTile from '../../CommonComponents/MovieTile';
 import CustomMenu from '../../CommonComponents/CustomMenu';
+import { getIsOnline } from '../../Utilities/EnvironmentUtilities';
 
 const WatchLater = memo(({ 
     watchLaterMovies, 
     canMoveToFavorites,
-    reorderMovieList, 
     removeMovieFromList,
     addMovieToList,
-    isScrolledThreshold
+    isScrolledThreshold,
+    isOnline
 }) => {
     const containerRef = useRef(null);
     
@@ -25,13 +26,14 @@ const WatchLater = memo(({
                 removeMovieFromList(movie.imdbID, index, HOME_TABS.WatchLater)
                 addMovieToList(movie, HOME_TABS.Favorites, 'Watch later');
             }, 
-            isDisabled: !canMoveToFavorites
+            isDisabled: !canMoveToFavorites || !isOnline
         },
         { 
             label: 'Remove', 
             onClick: (movie, index) => {
                 removeMovieFromList(movie.imdbID, index, HOME_TABS.WatchLater)
-            }
+            },
+            isDisabled: !isOnline
         }
     ];
 
@@ -84,6 +86,7 @@ export default function ConnectedWatchLater(props) {
     const { reorderMovieList, removeMovieFromList, addMovieToList } = actions;
 
     const canMoveToFavorites = favoriteMovies.length < MAX_NUM_MOVIES;
+    const isOnline = getIsOnline();
 
     return (
         <WatchLater 
@@ -93,6 +96,7 @@ export default function ConnectedWatchLater(props) {
             reorderMovieList={reorderMovieList}
             removeMovieFromList={removeMovieFromList} 
             addMovieToList={addMovieToList}
+            isOnline={isOnline}
         />
     );
 }

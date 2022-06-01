@@ -1,7 +1,7 @@
 @import '../../ConstantsAndMixins.scss';
 
 $search-bar-height: 3.5rem;
-$search-top-padding: 1rem;
+$search-top-padding: 0.5rem;
 $tabs-top: calc(#{$search-bar-height} + #{$search-top-padding});
 
 .home-page, .view-list-page {

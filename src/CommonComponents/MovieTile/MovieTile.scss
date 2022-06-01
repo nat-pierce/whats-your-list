@@ -60,10 +60,16 @@
         font-size: 0.8rem;
     }
 
-    .drag-handle svg {
-        padding-right: 0.25rem;
-        color: $dark-gray;
-    }
+    .drag-handle {
+        svg {
+            padding-right: 0.25rem;
+            color: $dark-gray;
+        }
+
+        &.hidden svg {
+            display: none;
+        }
+    } 
 
     .rank {
         font-weight: bold;

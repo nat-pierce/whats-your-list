@@ -7,10 +7,12 @@ import { useHistory } from 'react-router-dom';
 import AppContext from '../../AppContext';
 import Logo from '../../CommonComponents/Logo';
 import { getHasAttemptedSignIn, getIsSignedIn } from '../../AppSelectors';
+import { getIsOnline } from '../../Utilities/EnvironmentUtilities';
 
 const Login = memo(({ 
     hasAttemptedSignIn,
     isSignedIn, 
+    isOnline,
     setUser
 }) => {
     const history = useHistory();
@@ -54,7 +56,10 @@ const Login = memo(({
                 <Logo shouldAnimate={true} />
                 <h2>Share and compare your favorite movies with friends</h2>
             </div>
-            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+            {isOnline
+                ? <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                : <div className='offline-disclaimer'>Currently offline. Connect to internet to login</div>
+            }
         </div>
     );
 });
@@ -65,10 +70,12 @@ export default function ConnectedLogin() {
 
     const hasAttemptedSignIn = getHasAttemptedSignIn(state);
     const isSignedIn = getIsSignedIn(state);
+    const isOnline = getIsOnline();
 
     return <Login 
         hasAttemptedSignIn={hasAttemptedSignIn}
         isSignedIn={isSignedIn} 
+        isOnline={isOnline}
         setUser={setUser}
     />;
 }
