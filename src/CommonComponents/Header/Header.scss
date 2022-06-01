@@ -72,9 +72,19 @@ $transition: all $animation-speed $animation-curve;
         margin-left: auto;
 
         @include fadeInDelayed();
-    } 
 
-    .settings-icon, .back-icon {
-        color: white;
-    }
+        svg {
+            color: white;
+        }
+
+        &.refresh-button {
+            display: flex;
+            margin-right: $header-padding;
+
+            svg {
+                color: black;
+                margin-right: 4px;
+            }
+        }
+    } 
 }
