@@ -29,6 +29,10 @@ $avatar-width: 100px;
         .name.display-mode {
             font-weight: bold;
             font-size: 1.2rem;
+
+            @include smallScreen {
+                font-size: 1rem;
+            }
         }
 
         .buttons {
@@ -54,10 +58,20 @@ $avatar-width: 100px;
                 &.disabled {
                     border-color: $light-gray;
                 }
+
+                @include smallScreen {
+                    font-size: 0.8rem;
+                    padding: 3px 6px;
+                    margin-right: 0.5rem;
+                }
             }
 
             svg {
                 margin-right: 7px;
+
+                @include smallScreen {
+                    font-size: 1.25rem;
+                }
             }
 
             .MuiBadge-badge {

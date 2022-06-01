@@ -1,6 +1,6 @@
 @import '../../ConstantsAndMixins.scss';
 
-$header-padding: 1rem;
+$header-padding: 12px;
 $animation-speed: 0.8s;
 $animation-curve: cubic-bezier(0.58, 0.08, 0.26, 0.88);
 $transition: all $animation-speed $animation-curve;
@@ -34,7 +34,7 @@ $transition: all $animation-speed $animation-curve;
     position: fixed;
     top: 0;
     z-index: 100;
-    padding: 0 $header-padding;
+    padding-left: $header-padding; // There's already padding on settings icon
     box-sizing: border-box;
     background-color: black;
     transition: $transition;
