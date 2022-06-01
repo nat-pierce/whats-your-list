@@ -16,7 +16,7 @@ export default function AddToHomeScreenPopUp({ onClose }) {
             <img className='app-icon' src={appIcon} alt='app-icon' />
             <div className='instructions'>
                 <div className='title'>
-                    Add <span className='wyl'>WYL?</span> to home screen
+                    Add <span className='wyl'>W.Y.L?</span> to home screen
                 </div>
                 <div className='step'>
                     {bulletPoint}

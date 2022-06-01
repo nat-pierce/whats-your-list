@@ -1,6 +1,6 @@
 /* eslint-disable */
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useState, useEffect, useCallback, memo, useRef } from 'react';
+import { useState, useEffect, useCallback, memo, forwardRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 import debounce from 'lodash.debounce';
 import { searchMovieApi } from '../../../Utilities/ApiUtilities';
@@ -8,22 +8,20 @@ import { useContext } from 'react';
 import AppContext from '../../../AppContext';
 import './SearchBar.scss';
 import { HOME_TABS, MAX_NUM_MOVIES } from '../../../Constants';
-import Guide from '../../../CommonComponents/Guide';
 import { FavoriteListIcon, WatchLaterListIcon } from '../../../CommonComponents/Icons';
 import Chip from '../../../CommonComponents/Chip';
 
-const SearchBar = memo(({ 
+const SearchBar = memo(forwardRef(({ 
     addMovieToList, 
     favoriteMovies, 
     watchLaterMovies,
     currentHomeTab,
     setIsSearchMounted 
-}) => {
+}, inputRef) => {
     const [inputValue, setInputValue] = useState('');
     const [options, setOptions] = useState([]);
     const [reactKey, setReactKey] = useState(0);
     const [error, setError] = useState(null);
-    const inputRef = useRef(null);
     const favoriteMovieIds = favoriteMovies.map(m => m.imdbID);
     const watchLaterMovieIds = watchLaterMovies.map(m => m.imdbID);
 
@@ -124,6 +122,7 @@ const SearchBar = memo(({
         return (
             <TextField 
                 {...params} 
+                inputRef={inputRef}
                 className='search-text-field'
                 autoFocus={reactKey > 0} // After a movie is chosen and this is rerendered, maintain focus to easily add more movies
                 label={label} 
@@ -152,15 +151,16 @@ const SearchBar = memo(({
             renderInput={renderInput}
         />
     );
-});
+}));
 
-export default function ConnectedSearchBar() {
+const ConnectedSearch = forwardRef((_, inputRef) => {
     const { state, actions } = useContext(AppContext);
     const { favoriteMovies, watchLaterMovies, currentHomeTab } = state;
     const { addMovieToList, setIsSearchMounted } = actions;
 
     return (
         <SearchBar 
+            ref={inputRef}
             favoriteMovies={favoriteMovies} 
             watchLaterMovies={watchLaterMovies}
             addMovieToList={addMovieToList} 
@@ -168,4 +168,6 @@ export default function ConnectedSearchBar() {
             setIsSearchMounted={setIsSearchMounted}
         />
     );
-}
+});
+
+export default ConnectedSearch;

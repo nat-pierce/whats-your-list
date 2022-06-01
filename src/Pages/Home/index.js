@@ -1,4 +1,4 @@
-import { useContext, memo, useEffect, useState, useCallback } from 'react';
+import { useContext, memo, useEffect, useState, useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Home.scss';
 import { BASE_URL, EVENTS, HOME_TABS, MAX_NUM_MOVIES, ROUTES, LOCAL_STORAGE_PWA_POPUP } from '../../Constants';
@@ -33,23 +33,18 @@ const Home = memo(({
 }) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
+    const searchRef = useRef(null);
     const [shouldShowPopupInternal, setShouldShowPopupInternal] = useState(false);
     const [isScrolledThreshold, setIsScrolledThreshold] = useState(false);
+    
+    // Send back to login page if not signed in
+    useEffect(() => {
+        if (!isSignedIn) {
+            history.push(ROUTES.Login);
+        }
+    }, [isSignedIn, history]);
 
-    const sendConfirmationEmail = useCallback(() => {
-        const authUser = firebase.auth().currentUser;
-
-        authUser.sendEmailVerification({ url: BASE_URL })
-            .catch((err) => {
-                console.error(err)
-            });
-    }, [firebase]);
-
-    const onClickSendEmail = () => {
-        log(EVENTS.ResendEmail);
-        sendConfirmationEmail();
-    }
-
+    // Pin search bar to top of mobile when scrolled past upper profile
     useEffect(() => {
         const onScroll = () => {
             const threshold = parseInt(profileHeight);
@@ -68,12 +63,7 @@ const Home = memo(({
         }
     }, [isScrolledThreshold, setIsScrolledThreshold]);
 
-    useEffect(() => {
-        if (!isSignedIn) {
-            history.push(ROUTES.Login);
-        }
-    }, [isSignedIn, history]);
-
+    // If on Safari iOS, show PWA popup after delay
     useEffect(() => {
         if (canShowPwaPopup) {
             setTimeout(() => {
@@ -82,6 +72,21 @@ const Home = memo(({
         }
     }, [canShowPwaPopup, setShouldShowPopupInternal]);
 
+    //#region Email confirmation
+    const sendConfirmationEmail = useCallback(() => {
+        const authUser = firebase.auth().currentUser;
+
+        authUser.sendEmailVerification({ url: BASE_URL })
+            .catch((err) => {
+                console.error(err)
+            });
+    }, [firebase]);
+
+    const onClickSendEmail = () => {
+        log(EVENTS.ResendEmail);
+        sendConfirmationEmail();
+    }
+
     useEffect(() => {
         const authUser = firebase.auth().currentUser;
         if (authUser && !authUser.emailVerified && !hasSentEmailVerification) {
@@ -89,6 +94,7 @@ const Home = memo(({
             setHasSentEmailVerification(true);
         }
     }, [firebase, hasSentEmailVerification, setHasSentEmailVerification, sendConfirmationEmail]);
+    //#endregion
 
     if (!isSignedIn) {
         return null;
@@ -129,6 +135,10 @@ const Home = memo(({
         }
     ];
 
+    const onDragStart = () => {
+        searchRef.current?.blur();
+    }
+
     const onDragEnd = (result) => {
         if (!result.destination) {
             return;
@@ -164,9 +174,11 @@ const Home = memo(({
             <div className='lower'>
                 <div className='left'>
                     <div className={`search-wrapper ${isScrolledThreshold ? 'threshold' : ''}`}>
-                        <SearchBar />
+                        <SearchBar ref={searchRef} />
                     </div>
-                    <DragDropContext onDragEnd={onDragEnd}>
+                    <DragDropContext 
+                        onDragStart={onDragStart}
+                        onDragEnd={onDragEnd}>
                         <CustomTabs 
                             className={isScrolledThreshold ? 'threshold' : undefined}
                             tabConfigs={tabConfigs} 
