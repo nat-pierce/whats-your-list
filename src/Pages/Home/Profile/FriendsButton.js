@@ -49,7 +49,7 @@ export default function ConnectedFriendsButton() {
 
     return <FriendsButton 
         isDisabled={!isOnline}
-        numRequests={friendRequests.length} 
+        numRequests={isOnline ? friendRequests.length : 0} 
         numFriends={friends.length} 
     />;
 }
