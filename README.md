@@ -19,7 +19,7 @@ but for now just use `npm audit --production`
 and `npm start` in another Terminal window
 
 ### To deploy a production build to localhost
-`npm run build && serve -s build`
+`npm run buildnserve`
 
 ### To deploy to production
 `npm run build && firebase deploy`

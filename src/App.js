@@ -1,4 +1,4 @@
-import { useContext, useRef, useEffect } from 'react';
+import { useContext, useRef, useEffect, useState } from 'react';
 import './App.scss';
 import { BrowserRouter as Router, Redirect, Route, useHistory } from "react-router-dom";
 import Login from './Pages/Login';
@@ -13,11 +13,17 @@ import theme from './Theme';
 import Toast from './CommonComponents/Toast';
 import { smallScreenMax } from './StyleExports.module.scss';
 import Header from './CommonComponents/Header';
+import { useServiceWorkerListener } from './Utilities/Hooks';
 
 function App() {
     const firebase = useContext(FirebaseContext);
     const history = useHistory();
     const appRef = useRef(null);
+
+    // https://dev.to/noconsulate/react-pwa-with-workbox-6dl
+    const [isUpdateWaiting, setIsUpdateWaiting] = useState(false);
+    const [registration, setRegistration] = useState(null);
+    const [swListener, setSwListener] = useState({});
 
     const updateWindowDimensions = () => {
         const { innerHeight, innerWidth } = window;
@@ -41,12 +47,18 @@ function App() {
         }
     }, []);
 
+    useServiceWorkerListener(setIsUpdateWaiting, setRegistration, setSwListener);
+
+    const onClickUpdate = () => {
+        swListener.skipWaiting(registration.waiting);
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <AppContextProvider firebase={firebase} history={history}>
                 <Router>
                     <div className="app" ref={appRef}>
-                        <Header />
+                        <Header isUpdateWaiting={isUpdateWaiting} onClickUpdate={onClickUpdate} />
                         <Route exact path="/">
                             <Redirect to={ROUTES.Home} />
                         </Route>

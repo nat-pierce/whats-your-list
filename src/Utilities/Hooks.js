@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { smallScreenMax } from '../StyleExports.module.scss';
+import { ServiceWorkerUpdateListener } from '../ServiceWorkerUpdateListener.js';
 
 export function usePrevious(value) {
     // The ref object is a generic container whose current property is mutable ...
@@ -40,4 +41,39 @@ export function useScrollToBottom(isScrolledThreshold, movies, containerRef) {
 
         prevNumMovies.current = movies.length;
     }, [movies, containerRef, isScrolledThreshold])
+}
+
+// https://dev.to/noconsulate/react-pwa-with-workbox-6dl
+export function useServiceWorkerListener(
+    setIsUpdateWaiting,
+    setRegistration,
+    setSwListener
+) {
+    useEffect(() => {
+        let listener;
+        if (process.env.NODE_ENV !== "development") {
+            listener = new ServiceWorkerUpdateListener();
+            setSwListener(listener);
+            listener.onupdateinstalling = (installingEvent) => {
+                console.log("SW installed", installingEvent);
+            };
+
+            listener.onupdatewaiting = (waitingEvent) => {
+                console.log("new update waiting", waitingEvent);
+                setIsUpdateWaiting(true);
+            };
+
+            listener.onupdateready = (event) => {
+                console.log("updateready event");
+                window.location.reload();
+            };
+
+            navigator.serviceWorker.getRegistration().then((reg) => {
+                listener.addRegistration(reg);
+                setRegistration(reg);
+            });
+        }
+    
+        return () => listener?.removeEventListener();
+    }, [setIsUpdateWaiting, setRegistration, setSwListener])
 }

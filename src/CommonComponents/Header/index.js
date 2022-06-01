@@ -14,12 +14,15 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import Guide from '../Guide';
 import { getIsOnline } from '../../Utilities/EnvironmentUtilities';
+import SystemUpdateIcon from '@material-ui/icons/SystemUpdate';
 
 const Header = memo(({ 
     shouldShowOverlay, 
     isSignedIn,
     isOnline,
-    shouldUseAboutIntro
+    shouldUseAboutIntro,
+    isUpdateWaiting,
+    onClickUpdate
 }) => {
     const history = useHistory();
     const { pathname } = useLocation();
@@ -64,9 +67,10 @@ const Header = memo(({
     //#region Action-button in top-right of header
     // 1: if we're in loading state, don't show anything
     // 2: otherwise, if we're offline (even at login), show a refresh button
-    // 3: otherwise, if we're at the login page, don't show anything
-    // 4: otherwise, if we're not signed in (viewing list anonymously), show a button to go login
-    // 5: otherwise, we can show the settings
+    // 3: otherwise, if there's an update for the pwa, show an update button
+    // 4: otherwise, if we're at the login page, don't show anything
+    // 5: otherwise, if we're not signed in (viewing list anonymously), show a button to go login
+    // 6: otherwise, we can show the settings
     let actionButton, canShowSettings;
     if (shouldShowOverlay) {
         actionButton = null;
@@ -76,6 +80,12 @@ const Header = memo(({
                 <RefreshIcon /> Refresh
             </Button>
         );
+    } else if (isUpdateWaiting) {
+        actionButton = <>
+            <Button className="action-button refresh-button" color="primary" variant="contained" onClick={onClickUpdate}>
+                <SystemUpdateIcon /> Update Available2
+            </Button>
+        </>;
     } else if (pathname === ROUTES.Login) {
         actionButton = null;
     } else if (!isSignedIn) {
@@ -118,7 +128,7 @@ const Header = memo(({
     );
 });
 
-export default function ConnectedHeader() {
+export default function ConnectedHeader({ isUpdateWaiting, onClickUpdate }) {
     const { state } = useContext(AppContext);
 
     const shouldShowOverlay = !getHasAttemptedSignIn(state);
@@ -131,5 +141,7 @@ export default function ConnectedHeader() {
         isSignedIn={isSignedIn}
         shouldUseAboutIntro={shouldUseAboutIntro}
         isOnline={isOnline}
+        isUpdateWaiting={isUpdateWaiting}
+        onClickUpdate={onClickUpdate}
     />;
 }
