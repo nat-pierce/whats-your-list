@@ -30,7 +30,7 @@ const ViewListFriends = memo(({ uid, viewId, isModalOpen, onCloseModal, addFrien
     };
     
     return (
-        <Modal className='view-friends-modal' modalTitle={`View friends (${viewListFriends.length})`} isOpen={isModalOpen} onCloseModal={onCloseModal}>
+        <Modal className='view-friends-modal' modalTitle={`View Friends (${viewListFriends.length})`} isOpen={isModalOpen} onCloseModal={onCloseModal}>
             <div className='view-list-friends'>
                 { viewListFriends.map(friend => (
                     <div className='friend' key={friend.uid}>

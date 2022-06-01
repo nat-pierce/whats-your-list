@@ -39,9 +39,8 @@
     "workbox-streams": "^6.4.2"
   },
   "scripts": {
-    "start": "npm run emulators:start & npm run emulators:open && react-scripts start",
     "emulators:start": "firebase emulators:start --import=./emulator_data --export-on-exit",
-    "emulators:open": "open -n -a 'Google Chrome' --args 'http://localhost:4000/'",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -65,7 +64,7 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.1",
     "react-scripts": "^4.0.3",
     "async": ">=3.2.2"
   }

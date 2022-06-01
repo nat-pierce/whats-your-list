@@ -17,6 +17,7 @@ import { getIsSignedIn, getCanShowPwaPopup } from '../../AppSelectors';
 import SearchBar from './SearchBar';
 import { profileHeight } from '../../StyleExports.module.scss';
 import { EmailVerification } from './EmailVerification';
+import { getIsOnline } from '../../Utilities/EnvironmentUtilities';
 
 const Home = memo(({ 
     isSignedIn,
@@ -190,10 +191,12 @@ export default function ConnectedHome() {
     const shouldShowSuggestions = (friends.length > 0) && (favoriteMovies.length < MAX_NUM_MOVIES);
     const isSignedIn = getIsSignedIn(state);
     const canShowPwaPopup = getCanShowPwaPopup(state);
+    const isOnline = getIsOnline();
 
     return (
         <Home 
             isSignedIn={isSignedIn}
+            isOnline={isOnline}
             favoriteMovies={favoriteMovies}
             watchLaterMovies={watchLaterMovies}
             hasSentEmailVerification={hasSentEmailVerification}

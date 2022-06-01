@@ -14,7 +14,9 @@ but for now just use `npm audit --production`
 (https://github.com/facebook/create-react-app/issues/11174)
 
 ### To run locally
-`npm start`
+# Make sure instructions already followed here: https://firebase.google.com/docs/rules/emulator-setup, then run:
+`firebase emulators:start` in one Terminal window (viewable at localhost:4000),
+and `npm start` in another Terminal window
 
 ### To deploy a production build to localhost
 `npm run build && serve -s build`

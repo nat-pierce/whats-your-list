@@ -5,3 +5,7 @@ export function getIsIos() {
 export function getIsStandalone() {
     return window.matchMedia('(display-mode: standalone)').matches;
 }
+
+export function getIsOnline() {
+    return window.navigator.onLine;
+}

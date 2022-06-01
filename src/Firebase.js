@@ -27,6 +27,7 @@ if (window.location.hostname === "localhost") {
         host: "localhost:8080",
         ssl: false
     });
+    app.storage().useEmulator("localhost", 9199);
   }
  
 export default app;

@@ -160,6 +160,8 @@ const Settings = memo(({
 });
 
 function About() {
+    const emailAddress = 'WhatsYourListApp@gmail.com';
+
     return (
         <div className='about'>
             <div className='about-section'>
@@ -179,7 +181,7 @@ function About() {
                 how to improve <b>What's Your List?</b><br />
                 don't hesitate to reach out to me at:
             </div>
-            <a href={'mailto:nat@whatsyourlist.com'}>nat@whatsyourlist.com</a>
+            <a href={`mailto:${emailAddress}`}>{emailAddress}</a>
             <div className='signature'>
                 -Nat
                 <Avatar className='profile-pic' src={ProfilePic} />

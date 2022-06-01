@@ -1,3 +1,5 @@
+@import '../../../ConstantsAndMixins.scss';
+
 .email-verification-page {
     height: 100%;
     width: 100%;
@@ -5,6 +7,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    @include smallScreen {
+        margin-top: 4rem; // Height is auto on small screen so we can't rely on height: 100% to center it
+    }
 
     .icons {
         display: flex;
