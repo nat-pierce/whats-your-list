@@ -90,6 +90,8 @@ const Guide = memo(({
             steps={filteredSteps}
             tooltipComponent={Tooltip}
             callback={callback}
+            disableScrollParentFix={true}
+            disableScrolling={true}
         />  
     );
 });
