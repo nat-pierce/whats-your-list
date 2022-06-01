@@ -9,6 +9,8 @@
      * @param {ServiceWorkerRegistration} registration
      */
     addRegistration(registration) {
+        if (!registration) return;
+
         // Make sure we have an array to hold the registrations
         if (!this._registrations) this._registrations = [];
 

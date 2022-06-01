@@ -83,7 +83,7 @@ const Header = memo(({
     } else if (isUpdateWaiting) {
         actionButton = <>
             <Button className="action-button refresh-button" color="primary" variant="contained" onClick={onClickUpdate}>
-                <SystemUpdateIcon /> Update Available2
+                <SystemUpdateIcon /> Update Available
             </Button>
         </>;
     } else if (pathname === ROUTES.Login) {
