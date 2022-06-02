@@ -22,7 +22,7 @@ and `npm start` in another Terminal window
 `npm run buildnserve`
 
 ### To deploy to production
-`npm run build && firebase deploy`
+`npm run deploy`
 
 ### To deploy only firebase functions to production
 `npm run build && firebase deploy --only functions`
