@@ -18,16 +18,6 @@ $transition: all $animation-speed $animation-curve;
     transform: translate(0%, 0%) scale(1);
 }
 
-@mixin fadeInDelayed() {
-    @keyframes fadein {
-        0% { opacity: 0; }
-        75% { opacity: 0; }
-        100% { opacity: 1; }
-    }
-
-    animation: fadein $animation-speed;
-}
-
 .header {
     height: 100%;
     width: 100%;
@@ -75,7 +65,8 @@ $transition: all $animation-speed $animation-curve;
         display: block;
         margin-left: auto;
 
-        @include fadeInDelayed();
+        opacity: 0;
+        @include fadeInAnimation($animation-speed);
 
         svg {
             color: white;

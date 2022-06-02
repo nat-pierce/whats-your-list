@@ -56,13 +56,21 @@ $yellow: #FFF88B;
     user-select: none;
 }
 
-@mixin fadeInAnimation {
+@mixin fadeInAnimation($delay: 0) {
     @keyframes fadein {
         0% { opacity: 0; }
         100% { opacity: 1; }
     }
 
-    animation: fadein 0.75s;
+    -webkit-animation-name: fadein;
+    -webkit-animation-duration: 0.75s;
+    -webkit-animation-delay: $delay;
+    -webkit-animation-fill-mode: forwards;
+
+    animation-name: fadein;
+    animation-duration: 0.75s;
+    animation-delay: $delay;
+    animation-fill-mode: forwards
 }
 
 $small-screen-min: 325px;

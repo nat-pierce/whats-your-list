@@ -73,7 +73,7 @@ const FindFriends = memo(({ uid, addFriend, friends }) => {
 
     return (
         <div className='find-friends'>
-            <div className='instructions'>Find new friends by searching their first or last names</div>
+            <div className='instructions'>Find new friends using their first or last name</div>
             <div className='upper'>
                 <TextField 
                     className='search-box'

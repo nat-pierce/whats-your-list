@@ -114,6 +114,11 @@ $movie-list-threshold-padding: calc(#{$tabs-top} + #{$tab-bar-height});
                 width: 100%;
             }
 
+            .tab-panel {
+                padding-left: 0;
+                padding-right:0;
+            }
+
             .charts {
                 border-top: solid 1px $gray;
             }
