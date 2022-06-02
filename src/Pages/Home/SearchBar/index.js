@@ -76,7 +76,7 @@ const SearchBar = memo(forwardRef(({
     const renderOption = ({ Title, Year, Poster, imdbID }) => {
         return (
             <div className='search-option'>
-                {(Poster !== "N/A") && <img className='poster' src={Poster} />}
+                <img className='poster' src={Poster} />
                 <div className='title'>{`${Title} (${Year})`}</div>
                 <Chip 
                     favoriteMovieIds={favoriteMovieIds}
@@ -95,7 +95,7 @@ const SearchBar = memo(forwardRef(({
         options.forEach(o => {
             const i = retOptions.findIndex(ro => ro.imdbID === o.imdbID);
 
-            if ((i === -1) && (o.Poster !== 'N/A')) {
+            if ((i === -1)) {
                 retOptions.push(o);
             }
         })

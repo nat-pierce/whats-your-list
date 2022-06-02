@@ -1,12 +1,25 @@
 import { API_HOST_URL } from '../Constants';
 
-export const searchMovieApi = (title, callback) => {
-    if (!title) {
+export const searchMovieApi = (search, callback) => {
+    if (!search) {
         return callback([]);
     }
 
-    const encodedTitle = encodeURIComponent(title);
-    const url = `https://${API_HOST_URL}/?s=${encodedTitle}&page=1&r=json&type=movie`;
+    // regex to grab movie title, and also optional year included at end with optional parentheses
+    const searchTerms = search.split(" ");
+    const lastTerm = searchTerms.pop();
+    const yearMatches = lastTerm.match(/^\(?(19|20)\d{2}\)?$/g);
+    
+    let title, year;
+    if (yearMatches && yearMatches.length === 1) {
+        title = searchTerms.join(" "); // Now that year is popped off of array, join remaining items into movie title
+        year = yearMatches[0].replace("(", "").replace(")", ""); // Grab the year, trimming off any parentheses if needed
+    } else {
+        title = search;
+    }
+
+    const encodedTitle = encodeURIComponent(title.trim());
+    const url = `https://${API_HOST_URL}/?s=${encodedTitle}&page=1&r=json&type=movie${year ? '&y=' + year : ''}`;
 
     fetch(url, {
         "method": "GET",
@@ -17,10 +30,12 @@ export const searchMovieApi = (title, callback) => {
     })
     .then(response => response.json())
     .then(data => {
-        if (data && !data.Error) {
-            callback(data.Search)
+        const listToReturn = data && !data.Error && data.Search.filter(m => m.Poster !== 'N/A');
+
+        if (listToReturn && (listToReturn.length > 0)) {
+            callback(listToReturn)
         } else if (data.Error === 'Too many results.') {
-            getMovieByTitle(title, callback);
+            getMovieByTitle(encodedTitle, year, callback);
         } else {
             callback(null);
         }
@@ -30,13 +45,8 @@ export const searchMovieApi = (title, callback) => {
     });
 }
 
-const getMovieByTitle = (title, callback) => {
-    if (!title || !callback) {
-        return [];
-    }
-
-    const encodedTitle = encodeURIComponent(title);
-    const url = `https://${API_HOST_URL}/?t=${encodedTitle}&r=json&type=movie`;
+const getMovieByTitle = (encodedTitle, year, callback) => {
+    const url = `https://${API_HOST_URL}/?t=${encodedTitle}&r=json&type=movie${year ? '&y=' + year : ''}`; // using parameter t instead of s
 
     fetch(url, {
         "method": "GET",
@@ -47,7 +57,7 @@ const getMovieByTitle = (title, callback) => {
     })
     .then(response => response.json())
     .then(data => {
-        if (data && !data.Error) {
+        if (data && (data.Poster !== 'N/A') && !data.Error) {
             callback([data])
         } else {
             callback(null);
