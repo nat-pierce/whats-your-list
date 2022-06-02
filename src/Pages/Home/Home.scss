@@ -54,6 +54,8 @@ $movie-list-threshold-padding: calc(#{$tabs-top} + #{$tab-bar-height});
             position: -webkit-sticky; /* Safari */ 
             position: sticky;
             padding-top: $search-top-padding;
+            padding-left: 1rem;
+            padding-right: 1rem;
             top: 0;
             height: $search-bar-height;
             background-color: $light-gray;
@@ -65,6 +67,8 @@ $movie-list-threshold-padding: calc(#{$tabs-top} + #{$tab-bar-height});
             position: sticky;
             top: $tabs-top;
             background-color: $light-gray;
+            padding-left: 1rem;
+            padding-right: 1rem;
             z-index: 1;
         }
 
@@ -112,23 +116,20 @@ $movie-list-threshold-padding: calc(#{$tabs-top} + #{$tab-bar-height});
             .left, .right {
                 height: auto;
                 width: 100%;
-            }
-
-            .tab-panel {
-                padding-left: 0;
-                padding-right:0;
+                padding: 0;
             }
 
             .charts {
                 border-top: solid 1px $gray;
+                margin-bottom: 2rem;
             }
         }
 
         &.threshold {
             .search-wrapper, .MuiTabs-root {
                 position: fixed;
-                left: 1rem;
-                right: 1rem;
+                left: 0;
+                right: 0;
             }
             
             .search-wrapper {
