@@ -39,7 +39,7 @@
     "workbox-streams": "^6.4.2"
   },
   "scripts": {
-    "emulators:start": "firebase emulators:start --import=./emulator_data --export-on-exit",
+    "emulators": "firebase emulators:start --import=./emulator_data --export-on-exit",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "buildnserve": "react-scripts build && serve -s build",

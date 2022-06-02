@@ -15,7 +15,7 @@ but for now just use `npm audit --production`
 
 ### To run locally
 # Make sure instructions already followed here: https://firebase.google.com/docs/rules/emulator-setup, then run:
-`firebase emulators:start` in one Terminal window (viewable at localhost:4000),
+`npm run emulators` in one Terminal window (viewable at localhost:4000),
 and `npm start` in another Terminal window
 
 ### To deploy a production build to localhost

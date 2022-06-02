@@ -3,6 +3,7 @@
 $search-bar-height: 3.5rem;
 $search-top-padding: 0.5rem;
 $tabs-top: calc(#{$search-bar-height} + #{$search-top-padding});
+$movie-list-threshold-padding: calc(#{$tabs-top} + #{$tab-bar-height});
 
 .home-page, .view-list-page {
     display: flex;
@@ -116,19 +117,25 @@ $tabs-top: calc(#{$search-bar-height} + #{$search-top-padding});
             .charts {
                 border-top: solid 1px $gray;
             }
+        }
 
-            .threshold {
+        &.threshold {
+            .search-wrapper, .MuiTabs-root {
                 position: fixed;
                 left: 1rem;
                 right: 1rem;
+            }
+            
+            .search-wrapper {
+                top: $header-height;
+            }
 
-                &.search-wrapper {
-                    top: $header-height;
-                }
+            .MuiTabs-root {
+                top: calc(#{$tabs-top} + #{$header-height});
+            }
 
-                &.MuiTabs-root {
-                    top: calc(#{$tabs-top} + #{$header-height});
-                }
+            .movie-list {
+                padding-top: $movie-list-threshold-padding;
             }
         }
     }

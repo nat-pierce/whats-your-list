@@ -166,7 +166,7 @@ const Home = memo(({
     }
 
     return (
-        <div className='home-page'>
+        <div className={`home-page ${isScrolledThreshold ? 'threshold' : ''}`}>
             <div className='upper'>
                 <Profile />
                 {shouldShowSuggestions &&
@@ -175,15 +175,14 @@ const Home = memo(({
             </div>
             <div className='lower'>
                 <div className='left'>
-                    <div className={`search-wrapper ${isScrolledThreshold ? 'threshold' : ''}`}>
+                    <div className='search-wrapper'>
                         <SearchBar ref={searchRef} />
                     </div>
                     <DragDropContext 
                         onDragStart={onDragStart}
                         onDragEnd={onDragEnd}
                     >
-                        <CustomTabs 
-                            className={isScrolledThreshold ? 'threshold' : undefined}
+                        <CustomTabs
                             tabConfigs={tabConfigs} 
                             onMount={setIsWatchLaterTabHeaderMounted}
                         />
