@@ -13,7 +13,7 @@ export default function AddToHomeScreenSafariPopUp({ onClose }) {
     return (
         <div className='add-to-home-popup'>
             <span className='popup-arrow' />
-            <img className='app-icon' src={appIcon} alt='app-icon' />
+            <img className='app-icon' src={appIcon} alt='App Icon' />
             <div className='instructions'>
                 <div className='title'>
                     Add <span className='wyl'>W.Y.L?</span> to home screen

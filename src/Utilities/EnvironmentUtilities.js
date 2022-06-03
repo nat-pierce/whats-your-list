@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_PWA_POPUP } from "../Constants";
+import { LOCAL_STORAGE_PWA_CHROME_POPUP, LOCAL_STORAGE_PWA_SAFARI_POPUP } from "../Constants";
 
 function getIsIos() {
     const ua = window.navigator.userAgent;
@@ -36,9 +36,17 @@ export function getIsOnline() {
 }
 
 export function getCanShowSafariPwaPopup() {
-    const hasSeenPopup = localStorage.getItem(LOCAL_STORAGE_PWA_POPUP);
+    const hasSeenPopup = localStorage.getItem(LOCAL_STORAGE_PWA_SAFARI_POPUP);
     const isSafariIos = getIsSafariIos();
     const isStandalone = getIsStandalone();
 
     return !hasSeenPopup && isSafariIos && !isStandalone;
+}
+
+export function getCanShowChromePwaPopup() {
+    const hasSeenPopup = localStorage.getItem(LOCAL_STORAGE_PWA_CHROME_POPUP);
+    const isChromeIos = getIsChromeIos();
+    const isStandalone = getIsStandalone();
+
+    return !hasSeenPopup && isChromeIos && !isStandalone;
 }

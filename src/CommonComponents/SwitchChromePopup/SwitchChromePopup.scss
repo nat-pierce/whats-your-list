@@ -1,0 +1,40 @@
+@import '../../ConstantsAndMixins.scss';
+
+.switch-chrome-popup {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: $header-height;
+    background-color: $yellow;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    height: 4 * $popup-font-size;
+    border: solid 2px black;
+
+    .safari-icon {
+        position: absolute;
+        left: 0.8rem;
+        height: 4 * $popup-font-size;
+        width: 4 * $popup-font-size;
+        border-radius: $popup-font-size;
+        border: solid 2px black;
+    }
+
+    .message {
+        font-size: $popup-font-size;
+        text-align: center;
+
+        .emoji {
+            margin-left: 4px;
+        }
+    }
+
+    .close-icon-wrapper {
+        position: absolute;
+        top: 0.6em;
+        right: 0.8em;
+    }
+}

@@ -6,7 +6,7 @@ import Home from './Pages/Home';
 import ViewList from './Pages/ViewList';
 import Friends from './Pages/Friends';
 import { AppContextProvider } from './AppContext';
-import { LOCAL_STORAGE_PWA_POPUP, ROUTES } from './Constants';
+import { LOCAL_STORAGE_PWA_CHROME_POPUP, LOCAL_STORAGE_PWA_SAFARI_POPUP, ROUTES } from './Constants';
 import { FirebaseContext } from './Firebase';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './Theme';
@@ -15,20 +15,31 @@ import { smallScreenMax } from './StyleExports.module.scss';
 import Header from './CommonComponents/Header';
 import { useServiceWorkerListener } from './Utilities/Hooks';
 import AddToHomeScreenSafariPopUp from './CommonComponents/AddToHomeScreenSafariPopup';
-import { getCanShowSafariPwaPopup } from './Utilities/EnvironmentUtilities';
+import { getCanShowChromePwaPopup, getCanShowSafariPwaPopup } from './Utilities/EnvironmentUtilities';
+import SwitchChromePopUp from './CommonComponents/SwitchChromePopup';
 
 function App() {
     const firebase = useContext(FirebaseContext);
     const history = useHistory();
     const appRef = useRef(null);
 
-    //#region safari popup
+    //#region safari ios popup
     const canShowSafariPwaPopup = getCanShowSafariPwaPopup();
     const [shouldShowSafariPopupInternal, setShouldShowSafariPopupInternal] = useState(canShowSafariPwaPopup);
 
-    const onClosePopup = () => {
-        localStorage.setItem(LOCAL_STORAGE_PWA_POPUP, 'true');
+    const onCloseSafariPopup = () => {
+        localStorage.setItem(LOCAL_STORAGE_PWA_SAFARI_POPUP, 'true');
         setShouldShowSafariPopupInternal(false);
+    }
+    //#endregion
+
+    //#region chrome ios popup
+    const canShowChromePwaPopup = getCanShowChromePwaPopup();
+    const [shouldShowChromePopupInternal, setShouldShowChromePopupInternal] = useState(canShowChromePwaPopup);
+
+    const onCloseChromePopup = () => {
+        localStorage.setItem(LOCAL_STORAGE_PWA_CHROME_POPUP, 'true');
+        setShouldShowChromePopupInternal(false);
     }
     //#endregion
 
@@ -83,7 +94,8 @@ function App() {
                         <Route path={ROUTES.ViewList} component={ViewList} />
                         <Route path={ROUTES.Friends} component={Friends} />
                         <Toast />
-                        {shouldShowSafariPopupInternal && <AddToHomeScreenSafariPopUp onClose={onClosePopup} />}
+                        {shouldShowSafariPopupInternal && <AddToHomeScreenSafariPopUp onClose={onCloseSafariPopup} />}
+                        {shouldShowChromePopupInternal && <SwitchChromePopUp onClose={onCloseChromePopup} />}
                     </div>
                 </Router>
             </AppContextProvider>
