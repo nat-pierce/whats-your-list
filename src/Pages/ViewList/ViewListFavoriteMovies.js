@@ -4,6 +4,7 @@ import { HOME_TABS, MAX_NUM_MOVIES } from "../../Constants";
 import MovieTile from "../../CommonComponents/MovieTile";
 import Chip from '../../CommonComponents/Chip';
 import CustomMenu from "../../CommonComponents/CustomMenu";
+import { getIsSignedIn } from "../../AppSelectors";
 
 const ViewListFavoriteMovies = memo(({ 
     isSignedIn, 
@@ -16,7 +17,7 @@ const ViewListFavoriteMovies = memo(({
     const watchLaterMovieIds = watchLaterMovies.map(m => m.imdbID);
 
     const getTileActionItem = (movie, index) => {
-        if (!isSignedIn) { return }
+        if (!isSignedIn) { return null }
 
         const { imdbID } = movie;
 
@@ -74,7 +75,7 @@ const ViewListFavoriteMovies = memo(({
 export default function ConnectedViewListFavoriteMovies(props) {
     const { state, actions } = useContext(AppContext);
 
-    const isSignedIn = !!state.user;
+    const isSignedIn = getIsSignedIn(state);
 
     let favoriteMovies = [], watchLaterMovies = [];
     if (isSignedIn) {
