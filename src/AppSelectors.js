@@ -1,5 +1,4 @@
-import { ANONYMOUS_USER_ID, HOME_TABS, LOCAL_STORAGE_PWA_POPUP } from "./Constants";
-import { getIsIos, getIsStandalone } from './Utilities/EnvironmentUtilities';
+import { ANONYMOUS_USER_ID, HOME_TABS } from "./Constants";
 
 export function getIsSignedIn(state) {
     const uid = state.user?.uid;
@@ -39,19 +38,4 @@ export function getShouldGuideStepSecondWatchLater({
     return isSearchMounted 
         && !watchLaterMovies.length 
         && (currentHomeTab === HOME_TABS.WatchLater);
-}
-
-function getIsShowingGuide(state) {
-    return getShouldGuideStepSearch(state)
-        && getShouldGuideStepWatchLater(state)
-        && getShouldGuideStepSecondWatchLater(state);
-}
-
-export function getCanShowPwaPopup(state) {
-    const hasSeenPopup = localStorage.getItem(LOCAL_STORAGE_PWA_POPUP);
-    const isIos = getIsIos();
-    const isStandalone = getIsStandalone();
-    const isShowingGuide = getIsShowingGuide(state);
-
-    return !hasSeenPopup && isIos && !isStandalone && !isShowingGuide;
 }

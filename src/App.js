@@ -6,7 +6,7 @@ import Home from './Pages/Home';
 import ViewList from './Pages/ViewList';
 import Friends from './Pages/Friends';
 import { AppContextProvider } from './AppContext';
-import { ROUTES } from './Constants';
+import { LOCAL_STORAGE_PWA_POPUP, ROUTES } from './Constants';
 import { FirebaseContext } from './Firebase';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './Theme';
@@ -14,17 +14,38 @@ import Toast from './CommonComponents/Toast';
 import { smallScreenMax } from './StyleExports.module.scss';
 import Header from './CommonComponents/Header';
 import { useServiceWorkerListener } from './Utilities/Hooks';
+import AddToHomeScreenSafariPopUp from './CommonComponents/AddToHomeScreenSafariPopup';
+import { getCanShowSafariPwaPopup } from './Utilities/EnvironmentUtilities';
 
 function App() {
     const firebase = useContext(FirebaseContext);
     const history = useHistory();
     const appRef = useRef(null);
 
+    //#region safari popup
+    const canShowSafariPwaPopup = getCanShowSafariPwaPopup();
+    const [shouldShowSafariPopupInternal, setShouldShowSafariPopupInternal] = useState(canShowSafariPwaPopup);
+
+    const onClosePopup = () => {
+        localStorage.setItem(LOCAL_STORAGE_PWA_POPUP, 'true');
+        setShouldShowSafariPopupInternal(false);
+    }
+    //#endregion
+
+    //#region pwa updates
     // https://dev.to/noconsulate/react-pwa-with-workbox-6dl
     const [isUpdateWaiting, setIsUpdateWaiting] = useState(false);
     const [registration, setRegistration] = useState(null);
     const [swListener, setSwListener] = useState({});
 
+    useServiceWorkerListener(setIsUpdateWaiting, setRegistration, setSwListener);
+
+    const onClickUpdate = () => {
+        swListener.skipWaiting(registration.waiting);
+    }
+    //#endregion
+
+    //#region window dimensions
     const updateWindowDimensions = () => {
         const { innerHeight, innerWidth } = window;
 
@@ -46,12 +67,7 @@ function App() {
             window.removeEventListener('resize', updateWindowDimensions);
         }
     }, []);
-
-    useServiceWorkerListener(setIsUpdateWaiting, setRegistration, setSwListener);
-
-    const onClickUpdate = () => {
-        swListener.skipWaiting(registration.waiting);
-    }
+    //#endregion
 
     return (
         <ThemeProvider theme={theme}>
@@ -67,6 +83,7 @@ function App() {
                         <Route path={ROUTES.ViewList} component={ViewList} />
                         <Route path={ROUTES.Friends} component={Friends} />
                         <Toast />
+                        {shouldShowSafariPopupInternal && <AddToHomeScreenSafariPopUp onClose={onClosePopup} />}
                     </div>
                 </Router>
             </AppContextProvider>

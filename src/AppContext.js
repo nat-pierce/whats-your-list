@@ -26,6 +26,7 @@ const defaultState = {
 export class AppContextProvider extends PureComponent {
     constructor(props) {
         super(props);
+        console.log('props', props);
 
         this.state = defaultState;
     }

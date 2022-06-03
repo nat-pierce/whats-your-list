@@ -1,7 +1,7 @@
 import { useContext, memo, useEffect, useState, useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Home.scss';
-import { BASE_URL, EVENTS, HOME_TABS, MAX_NUM_MOVIES, ROUTES, LOCAL_STORAGE_PWA_POPUP } from '../../Constants';
+import { BASE_URL, EVENTS, HOME_TABS, MAX_NUM_MOVIES, ROUTES } from '../../Constants';
 import AppContext from '../../AppContext';
 import Profile from './Profile';
 import { FirebaseContext, log } from '../../Firebase';
@@ -12,8 +12,7 @@ import WatchLater from './WatchLater';
 import CustomTabs from '../../CommonComponents/CustomTabs';
 import { FavoriteListIcon, WatchLaterListIcon } from '../../CommonComponents/Icons';
 import { DragDropContext } from 'react-beautiful-dnd';
-import AddToHomeScreenPopup from '../../CommonComponents/AddToHomeScreenPopup';
-import { getIsSignedIn, getCanShowPwaPopup } from '../../AppSelectors';
+import { getIsSignedIn } from '../../AppSelectors';
 import SearchBar from './SearchBar';
 import { profileHeight } from '../../StyleExports.module.scss';
 import { EmailVerification } from './EmailVerification';
@@ -29,13 +28,11 @@ const Home = memo(({
     watchLaterMovies,
     reorderMovieList,
     setIsWatchLaterTabHeaderMounted,
-    shouldShowSuggestions,
-    canShowPwaPopup
+    shouldShowSuggestions
 }) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
     const searchRef = useRef(null);
-    const [shouldShowPopupInternal, setShouldShowPopupInternal] = useState(false);
     const [isScrolledThreshold, setIsScrolledThreshold] = useState(false);
     
     // Send back to login page if not signed in
@@ -63,15 +60,6 @@ const Home = memo(({
             window.removeEventListener('scroll', onScroll);
         }
     }, [isScrolledThreshold, setIsScrolledThreshold]);
-
-    // If on Safari iOS, show PWA popup after delay
-    useEffect(() => {
-        if (canShowPwaPopup) {
-            setTimeout(() => {
-                setShouldShowPopupInternal(true);
-            }, 2000)
-        }
-    }, [canShowPwaPopup, setShouldShowPopupInternal]);
 
     //#region Email confirmation
     const sendConfirmationEmail = useCallback(() => {
@@ -160,11 +148,6 @@ const Home = memo(({
         reorderMovieList(itemsWithUpdatedOrderIds, tabType);
     }
 
-    const onClosePopup = () => {
-        localStorage.setItem(LOCAL_STORAGE_PWA_POPUP, 'true');
-        setShouldShowPopupInternal(false);
-    }
-
     return (
         <div className={`home-page ${isScrolledThreshold ? 'threshold' : ''}`}>
             <div className='upper'>
@@ -192,7 +175,6 @@ const Home = memo(({
                     <Charts />
                 </div>
             </div>
-            {shouldShowPopupInternal && <AddToHomeScreenPopup onClose={onClosePopup} />}
         </div>
     )
 });
@@ -204,7 +186,6 @@ export default function ConnectedHome() {
 
     const shouldShowSuggestions = (friends.length > 0) && (favoriteMovies.length < MAX_NUM_MOVIES);
     const isSignedIn = getIsSignedIn(state);
-    const canShowPwaPopup = getCanShowPwaPopup(state);
     const isOnline = getIsOnline();
 
     return (
@@ -219,7 +200,6 @@ export default function ConnectedHome() {
             reorderMovieList={reorderMovieList}
             setIsWatchLaterTabHeaderMounted={setIsWatchLaterTabHeaderMounted}
             shouldShowSuggestions={shouldShowSuggestions}
-            canShowPwaPopup={canShowPwaPopup}
         />
     );
 }

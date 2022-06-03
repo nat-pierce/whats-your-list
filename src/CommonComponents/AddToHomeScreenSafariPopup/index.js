@@ -1,11 +1,11 @@
 import React from 'react';
-import './AddToHomeScreenPopup.scss';
+import './AddToHomeScreenSafariPopup.scss';
 import appIcon from '../../Resources/Images/appIcon.png';
 import CircleIcon from '@material-ui/icons/FiberManualRecord';
 import CloseIcon from '@material-ui/icons/Close';
 import IosShareIcon from '../../Resources/Icons/IosShareIcon';
 
-export default function AddToHomeScreenPopUp({ onClose }) {
+export default function AddToHomeScreenSafariPopUp({ onClose }) {
     const bulletPoint = <CircleIcon className='bullet-point' fontSize='small' />;
     const iosShare = <IosShareIcon className='share-icon' fontSize='small' />;
     const closeIcon = <CloseIcon className='close-icon' fontSize='small' />;
