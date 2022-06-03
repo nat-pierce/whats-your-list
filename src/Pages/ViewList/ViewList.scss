@@ -1,6 +1,10 @@
 @import '../../ConstantsAndMixins.scss';
 
 .view-list-page {
+    button.send-request-button.disabled {
+        max-width: 100%;
+    }
+
     .view-list-container {
         padding: 1rem;
         box-sizing: border-box;

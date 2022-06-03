@@ -90,7 +90,7 @@ const Header = memo(({
         actionButton = null;
     } else if (!isSignedIn) {
         actionButton = (
-            <Button className='action-button create-list' onClick={onClickLogin}>
+            <Button className='action-button create-list' color="primary" variant="contained" onClick={onClickLogin}>
                 Create my list
             </Button>
         );

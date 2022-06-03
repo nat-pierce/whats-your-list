@@ -24,7 +24,7 @@ $transition: all $animation-speed $animation-curve;
     position: fixed;
     top: 0;
     z-index: 100;
-    padding-left: $header-padding; // There's already padding on settings icon
+    padding: 0 $header-padding;
     box-sizing: border-box;
     background-color: black;
     transition: $transition;
@@ -59,6 +59,10 @@ $transition: all $animation-speed $animation-curve;
 
     .back-icon {
         color: white;
+    }
+
+    .settings-icon {
+        padding-right: 0;
     }
 
     .action-button {
