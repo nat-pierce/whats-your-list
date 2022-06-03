@@ -1,6 +1,6 @@
 import { useContext, useRef, useEffect, useState } from 'react';
 import './App.scss';
-import { BrowserRouter as Router, Redirect, Route, useHistory } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 import Login from './Pages/Login';
 import Home from './Pages/Home';
 import ViewList from './Pages/ViewList';
@@ -20,7 +20,6 @@ import SwitchChromePopUp from './CommonComponents/SwitchChromePopup';
 
 function App() {
     const firebase = useContext(FirebaseContext);
-    const history = useHistory();
     const appRef = useRef(null);
 
     //#region safari ios popup
@@ -82,8 +81,8 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <AppContextProvider firebase={firebase} history={history}>
-                <Router>
+            <Router>
+                <AppContextProvider firebase={firebase}>
                     <div className="app" ref={appRef}>
                         <Header isUpdateWaiting={isUpdateWaiting} onClickUpdate={onClickUpdate} />
                         <Route exact path="/">
@@ -97,8 +96,8 @@ function App() {
                         {shouldShowSafariPopupInternal && <AddToHomeScreenSafariPopUp onClose={onCloseSafariPopup} />}
                         {shouldShowChromePopupInternal && <SwitchChromePopUp onClose={onCloseChromePopup} />}
                     </div>
+                    </AppContextProvider>
                 </Router>
-            </AppContextProvider>
         </ThemeProvider>
     );
 }

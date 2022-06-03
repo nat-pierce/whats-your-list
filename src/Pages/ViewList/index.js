@@ -8,7 +8,7 @@ import { useHistory } from 'react-router';
 import { ROUTES } from '../../Constants';
 import './ViewList.scss';
 
-const ViewList = memo(({ uid, setUser }) => {
+const ViewList = memo(({ uid }) => {
     const history = useHistory();
     const urlParams = new URLSearchParams(window.location.search);
     const viewId = urlParams.get('id');
@@ -16,12 +16,6 @@ const ViewList = memo(({ uid, setUser }) => {
     const [profilePicUrl, setProfilePicUrl] = useState(null);
     const [name, setName] = useState(null);
     const [viewListMovies, setViewListMovies] = useState(null);
-
-    useEffect(() => {
-        firebase.auth().onAuthStateChanged(authUser => {
-            setUser(authUser);
-        })
-    }, [setUser, firebase])
 
     useEffect(() => {
         if (uid && (viewId === uid)) {
@@ -78,10 +72,9 @@ const ViewList = memo(({ uid, setUser }) => {
 });
 
 export default function ConnectedViewList() {
-    const { state, actions } = useContext(AppContext);
+    const { state } = useContext(AppContext);
     const { user } = state;
-    const { setUser } = actions;
     const uid = user && user.uid;
 
-    return <ViewList uid={uid} setUser={setUser} />;
+    return <ViewList uid={uid} />;
 }

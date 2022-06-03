@@ -12,8 +12,7 @@ import { getIsOnline } from '../../Utilities/EnvironmentUtilities';
 const Login = memo(({ 
     hasAttemptedSignIn,
     isSignedIn, 
-    isOnline,
-    setUser
+    isOnline
 }) => {
     const history = useHistory();
     const firebase = useContext(FirebaseContext);
@@ -40,12 +39,6 @@ const Login = memo(({
         }
     }, [isSignedIn, history]);
 
-    useEffect(() => {
-        firebase.auth().onAuthStateChanged(authUser => {
-            setUser(authUser);
-        })
-    }, [setUser, firebase])
-
     if (!hasAttemptedSignIn) {
         return null;
     }
@@ -65,8 +58,7 @@ const Login = memo(({
 });
 
 export default function ConnectedLogin() {
-    const { state, actions } = useContext(AppContext);
-    const { setUser } = actions;
+    const { state } = useContext(AppContext);
 
     const hasAttemptedSignIn = getHasAttemptedSignIn(state);
     const isSignedIn = getIsSignedIn(state);
@@ -76,6 +68,5 @@ export default function ConnectedLogin() {
         hasAttemptedSignIn={hasAttemptedSignIn}
         isSignedIn={isSignedIn} 
         isOnline={isOnline}
-        setUser={setUser}
     />;
 }

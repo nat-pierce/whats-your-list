@@ -1,9 +1,10 @@
-import { createContext, PureComponent } from 'react';
+import { createContext, PureComponent, memo } from 'react';
 import { getMovieMetadataApi } from './Utilities/ApiUtilities';
 import { ANONYMOUS_USER_ID, EVENTS, HOME_TABS, ROUTES } from './Constants';
 import { addMovieToCollection, createAccount, getMovieCollection, log, removeMovieFromCollection, updateOrderIds } from './Firebase';
 import uniqBy from 'lodash.uniqby';
 import { getCollectionName } from './Utilities/CommonUtilities';
+import { withRouter } from 'react-router-dom';
 
 const AppContext = createContext({});
 
@@ -23,12 +24,21 @@ const defaultState = {
     isWatchLaterTabHeaderMounted: false
 };
 
-export class AppContextProvider extends PureComponent {
+class AppContextProviderInternal extends PureComponent {
     constructor(props) {
         super(props);
-        console.log('props', props);
 
         this.state = defaultState;
+    }
+
+    componentDidMount() {
+        this.props.firebase.auth().onAuthStateChanged(authUser => {
+            this.setUser(authUser);
+        })
+    }
+
+    componentWillUnmount() {
+        this.props.firebase.unsubscribe('authStateChanged');
     }
 
     setUser = async (user) => {
@@ -141,6 +151,10 @@ export class AppContextProvider extends PureComponent {
         this.unsubscribeFromPublicUserInfo && this.unsubscribeFromPublicUserInfo();
         this.unsubscribeFromFriendRequests && this.unsubscribeFromFriendRequests();
         this.unsubscribeFromFriends && this.unsubscribeFromFriends();
+
+        this.unsubscribeFromPublicUserInfo = null;
+        this.unsubscribeFromFriendRequests = null;
+        this.unsubscribeFromFriends = null;
 
         this.props.firebase.auth().signOut().then(() => {
             this.setState(defaultState, () => {
@@ -364,7 +378,6 @@ export class AppContextProvider extends PureComponent {
         const contextValue = {
             state: this.state,
             actions: {
-                setUser: this.setUser,
                 setUserEmail: this.setUserEmail,
                 signOut: this.signOut,
                 addMovieToList: this.addMovieToList,
@@ -391,4 +404,5 @@ export class AppContextProvider extends PureComponent {
     }
 }
 
+export const AppContextProvider = withRouter(memo(AppContextProviderInternal));
 export default AppContext
