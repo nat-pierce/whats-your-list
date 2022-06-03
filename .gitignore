@@ -6,8 +6,9 @@
 /.pnp
 .pnp.js
 
-# testing
+# dev
 /coverage
+/emulator_data
 
 # production
 /build
