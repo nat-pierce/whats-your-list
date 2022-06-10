@@ -96,8 +96,8 @@ function App() {
                         {shouldShowSafariPopupInternal && <AddToHomeScreenSafariPopUp onClose={onCloseSafariPopup} />}
                         {shouldShowChromePopupInternal && <SwitchChromePopUp onClose={onCloseChromePopup} />}
                     </div>
-                    </AppContextProvider>
-                </Router>
+                </AppContextProvider>
+            </Router>
         </ThemeProvider>
     );
 }
