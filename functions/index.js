@@ -77,3 +77,23 @@ exports.onCreateTrigger = functions.firestore
  
         return 0
     });
+
+exports.getUserList = functions.https.onRequest((req, res) => {
+    cors(req, res, async () => {
+        const userEmails = [];
+
+        await admin
+            .auth()
+            .listUsers(1000)
+            .then((userRecords) => {
+                userRecords.users.forEach((userRecord) => {
+                    userEmails.push(userRecord.email);
+                });
+            })
+            .catch((error) => {
+                console.log('Error listing users:', error);
+            });
+
+        res.json({ userEmails });
+    });
+});
