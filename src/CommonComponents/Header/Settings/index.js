@@ -162,7 +162,7 @@ const Settings = memo(({
 });
 
 function About() {
-    const emailAddress = 'WhatsYourListApp@gmail.com';
+    const emailAddress = 'nat@whatsyourlist.com';
 
     return (
         <div className='about'>
