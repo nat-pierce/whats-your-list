@@ -4,13 +4,17 @@
     .MuiTabs-root {
         height: $tab-bar-height;
         min-height: $tab-bar-height;
+
+        @include smallScreen {
+            height: auto;
+        }
     
         .MuiTab-root {
             min-height: $tab-bar-height;
 
             .MuiTab-wrapper {
                 @include smallScreen {
-                    font-size: 12px;
+                    font-size: 11px;
     
                     svg {
                         height: 1rem;
